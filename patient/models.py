@@ -5,6 +5,7 @@ from django.db import models
 class PatientProfile(models.Model):
     patient_id = models.AutoField(primary_key=True)
     patient_name = models.CharField(max_length=50)
+    gender = models.CharField(max_length=10)
     phone_num = models.CharField(max_length=15)
     patient_relative_name = models.CharField(max_length=50, null=True)
     patient_relative_contact = models.CharField(max_length=15, null=True)
