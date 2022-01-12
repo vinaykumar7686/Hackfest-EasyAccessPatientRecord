@@ -1,0 +1,45 @@
+{% block footer %}
+{% load static %}
+<!-- footer Start -->
+<footer class="footer section gray-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 mr-auto col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<div class="logo mb-4">
+						<img src="{% static 'images/logo.png' %}" alt="" class="img-fluid">
+					</div>
+					<p>Welcome to the next generation of an easy access patient record system with industry level services from H-EAPR.</p>
+				</div>
+			</div>
+			<div class="col-lg-2 col-md-6 col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<h4 class="text-capitalize mb-3">Department</h4>
+					<div class="divider mb-4"></div>
+
+					<ul class="list-unstyled footer-menu lh-35">
+						<li><a href="#">Surgery </a></li>
+						<li><a href="#">Wome's Health</a></li>
+						<li><a href="#">Radiology</a></li>
+						<li><a href="#">Cardioc</a></li>
+						<li><a href="#">Medicine</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-2 col-md-6 col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<h4 class="text-capitalize mb-3">Support</h4>
+					<div class="divider mb-4"></div>
+
+					<ul class="list-unstyled footer-menu lh-35">
+						<li><a href="doctorsignin.html">Doctor Sign In</a></li>
+						<li><a href="doctorsignup.html">Doctor Sign Up</a></li>
+						<li><a href="#">Patient</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+{% endblock %}
