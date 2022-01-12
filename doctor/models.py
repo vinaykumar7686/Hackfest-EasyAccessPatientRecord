@@ -17,8 +17,8 @@ class DoctorProfile(models.Model):
     doctor_id = models.AutoField(primary_key=True)
     doctor_name = models.CharField(max_length=100)
     phone_num = models.CharField(max_length=15)
-    email = models.TextField(null=False)
-    password = models.TextField(null = False)
+    email = models.CharField(max_length=10)
+    password = models.CharField(max_length=10)
     # ---------------Foreign Keys-------------------
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
