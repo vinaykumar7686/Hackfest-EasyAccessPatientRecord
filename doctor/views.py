@@ -29,7 +29,7 @@ def doc_register(request):
 
         department_inst = Department.objects.filter(department_id = department)[0]
 
-        doctor = DoctorProfile(doctor_name=doctor_name, email=email, phone_num=phone_num, department=department_inst, password = password)
+        doctor = DoctorProfile(doctor_name=doctor_name, email=email, phone_num=phone_num, department=department_inst, password = password1)
 
         doctor.save()
         return HttpResponse('doctor is registered')
