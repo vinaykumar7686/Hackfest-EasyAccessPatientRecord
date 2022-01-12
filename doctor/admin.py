@@ -4,8 +4,11 @@ from .models import *
 
 admin.site.register(Department)
 admin.site.register(DoctorProfile)
+admin.site.register(Preparation)
 admin.site.register(Medicines)
-admin.site.register(PrescribedMeds)
 admin.site.register(Medication_safety)
 admin.site.register(Authorisation_details)
+admin.site.register(Medication_timing)
+admin.site.register(Repetation)
+admin.site.register(Medication_order)
 admin.site.register(DoctorPrescription)

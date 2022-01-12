@@ -15,8 +15,6 @@ class PatientProfile(models.Model):
     doctor_notes = models.TextField(null=True, blank=True)
     status = models.CharField(max_length=50)       # critical/serious
     # ---------------Foreign Keys-------------------
-    # doctor_id = models.ForeignKey(DoctorProfile, on_delete=models.CASCADE, null=True)
-    # doctors_visiting_time = models.CharField(null=True, max_length=50, blank=True)
 
     def __str__(self):
         return self.patient_name

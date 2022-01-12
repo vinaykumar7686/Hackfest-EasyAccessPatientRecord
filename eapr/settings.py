@@ -9,14 +9,9 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-<<<<<<< HEAD
-import os
-from pathlib import Path
-=======
 
 from pathlib import Path
 import os
->>>>>>> 05a0cc44dcb0f6ec377b640c7ab9132a00da3a25
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
