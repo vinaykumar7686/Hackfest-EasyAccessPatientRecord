@@ -1,26 +1,29 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head %}
-<title>Register-Doctor</title>
+
+
+
+<title>Login Page</title>
+
 <!-- Favicon -->
 <link rel="shortcut icon" type="favicon" href="{% static 'images/logo.png' %}" />
+
 {% endblock %}
 
 {% block body %}
+
+
 <section class="page-title bg-1">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="block text-center">
-            <h1 class="text-capitalize mb-5 text-lg">Sign Up</h1>
-            <span class="text-white">For Doctors only!</span>
+           
+            <h1 class="text-capitalize mb-5 text-lg">Sign In</h1>
+                <!-- <span class="text-white">For Doctors only!</span> -->
   
-            <!-- <ul class="list-inline breadcumb-nav">
-              <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
-              <li class="list-inline-item"><span class="text-white">/</span></li>
-              <li class="list-inline-item"><a href="#" class="text-white-50">Contact Us</a></li>
-            </ul> -->
           </div>
         </div>
       </div>
@@ -46,27 +49,9 @@
                       <div class="row">
                           <div class="col-lg-12">
                               <div class="form-group">
-                                  <input name="name" id="name" type="text" class="form-control" placeholder="Your Full Name" >
-                              </div>
-                          </div>
-  
-                          <div class="col-lg-12">
-                              <div class="form-group">
                                   <input name="email" id="email" type="email" class="form-control" placeholder="Your Email Address">
                               </div>
                           </div>
-                          
-                                      <div class="col-lg-12">
-                              <div class="form-group">
-                                  <input name="phone" id="phone" type="text" class="form-control" placeholder="Your Phone Number">
-                              </div>
-                          </div>
-  
-                          <div class="col-lg-12">
-                            <div class="form-group">
-                                <input name="department" id="department" type="text" class="form-control" placeholder="Your Department" >
-                            </div>
-                        </div>
   
                                       <div class="col-lg-12">
                               <div class="form-group">
@@ -77,11 +62,14 @@
                       </div>
   
                       <div class="text-center">
-                          <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Sign Up"></input>
+                          <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Sign In"></input>
                       </div>
                   </form>
               </div>
           </div>
       </div>
   </section>
+  
+  
+
 {% endblock %}

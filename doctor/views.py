@@ -7,7 +7,7 @@ def login(request):
 # Website Hompage
 def homepage(request):
     return render(request=request, template_name='homepage.html')
-
+    
 def doc_homepage(request):
     return render(request=request, template_name='doc_home.html')
 
