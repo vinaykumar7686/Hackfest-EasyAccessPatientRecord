@@ -4,6 +4,10 @@ from django.shortcuts import render
 def login(request):
     return render(request=request, template_name='login.html')
 
+# Website Hompage
+def homepage(request):
+    return render(request=request, template_name='homepage.html')
+
 def doc_homepage(request):
     return render(request=request, template_name='doc_home.html')
 
