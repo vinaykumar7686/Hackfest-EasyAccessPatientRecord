@@ -17,7 +17,10 @@ class PatientProfile(models.Model):
     # doctors_visiting_time = models.CharField(null=True, max_length=50, blank=True)
 
     def __str__(self):
-        return self.patient_name
+        return str(self.patient_id)
+
+    class Meta:
+        db_table = 'PatientProfile'
 
 #Medical Info about the patient to be stored in this table
 class MedicalInfo(models.Model):
@@ -36,9 +39,12 @@ class MedicalInfo(models.Model):
     asthma = models.BooleanField()
     diabetes = models.BooleanField()
     stroke = models.BooleanField()
-    medical_history= models.TextField(null=False)
+    medical_history = models.TextField()
     # ---------------Foreign Keys-------------------
     patient_id = models.ForeignKey(PatientProfile, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.patient_id)
+
+    class Meta:
+        db_table = 'MedicalInfo'
