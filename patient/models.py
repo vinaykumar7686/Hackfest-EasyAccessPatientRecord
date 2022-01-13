@@ -9,7 +9,7 @@ class PatientProfile(models.Model):
     phone_num = models.CharField(max_length=15)
     dob = models.DateField(null=True)
     email = models.EmailField(null = False)
-    password = models.TextField(null=False)
+    password = models.TextField(max_length=50)
 
            # critical/serious
     # ---------------Foreign Keys-------------------
@@ -21,6 +21,12 @@ class PatientProfile(models.Model):
 
     class Meta:
         db_table = 'PatientProfile'
+
+    def get_patient_by_email(email):
+        try:
+            return PatientProfile.objects.get(email=email)
+        except:
+            return False
 
 #Medical Info about the patient to be stored in this table
 class MedicalInfo(models.Model):

@@ -11,7 +11,7 @@ def pat_register(request):
         form = RegForm(request.POST)
         if form.is_valid:
             form.save()
-            return redirect('home')
+            return redirect('pat_homepage')
     context = {'form': form}
     return render(request, 'pat_register.html', context)
 
@@ -22,6 +22,6 @@ def pat_medicalForm(request):
         form = MedicalInfoForm(request.POST)
         if form.is_valid:
             form.save()
-            return redirect('home')
+            return redirect('pat_homepage')
     context = {'form': form}
     return render(request, 'pat_medicalForm.html', context)
