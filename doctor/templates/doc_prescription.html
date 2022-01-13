@@ -6,7 +6,57 @@
 
 {% block body %}
 <h1>You are currently on doctor's prescription page</h1>
+
+<h3>Prescription Details</h3>
+
+
+prescription_id : {{prescription_details.prescription_id}}<br><br>
+date : {{prescription_details.date}}<br><br>
+nextVisit : {{prescription_details.nextVisit }}<br><br>
+reason : {{prescription_details.reason}}<br><br>
+doctors_notes : {{prescription_details.doctors_notes }}<br><br>
+patient_id : {{prescription_details.patient_id}}<br><br>
+doctor_id : {{prescription_details.doctor_id}}<br><br>
+
+{% for medication_order in medication_data %}
+
+Medication order: {{medication_order}}
+{% endfor %}
+
 <div class="container">
 
 </div>
 {% endblock %}
+
+
+
+<!--
+prescription_data = {
+        'prescription_details': prescription,
+        'medication_data':[]
+        }
+    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+    {
+    'prescription_details': <DoctorPrescription: Dinesh Sharma is assigned to Dr. Vinay Kumar>,
+     'medication_data': 
+     [
+        {
+            'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>,
+            'authorization': <QuerySet [<Authorisation_details: Paracetamol is allowed 3 times>]>,
+            'med_timing': <QuerySet [<Medication_timing: Timing of Paracetamol>]>,
+            'repetation': <QuerySet [<Repetation: Paracetamol medicine is continued for  12 days>]>,
+            'med_safety': <QuerySet [<Medication_safety: Safety with Paracetamol>]>
+
+       },
+        {
+            'medication_order': <Medication_order: aspirin prescribed by Dr. Vinay Kumar>, 
+            'authorization': <QuerySet [<Authorisation_details: aspirin is allowed 3 times>]>,
+            'med_timing': <QuerySet [<Medication_timing: Timing of aspirin>]>,
+            'repetation': <QuerySet [<Repetation: aspirin medicine is continued for  12 days>]>,
+            'med_safety': <QuerySet [<Medication_safety: Safety with aspirin>]>
+
+       }
+    ]
+} -->

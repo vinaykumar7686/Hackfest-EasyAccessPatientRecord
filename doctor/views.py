@@ -200,7 +200,7 @@ def view_prescription(request):
 }
     '''
     print(prescription_data)
-    return HttpResponse('Done!')
+    return render(request,'doc_prescription.html', prescription_data)
 
     
         
