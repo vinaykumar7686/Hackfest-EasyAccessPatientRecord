@@ -92,10 +92,10 @@ class Authorisation_details(models.Model):
 # Time at which we need to take the particular medicine
 class Medication_timing(models.Model):
     medication_timing_id = models.AutoField(primary_key=True)
-    morning = models.TimeField(null=True)
-    afternoon = models.TimeField(null=True)
-    evening = models.TimeField(null=True)
-    night = models.TimeField(null=True)
+    morning = models.BooleanField()
+    afternoon = models.BooleanField()
+    evening = models.BooleanField()
+    night = models.BooleanField()
     medication_id = models.ForeignKey(Medication_order, on_delete=models.CASCADE)
 
     def __str__(self):
