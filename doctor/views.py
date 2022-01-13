@@ -149,6 +149,7 @@ def view_prescription(request):
 
     prescription_data = {
         'prescription_details': prescription,
+        'medication_data':[]
         }
     i=0
     for med_order in medication_orders:
@@ -169,31 +170,34 @@ def view_prescription(request):
             'repetation': repetation,
             'med_safety': med_safety
             }
-        prescription_data[f'med_order{i}'] = medication_data
+        prescription_data['medication_data'].append(medication_data)
         i+=1
 
     '''
     # This is the JSON response that the front end will recieve
     
     {
-        'prescription_details': <DoctorPrescription: Dinesh Sharma is assigned to Dr. Vinay Kumar>,
-        'med_order0': 
+    'prescription_details': <DoctorPrescription: Dinesh Sharma is assigned to Dr. Vinay Kumar>,
+     'medication_data': 
+     [
         {
             'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>,
             'authorization': <QuerySet [<Authorisation_details: Paracetamol is allowed 3 times>]>,
             'med_timing': <QuerySet [<Medication_timing: Timing of Paracetamol>]>,
             'repetation': <QuerySet [<Repetation: Paracetamol medicine is continued for  12 days>]>,
             'med_safety': <QuerySet [<Medication_safety: Safety with Paracetamol>]>
-        },
-        'med_order1': 
+
+       },
         {
-            'medication_order': <Medication_order: aspirin prescribed by Dr. Vinay Kumar>,
+            'medication_order': <Medication_order: aspirin prescribed by Dr. Vinay Kumar>, 
             'authorization': <QuerySet [<Authorisation_details: aspirin is allowed 3 times>]>,
             'med_timing': <QuerySet [<Medication_timing: Timing of aspirin>]>,
             'repetation': <QuerySet [<Repetation: aspirin medicine is continued for  12 days>]>,
             'med_safety': <QuerySet [<Medication_safety: Safety with aspirin>]>
-        }
-    }
+
+       }
+    ]
+}
     '''
     print(prescription_data)
     return HttpResponse('Done!')
