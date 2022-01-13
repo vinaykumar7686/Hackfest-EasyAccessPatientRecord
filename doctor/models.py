@@ -35,12 +35,16 @@ class Medicines(models.Model):
     def __str__(self):
         return self.name
 
+# First enter salt then medicine which comprised of that salt
 class Preparation(models.Model):
     preparation_id = models.AutoField(primary_key=True)
     substance_name = models.CharField(max_length=100)
     form = models.CharField(max_length=100) # solid/liquid
     strength_unit = models.CharField(max_length=100) # 100mg, 200mg, etc
     medicine_id = models.ForeignKey(Medicines, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.substance_name) +" inside "+str(self.medicine_id.name)
 
 # Table to store the prescription of the patient, refers to prescribed meds
 class DoctorPrescription(models.Model):
@@ -54,17 +58,7 @@ class DoctorPrescription(models.Model):
     doctor_id = models.ForeignKey(DoctorProfile, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.patient_id.patient_name)+ " ==> " + str(self.doctor_id.doctor_name)
-
-# Upto which period the patient is allowed to take medication by the doctor(for particular prescription)
-class Authorisation_details(models.Model):
-    authorization_id = models.AutoField(primary_key=True)
-    number_of_repeats_allowed = models.IntegerField()
-    validity_period = models.DateField()
-    prescription_id = models.ForeignKey(DoctorPrescription, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.authorization_id)
+        return str(self.patient_id.patient_name)+ " is assigned to Dr. " + str(self.doctor_id.doctor_name)
 
 # Schedule of a particular medicine to be taken by a patient
 class Medication_order(models.Model):
@@ -74,7 +68,18 @@ class Medication_order(models.Model):
     medicine_code = models.ForeignKey(Medicines, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.medicine_code.name) + " by " + str(self.prescription_id.doctor_id.doctor_name)
+        return str(self.medicine_code.name) + " prescribed by Dr. " + str(self.prescription_id.doctor_id.doctor_name)
+
+# Upto which period the patient is allowed to take medication by the doctor(for particular prescription)
+class Authorisation_details(models.Model):
+    authorization_id = models.AutoField(primary_key=True)
+    number_of_repeats_allowed = models.IntegerField()
+    validity_period = models.DateField()
+    medication_id = models.ForeignKey(Medication_order, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.medication_id.medicine_code.name) + " is allowed " + str(self.number_of_repeats_allowed) + " times"
+        # return "Authorization of " + str(self.prescription_id.patient_id.patient_name)+"'s Prescription"
 
 # Time at which we need to take the particular medicine
 class Medication_timing(models.Model):
@@ -85,6 +90,10 @@ class Medication_timing(models.Model):
     night = models.TimeField(null=True)
     medication_id = models.ForeignKey(Medication_order, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return "Timing of " + str(self.medication_id.medicine_code.name)
+    
+
 # When the patient has to take the medicine again
 class Repetation(models.Model):
     repetation_id = models.AutoField(primary_key=True)
@@ -93,7 +102,11 @@ class Repetation(models.Model):
     repetation_interval = models.CharField(max_length=100) # daily, weekly, fortnightly, monthly
     medication_id = models.ForeignKey(Medication_order, on_delete=models.CASCADE)
 
-# Precautions while tacking the medicine
+    def __str__(self):
+        return str(self.medication_id.medicine_code.name) +" medicine is continued for  " + str(self.repetation_interval) + " days"
+
+
+# Precautions while taking the medicine of a particular prescription
 class Medication_safety(models.Model):
     medication_safety_id = models.AutoField(primary_key=True)
     max_dose_per_period = models.IntegerField()
@@ -101,20 +114,22 @@ class Medication_safety(models.Model):
     medication_id = models.ForeignKey(Medication_order, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.medication_id)
+        return "Safety with " + str(self.medication_id.medicine_code.name)
 
-
-# DOCTOR PATIENT
+# DOCTOR PATIENT - To match between Doctor ID and Patient ID
 class doctor_patient(models.Model):
     doctor_id = models.ForeignKey(DoctorProfile, on_delete=models.CASCADE)
     patient_id = models.ForeignKey(PatientProfile, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.patient_id.patient_name)+ " assigned to " + str(self.doctor_id.doctor_name)
+        return str(self.patient_id.patient_name)+ " assigned to Dr. " + str(self.doctor_id.doctor_name)
+
 
 '''
+
 TIPS TO RESOLVE ERROR
 python manage.py migrate --run-syncdb
+
 '''
 
 # class Medication_order(models.Model):
