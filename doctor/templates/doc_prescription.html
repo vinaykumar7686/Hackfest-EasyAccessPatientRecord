@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Doctor Prescription</title>
+{% endblock %}
+
+{% block body %}
+<h1>You are currently on doctor's prescription page</h1>
+<div class="container">
+    <h2>Doctor Prescription</h2>
+    <h3>++++++++++++++++++++++++++++++++++++++++++++</h3>
+
+    {% for presc in presc %}
+    <h2>Today - {{presc.date}}</h2>
+    <h2>Next Visit - {{presc.nextVisit}}</h2>
+    <h2>Reason - {{presc.reason}}</h2>
+    <h2>Notes - {{presc.doctors_notes}}</h2>
+    {% endfor %}
+    <h2>---------------------------------</h2>
+    <h3>Medication Order</h3>
+    <h2>---------------------------------</h2>
+    <h2>Medication Unit - {{meds.medication_unit}}</h2>
+    <h2>Medicine name - </h2>
+
+    <h2>---------------------------------</h2>
+    <h3>Authorization Details</h3>
+    <h2>---------------------------------</h2>
+    <h2>Number of Repeats Allowed - {{auth.number_of_repeats_allowed}} </h2>
+    <h2>Validity Period - </h2>
+
+    <h2>---------------------------------</h2>
+    <h3>Medication Timing</h3>
+    <h2>---------------------------------</h2>
+    <h2>Morning - </h2>
+    <h2>Afternoon - </h2>
+    <h2>Evening - </h2>
+    <h2>Night - </h2>
+
+    <h2>---------------------------------</h2>
+    <h3>Repetation</h3>
+    <h2>---------------------------------</h2>
+    <h2>Start Date - </h2>
+    <h2>End Date - </h2>
+    <h2>Repetation Interval - </h2>
+
+    <h2>---------------------------------</h2>
+    <h3>Medication Safety</h3>
+    <h2>---------------------------------</h2>
+    <h2>Maximum dosage per period - </h2>
+    <h2>Override reason - </h2>
+
+</div>
+{% endblock %}

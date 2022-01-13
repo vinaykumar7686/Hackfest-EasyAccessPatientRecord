@@ -137,3 +137,33 @@ def add_prescription(request):
 
     else:
         return HttpResponse('This is a get Request!')
+
+
+def view_prescription(request):
+    prescription = DoctorPrescription.objects.filter(prescription_id = 4)[0]
+    print(prescription)
+    print(prescription.prescription_id)
+    print('------------')
+    medication_orders = Medication_order.objects.filter(prescription_id=prescription.prescription_id)
+    print(prescription)
+
+    prescription_data = {}
+
+    for med_order in medication_orders:
+        print(med_order)
+        authorization = Authorisation_details.objects.filter(medication_id=med_order.medication_id)
+        med_timing = Medication_timing.objects.filter(medication_id=med_order.medication_id)
+        repetation = Repetation.objects.filter(medication_id=med_order.medication_id)
+        med_safety = Medication_safety.objects.filter(medication_id=med_order.medication_id)
+        print(authorization)
+        print(med_timing)
+        print(repetation)
+        print(med_safety)
+        print('-----------------------------------')
+        # sendData = {'auth':authorization, 'med_timing':med_timing, 'repetation':repetation, 'med_safety':med_safety}
+        # return render(request, "doc_prescription.html", sendData)
+
+    # docPresc = DoctorPrescription.objects.all()
+    # docMedication = Medication_order.objects.all()
+    # context = {'presc' : prescription}
+    return HttpResponse('Done!')
