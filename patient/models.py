@@ -12,12 +12,23 @@ class PatientProfile(models.Model):
     resd_address = models.TextField()
     prior_ailments = models.TextField()
     dob = models.DateField(null=True)
-    doctor_notes = models.TextField(null=True, blank=True)
-    status = models.CharField(max_length=50)       # critical/serious
+    email = models.EmailField(null = False)
+    password = models.TextField(max_length=50)
+
+           # critical/serious
     # ---------------Foreign Keys-------------------
 
     def __str__(self):
-        return self.patient_name
+        return str(self.patient_id)
+
+    class Meta:
+        db_table = 'PatientProfile'
+
+    def get_patient_by_email(email):
+        try:
+            return PatientProfile.objects.get(email=email)
+        except:
+            return False
 
 #Medical Info about the patient to be stored in this table
 class MedicalInfo(models.Model):
@@ -29,9 +40,12 @@ class MedicalInfo(models.Model):
     asthma = models.BooleanField()
     diabetes = models.BooleanField()
     stroke = models.BooleanField()
-    medical_history= models.TextField(null=False)
+    medical_history = models.TextField()
     # ---------------Foreign Keys-------------------
     patient_id = models.ForeignKey(PatientProfile, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.patient_id)
+
+    class Meta:
+        db_table = 'MedicalInfo'

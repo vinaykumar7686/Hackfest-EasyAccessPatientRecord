@@ -1,16 +1,14 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
 
 {% block head %}
-<title>Register-Patient</title>
-{% endblock %}
+<title>Patient-Medical-Form</title>
+
+{% endblock %} 
 
 {% block body %}
-
-
 <form action="" method="post">
   {% csrf_token %} 
   {{ form.as_p }}
   <input type="submit" value="Register" />
 </form>
-
 {% endblock %}
