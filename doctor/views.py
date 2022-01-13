@@ -84,49 +84,53 @@ def add_prescription(request):
         #-----> Issues: multiple medication order and all below
 
         # +++++++++Adding Medication Order
-        medicine = Medicines.objects.filter(code = 1)[0]
+        medicines = Medicines.objects.all()[:2] #filter(code = 1)[0:2]
 
-        medication_order = Medication_order(
-        medication_unit = 10,
-        prescription_id  = new_prescription,
-        medicine_code = medicine
-        )
-        medication_order.save()
+        for medicine in medicines:
 
-        # ++++++++++ Adding Authorisation_details
-        authorization_details = Authorisation_details(
-            number_of_repeats_allowed = 3,
-            validity_period ='1999-05-12',
-            medication_id = medication_order
-        )
-        authorization_details.save()
+            medication_order = Medication_order(
+            medication_unit = 10,
+            prescription_id  = new_prescription,
+            medicine_code = medicine
+            )
+            medication_order.save()
 
-        # ++++++++++ Adding Medication_timing
-        medication_timing = Medication_timing(
-            morning = False,
-            afternoon = True,
-            evening = True,
-            night = True,
-            medication_id = medication_order
-        )
-        medication_timing.save()
+            # ++++++++++ Adding Authorisation_details
+            authorization_details = Authorisation_details(
+                number_of_repeats_allowed = 3,
+                validity_period ='1999-05-12',
+                medication_id = medication_order
+            )
+            authorization_details.save()
 
-        # +++++++++++ Adding Repetations
-        repetation = Repetation(
-            start_date = '1999-05-12',
-            end_date = '1999-05-12',
-            repetation_interval = '12',
-            medication_id = medication_order
-        )
-        repetation.save()
+            # ++++++++++ Adding Medication_timing
+            medication_timing = Medication_timing(
+                morning = False,
+                afternoon = True,
+                evening = True,
+                night = True,
+                medication_id = medication_order
+            )
+            medication_timing.save()
 
-        # +++++++++++ Adding Medication_safety
-        medication_safety = Medication_safety(
-            max_dose_per_period = 5,
-            override_reason = 'Nothing',
-            medication_id = medication_order
-        )
-        medication_safety.save()
+            # +++++++++++ Adding Repetations
+            repetation = Repetation(
+                start_date = '1999-05-12',
+                end_date = '1999-05-12',
+                repetation_interval = '12',
+                medication_id = medication_order
+            )
+            repetation.save()
+
+            # +++++++++++ Adding Medication_safety
+            medication_safety = Medication_safety(
+                max_dose_per_period = 5,
+                override_reason = 'Nothing',
+                medication_id = medication_order
+            )
+            medication_safety.save()
+
+            print((f'{medicine.name} added Successfully!'))
 
         print(('Data Posted Successfully!'))
         return HttpResponse('Data Posted Successfully!') 
