@@ -67,16 +67,18 @@ def doc_register(request):
 def add_prescription(request):
 
     if request.method == 'POST':
-
+        
+        form_data =  request.POST
+        print(form_data)
         # Adding prescription
-        patient = PatientProfile.objects.filter(patient_id = 1)[0]
-        doctor = DoctorProfile.objects.filter(doctor_id = 1)[0]
+        patient = PatientProfile.objects.filter(patient_id = form_data.get('patient'))[0]
+        doctor = DoctorProfile.objects.filter(doctor_id = form_data.get('doctor'))[0]
 
         new_prescription = DoctorPrescription(
-            date = '1999-05-11',
-            nextVisit = '1999-05-11',
-            reason = "blah blah",
-            doctors_notes = "mai pagal",
+            date = form_data.get('date'),
+            nextVisit = form_data.get('nextVisit'),
+            reason = form_data.get('reason'),
+            doctors_notes = form_data.get('doc_notes'),
             patient_id = patient,
             doctor_id = doctor)
         new_prescription.save()
@@ -84,9 +86,11 @@ def add_prescription(request):
         #-----> Issues: multiple medication order and all below
 
         # +++++++++Adding Medication Order
-        medicines = Medicines.objects.all()[:2] #filter(code = 1)[0:2]
+        # medicines = Medicines.objects.all()[:2] #filter(code = 1)[0:2]
+        no_of_medicines = int(form_data.get('med_counter'))
+        for i in range(no_of_medicines):
 
-        for medicine in medicines:
+            medicine = Medicines.objects.filter(name = form_data.get(f'medicine{i}'))
 
             medication_order = Medication_order(
             medication_unit = 10,
@@ -97,8 +101,8 @@ def add_prescription(request):
 
             # ++++++++++ Adding Authorisation_details
             authorization_details = Authorisation_details(
-                number_of_repeats_allowed = 3,
-                validity_period ='1999-05-12',
+                number_of_repeats_allowed = form_data.get(f'repeats_allowed{i}'),
+                validity_period = form_data.get(f'validity_period{i}'),
                 medication_id = medication_order
             )
             authorization_details.save()

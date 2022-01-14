@@ -42,8 +42,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <form id="contact-form" class="contact__form " method="post" action="mail.php">
+                    <form id="contact-form" class="contact__form " method="post" action="/prescription/add">
+                        {% csrf_token %}
                         <!-- form message -->
+                        <input type="text" id = 'med_counter' name = 'medcounter'> 
+                        <!-- style="display: none;"> -->
                         <div class="row">
                             <div class="col-12">
                                 <div class="alert alert-success contact__msg" style="display: none" role="alert">
@@ -170,7 +173,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <h5 class="mb-2">&nbsp;Medicine</h5>
-                        <select name="doctor${count}" id="doctor${count}" class="form-control">
+                        <select name="medicine${count}" id="medicine${count}" class="form-control">
                             {% for medicine in medicines %}
                             <option value="{{ medicine.name }}">{{ medicine.name }}</option>
                             {% endfor %}
@@ -316,8 +319,10 @@
         `;
         console.log("this is running");
         var field = document.getElementById('formfields');
+        field.insertAdjacentHTML('beforeend', form_html);
 
-        field.insertAdjacentHTML('beforeend', form_html)
+        var counter = document.getElementById('med_counter')
+        counter.value = count+"";
     }
 </script>
 </div>
