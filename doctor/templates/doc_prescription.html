@@ -1,145 +1,203 @@
 {% extends "base.html" %}
 
 {% block head %}
-<title>Doctor Prescription</title>
+<title>Homepage-Doctor</title>
 {% endblock %}
 
 {% block body %}
-<h1>You are currently on doctor's prescription page</h1>
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 70%;
+  }
 
-<h3>Prescription Details</h3>
+  table.center {
+    margin-left: auto;
+    margin-right: auto;
+  }
 
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  h3{
+      margin-left: 10%;
+  }
 
-<div>prescription_id : {{prescription_details.prescription_id}}</div>
-<br>
-<div>patient_id : {{prescription_details.patient_id}}</div>
-<br>
-<div>doctor_id : {{prescription_details.doctor_id}}</div>
-<br>
-<div>date : {{prescription_details.date}}</div>
-<br>
-<div>nextVisit : {{prescription_details.nextVisit }}</div>
-<br>
-<div>reason : {{prescription_details.reason}}</div>
-<br>
-<div>doctors_notes : {{prescription_details.doctors_notes }}</div>
-<br><br>
-
-{% for data in medication_data %}
-
-<h2>Medication order</h2>
-<br><br>
-medication_id : {{data.medication_order.medication_id}}
-<br>
-medication_unit : {{data.medication_order.medication_unit}}
-<br>
-prescription_id : {{data.medication_order.prescription_id}}
-<br>
-medicine_code : {{data.medication_order.medicine_code}}
-<br>
-<br>
-
-<h3>Medicine Details</h3>
-<br>
- code: {{data.medicine_details.code}}
-<br>
- name: {{data.medicine_details.name}}
-<br>
- price: {{data.medicine_details.price}}
-<br>
- brand: {{data.medicine_details.brand}}
-<br>
- side_effects: {{data.medicine_details.side_effects}}
-<br>
- description: {{data.medicine_details.description}}
-<br>
-<br>
-
-<h3>Medication Timing</h3>
-<br>
- medication_timing_id: {{data.med_timing.medication_timing_id}}
-<br>
- morning: {{data.med_timing.morning}}
-<br>
- afternoon: {{data.med_timing.afternoon}}
-<br>
- evening: {{data.med_timing.evening}}
-<br>
- night: {{data.med_timing.night}}
-<br>
- medication_id: {{data.med_timing.medication_id}}
-<br>
-<br>
-
-<h3>Medication Repetations</h3>
-<br>
- repetation_id: {{data.repetation.repetation_id}}
-<br>
- start_date: {{data.repetation.start_date}}
-<br>
- end_date: {{data.repetation.end_date}}
-<br>
- repetation_interval: {{data.repetation.repetation_interval}}
-<br>
- medication_id: {{data.repetation.medication_id}}
-<br>
-<br>
-
-<h3>Medication Safety</h3>
-<br>
- medication_safety_id: {{data.med_safety.medication_safety_id}}
-<br>
- max_dose_per_period: {{data.med_safety.max_dose_per_period}}
-<br>
- override_reason: {{data.med_safety.override_reason}}
-<br>
- medication_id: {{data.med_safety.medication_id}}
-<br>
-<br>
-
-<h3>Authorisation Details</h3>
-<br>
- authorization_id: {{data.authorization.authorization_id}}
-<br>
- number_of_repeats_allowed: {{data.authorization.number_of_repeats_allowed}}
-<br>
- validity_period: {{data.authorization.validity_period}}
-<br>
- medication_id: {{data.authorization.medication_id}}
-<br>
-<br>
-
-
-
-<hr>
-{% endfor %}
-
+</style>
+</style>
 <div class="container">
-
+    <h3>Prescription Details</h3>
+    <table class="center">
+        <thead>
+            <tr>
+        <td>Prescription ID : </td>
+        <td>{{prescription_details.prescription_id}}</td>
+        <td>Patient Name : </td>
+        <td>{{prescription_details.patient_id}}</td>
+      </tr>
+      <tr>
+        <td>Doctor ID : </td>
+        <td>{{prescription_details.doctor_id}}</td>
+        <td>Doctor Name : </td>
+        <td>{{prescription_details.doctor_id}}</td>
+      </tr>
+      <tr>        
+        <td>Date : </td>
+        <td>{{prescription_details.date}}</td>
+        <td>Next Visit : </td>
+        <td>{{prescription_details.nextVisit }}</td>
+      </tr>
+      <tr>
+        <td colspan="1">Reason : </td>
+        <td colspan="5">{{prescription_details.reason}}</td>
+      </tr>
+      <tr>
+        <td colspan="1">Doctor Notes : </td>
+        <td colspan="5">{{prescription_details.doctors_notes }}</td>
+      </tr>
+    </thead>
+  </table>
+  {% for data in medication_data %}
+  <h3>Medication Order</h3>
+  <table class="center">
+    <thead>
+      <tr>
+        <td>Medication ID : </td>
+        <td>{{data.medication_order.medication_id}}</td>
+        <td>Prescription ID : </td>
+        <td>{{data.medication_order.prescription_id}}</td>
+      </tr>
+      <tr>
+        <td>Medication Unit : </td>
+        <td>{{data.medication_order.medication_unit}}</tdcolspan=>
+        <td>Medication Code : </td>
+        <td>{{data.medication_order.medicine_code}}</tdn=>
+      </tr>
+    </thead>
+  </table>
+  <h3>Medication Details</h3>
+  <table class="center">
+    <thead>
+      <tr>
+          <td colspan="1">Medicine Code : </td>
+          <td colspan="1">{{data.medicine_details.code}}</td>
+          <td colspan="1">Name of medicine : </td>
+          <td>{{data.medicine_details.name}}</td>
+        </tr>
+      <tr>
+        <tr>
+          <td colspan="1">Price : </td>
+          <td colspan="1">{{data.medicine_details.price}}</td>
+          <td>Brand : </td>
+          <td>{{data.medicine_details.brand}}</td>
+        </tr>
+      </tr>
+      <tr>
+        <td colspan="2">Side Effects : </td>
+        <td colspan="2">{{data.medicine_details.side_effects}}</td>
+      </tr>
+      <tr>
+        <td colspan="2">Description : </td>
+        <td colspan="2">{{data.medicine_details.description}}</td>
+      </tr>
+    </thead>
+  </table>
+  <h3>Medication Timing</h3>
+  <table class="center">
+    <thead>
+      <tr>
+        <td>Medication Timing ID : </td>
+        <td>(optional) {{data.med_timing.medication_timing_id}}</td>
+      </tr>
+      <tr>
+        <td>Morning : </td>
+        <td>{{data.med_timing.morning}}</td>
+      </tr>
+      <tr>
+        <td>Afternoon : </td>
+        <td>{{data.med_timing.afternoon}}</td>
+      </tr>
+      <tr>
+        <td>Evening : </td>
+        <td>{{data.med_timing.evening}}</td>
+      </tr>
+      <tr>
+        <td>Night : </td>
+        <td>{{data.med_timing.night}}</td>
+      </tr>
+      <tr>
+        <td>Medication Name/ID : </td>
+        <td>(optiona) {{data.med_timing.medication_id}}</td>
+      </tr>
+    </thead>
+  </table>
+  <h3>Repetation</h3>
+  <table class="center">
+    <thead>
+      <tr>
+        <td>Repetation ID : </td>
+        <td>Don't know</td>
+      </tr>
+      <tr>
+        <td>Start Date : {{data.repetation.start_date}}</td>
+        <td>End Date : {{data.repetation.end_date}}</td>
+      </tr>
+      <tr>
+        <td>Repetation Interval : </td>
+        <td>{{data.repetation.repetation_interval}}</td>
+      </tr>
+      <tr>
+        <td>Medication ID/Name : </td>
+        <td>(optional) {{data.repetation.medication_id}}</tdcolspan=>
+      </tr>
+    </thead>
+  </table>
+  <h3>Medication Safety</h3>
+  <table class="center">
+    <thead>
+      <tr>
+        <td>Safety ID : </td>
+        <td>{{data.med_safety.medication_safety_id}}</td>
+      </tr>
+      <tr>
+        <td>Dose Period : </td>
+        <td>{{data.med_safety.max_dose_per_period}}</td>
+      </tr>
+      <tr>
+        <td>Override reason: </td>
+        <td>{{data.med_safety.override_reason}}</td>
+      </tr>
+      <tr>
+        <td>Medication ID/Name : </td>
+        <td>(optional) {{data.med_safety.medication_id}}</td>
+      </tr>
+    </thead>
+  </table>
+  <h3>Authorization Details</h3>
+  <table class="center">
+    <thead>
+      <tr>
+        <td>Authorization ID : </td>
+        <td>{{data.authorization.authorization_id}}</td>
+      </tr>
+      <tr>
+        <td>Repeats Allowed : </td>
+        <td>{{data.authorization.number_of_repeats_allowed}}</td>
+      </tr>
+      <tr>
+        <td>Validity Period : </td>
+        <td>{{data.authorization.validity_period}}</td>
+      </tr>
+      <tr>
+        <td>Medication ID/Name : </td>
+        <td>(optional) {{data.med_safety.medication_id}}</td>
+      </tr>
+    </thead>
+  </table>
+  {% endfor %}
 </div>
 {% endblock %}
-
-
-
-<!-- {
-    'prescription_details': <DoctorPrescription: Dinesh Sharma is assigned to Dr. Vinay Kumar>,
-    'medication_data': 
-    [
-        {
-            'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>, 
-            'authorization': <Authorisation_details: Paracetamol is allowed 3 times>, 
-            'med_timing': <Medication_timing: Timing of Paracetamol>, 
-            'repetation': <Repetation: Paracetamol medicine is continued for  12 days>, 
-            'med_safety': <Medication_safety: Safety with Paracetamol>, 
-            'medicine_details': <Medicines: Paracetamol>
-        },
-        {
-            'medication_order': <Medication_order: aspirin prescribed by Dr. Vinay Kumar>, 
-            'authorization': <Authorisation_details: aspirin is allowed 3 times>, 
-            'med_timing': <Medication_timing: Timing of aspirin>, 
-            'repetation': <Repetation: aspirin medicine is continued for  12 days>, 
-            'med_safety': <Medication_safety: Safety with aspirin>, 
-            'medicine_details': <Medicines: aspirin>
-        }
-    ]
-} -->
