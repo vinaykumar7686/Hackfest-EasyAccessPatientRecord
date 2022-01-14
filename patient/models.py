@@ -19,7 +19,7 @@ class PatientProfile(models.Model):
     # ---------------Foreign Keys-------------------
 
     def __str__(self):
-        return str(self.patient_id)
+        return str(self.patient_name)
 
     class Meta:
         db_table = 'PatientProfile'
