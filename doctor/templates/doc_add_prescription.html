@@ -112,21 +112,14 @@
                                 </div>
                             </div>
 
+                            <div id='formfields'>
+                                <!-- Consecutive medicines will be added here -->
+                            </div>
                             <!-- Adding Medications -->
                             <div class="text-center my-4">
                                 <input type="button" class="btn btn-main" value="Add Medicine" id='add_meds'
                                     onclick="addMeds()">
                             </div>
-
-                            <div id='formfields'>
-
-                            </div>
-
-
-
-
-
-                            
 
 
                         </div>
@@ -159,7 +152,7 @@
     function addMeds() {
         count++;
 
-
+        
         var form_html = `
         <div id='formfield'>
             <!-- Medicine Details -->
@@ -169,7 +162,7 @@
                 <div class="col-lg-12">
                     <div class="section-title text-center">
                         <div class="my-4"></div>
-                        <h3 class="mb-2">Medication Order</h3>
+                        <h3 class="mb-2">Medicine ${count}</h3>
                         <div class="divider mx-auto my-4"></div>
                     </div>
                 </div>
@@ -177,7 +170,7 @@
                 <div class="col-lg-12">
                     <div class="form-group">
                         <h5 class="mb-2">&nbsp;Medicine</h5>
-                        <select name="doctor" id="doctor" class="form-control">
+                        <select name="doctor${count}" id="doctor${count}" class="form-control">
                             {% for medicine in medicines %}
                             <option value="{{ medicine.name }}">{{ medicine.name }}</option>
                             {% endfor %}
@@ -199,29 +192,29 @@
 
                 <div class="col-lg-3 text-center">
                     <div class="form-group">
-                        <label class="mb-2" for="morning"> Morning:&nbsp;&nbsp;</label>
-                        <input type="checkbox" name="morning" id="morning">
+                        <label class="mb-2" for="morning${count}"> Morning:&nbsp;&nbsp;</label>
+                        <input type="checkbox" name="morning${count}" id="morning${count}">
                     </div>
                 </div>
 
                 <div class="col-lg-3 text-center">
                     <div class="form-group">
-                        <label for="afternoon"> Afternoon:&nbsp;&nbsp;</label>
-                        <input type="checkbox" name="afternoon" id="afternoon">
+                        <label for="afternoon${count}"> Afternoon:&nbsp;&nbsp;</label>
+                        <input type="checkbox" name="afternoon${count}" id="afternoon${count}">
                     </div>
                 </div>
 
                 <div class="col-lg-3 text-center">
                     <div class="form-group">
-                        <label for="evening">Evening:&nbsp;&nbsp;</label>
-                        <input type="checkbox" name="evening" id="evening">
+                        <label for="evening${count}">Evening:&nbsp;&nbsp;</label>
+                        <input type="checkbox" name="evening${count}" id="evening${count}">
                     </div>
                 </div>
 
                 <div class="col-lg-3 text-center">
                     <div class="form-group">
-                        <label for="night">Night:&nbsp;&nbsp;</label>
-                        <input type="checkbox" name="night" id="night">
+                        <label for="night${count}">Night:&nbsp;&nbsp;</label>
+                        <input type="checkbox" name="night${count}" id="night${count}">
                     </div>
                 </div>
 
@@ -240,21 +233,21 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <h5 class="mb-2">&nbsp;Start Date</h5>
-                        <input id="start_date" type="date" name="start_date" class="form-control">
+                        <input id="start_date${count}" type="date" name="start_date${count}" class="form-control">
                     </div>
                 </div>
 
                 <div class="col-lg-6">
                     <div class="form-group">
                         <h5 class="mb-2">&nbsp;End Date</h5>
-                        <input id="end_date" type="date" name="end_date" class="form-control">
+                        <input id="end_date${count}" type="date" name="end_date${count}" class="form-control">
                     </div>
                 </div>
 
                 <div class="col-lg-12">
                     <div class="form-group">
                         <h5 class="mb-2">&nbsp;Repitition Interval</h5>
-                        <input id="repetation_interval" type="text" name="repetation_interval"
+                        <input id="repetation_interval${count}" type="text" name="repetation_interval${count}"
                             class="form-control"
                             placeholder="Enter an interval for repeating the medicines">
                     </div>
@@ -276,7 +269,7 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <h5 class="mb-2">&nbsp;Number of Repeats</h5>
-                        <input id="number_of_repeats_allowed" type="number" name="repeats_allowed"
+                        <input id="number_of_repeats_allowed${count}" type="number" name="repeats_allowed${count}"
                             class="form-control" placeholder="Enter the number of repeats">
                     </div>
                 </div>
@@ -284,7 +277,7 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <h5 class="mb-2">&nbsp;Validity Period</h5>
-                        <input id="validity_period" type="date" name="validity_period"
+                        <input id="validity_period${count}" type="date" name="validity_period${count}"
                             class="form-control">
                     </div>
                 </div>
@@ -305,7 +298,7 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <h5 class="mb-2">&nbsp;Max Dose Per Period</h5>
-                        <input id="max_dose_per_period" type="number" name="max_dose_per_period"
+                        <input id="max_dose_per_period${count}" type="number" name="max_dose_per_period${count}"
                             class="form-control" placeholder="Enter the maximum dosage">
                     </div>
                 </div>
@@ -313,7 +306,7 @@
                 <div class="col-lg-6">
                     <div class="form-group">
                         <h5 class="mb-2">&nbsp;Override Reason</h5>
-                        <input id="override_reason" type="text" name="override_reason"
+                        <input id="override_reason${count}" type="text" name="override_reason${count}"
                             class="form-control" placeholder="Enter the reason for overriding">
                     </div>
                 </div>
