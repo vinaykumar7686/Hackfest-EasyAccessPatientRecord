@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Medicines</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>You are currently on medicine's page</h1>
+    <h3>Medicines</h3>
+    {% for meds in medicines %}
+    <h5>Medicine name - {{meds.name}}</h5>
+    <h5>Medicine price - {{meds.price}}</h5>
+    <h5>Medicine brand - {{meds.brand}}</h5>
+    <h5>Medicine Side Effects - {{meds.side_effects}}</h5>
+    <h5>Medicine Description - {{meds.description}}</h5>
+    <a class="btn btn-primary" type="button" href="/medicine/{{meds.code}}" >more details</a>
+    <h5>--------------------------------</h5>
+    {% endfor %}
+</div>
+{% endblock %}

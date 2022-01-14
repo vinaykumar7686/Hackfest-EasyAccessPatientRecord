@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Medicines</title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>You are currently on medicine's page</h1>
+    <h3>Medicines</h3>
+    <h5>Medicine name - {{meds.name}}</h5>
+    <h5>Medicine price - {{meds.price}}</h5>
+    <h5>Medicine brand - {{meds.brand}}</h5>
+    <h5>Medicine Side Effects - {{meds.side_effects}}</h5>
+    <h5>Medicine Description - {{meds.description}}</h5>
+    <h3>Medicine preperation</h3>
+
+    <h5>Medicine Salt - {{prep.substance_name}}</h5>    
+    <h5>Salt state - {{prep.form}}</h5>    
+    <h5>Salt quantity - {{prep.strength_unit}}</h5>    
+</div>
+{% endblock %}

@@ -220,3 +220,13 @@ def doc_info(request):
     # return HttpResponse("Done")
     doctors = DoctorProfile.objects.all()
     return render(request, 'doc_info.html', {'doctors':doctors})
+
+def view_all_meds(request):
+    meds = Medicines.objects.all()
+    return render(request, 'view_all_meds.html', {'medicines':meds})
+
+def view_one_med(request, id):
+    meds = Medicines.objects.filter(code=id)[0]
+    preparation = Preparation.objects.filter(medicine_id=id)[0]
+    context={'meds':meds, 'prep':preparation}
+    return render(request, 'view_one_med.html',context)
