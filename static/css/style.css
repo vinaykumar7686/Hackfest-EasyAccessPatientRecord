@@ -56,6 +56,13 @@ p {
   line-height: 30px;
 }
 
+label{
+  font-family: "Exo", sans-serif;
+  font-weight: 700;
+  color: #222;
+  font-size: 1.25rem;
+}
+
 .navbar-toggle .icon-bar {
   background: #223a66;
 }
@@ -467,6 +474,13 @@ a:focus {
   position: relative;
 }
 
+.bg-3{
+  background: url("../images/bg/24.png") no-repeat 50% 50%;
+  background-size: cover;
+  position: relative;
+}
+
+
 .banner {
   position: relative;
   overflow: hidden;
@@ -505,6 +519,11 @@ a:focus {
   height: 5px;
   background: #e12454;
 }
+
+#remdiv{
+  display:none;
+}
+
 
 @media (max-width: 480px) {
   .banner .block h1 {
@@ -772,6 +791,10 @@ a:focus {
 
 .doctor-inner-box .doctor-profile .doctor-img {
   transition: all .35s ease;
+}
+
+.img-rnd{
+  border-radius:5%;
 }
 
 .doctor-inner-box .doctor-profile .doctor-img:hover {
@@ -1496,4 +1519,3 @@ a:focus {
   opacity: 1;
 }
 
-/*# sourceMappingURL=maps/style.css.map */
