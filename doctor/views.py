@@ -151,12 +151,13 @@ def view_prescription(request):
         'prescription_details': prescription,
         'medication_data':[]
         }
-    i=0
+    
     for med_order in medication_orders:
-        authorization = Authorisation_details.objects.filter(medication_id=med_order.medication_id)
-        med_timing = Medication_timing.objects.filter(medication_id=med_order.medication_id)
-        repetation = Repetation.objects.filter(medication_id=med_order.medication_id)
-        med_safety = Medication_safety.objects.filter(medication_id=med_order.medication_id)
+        authorization = Authorisation_details.objects.filter(medication_id=med_order.medication_id)[0]
+        med_timing = Medication_timing.objects.filter(medication_id=med_order.medication_id)[0]
+        repetation = Repetation.objects.filter(medication_id=med_order.medication_id)[0]
+        med_safety = Medication_safety.objects.filter(medication_id=med_order.medication_id)[0]
+        medicine_details = Medicines.objects.filter(code = med_order.medicine_code)[0]
         # print(med_order)
         # print(authorization)
         # print(med_timing)
@@ -171,7 +172,6 @@ def view_prescription(request):
             'med_safety': med_safety
             }
         prescription_data['medication_data'].append(medication_data)
-        i+=1
 
     '''
     # This is the JSON response that the front end will recieve
@@ -182,18 +182,18 @@ def view_prescription(request):
      [
         {
             'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>,
-            'authorization': <QuerySet [<Authorisation_details: Paracetamol is allowed 3 times>]>,
-            'med_timing': <QuerySet [<Medication_timing: Timing of Paracetamol>]>,
-            'repetation': <QuerySet [<Repetation: Paracetamol medicine is continued for  12 days>]>,
-            'med_safety': <QuerySet [<Medication_safety: Safety with Paracetamol>]>
+            'authorization': <Authorisation_details: Paracetamol is allowed 3 times>>,
+            'med_timing': <Medication_timing: Timing of Paracetamol>,
+            'repetation': <Repetation: Paracetamol medicine is continued for  12 days>,
+            'med_safety': <Medication_safety: Safety with Paracetamol>
 
        },
         {
             'medication_order': <Medication_order: aspirin prescribed by Dr. Vinay Kumar>, 
-            'authorization': <QuerySet [<Authorisation_details: aspirin is allowed 3 times>]>,
-            'med_timing': <QuerySet [<Medication_timing: Timing of aspirin>]>,
-            'repetation': <QuerySet [<Repetation: aspirin medicine is continued for  12 days>]>,
-            'med_safety': <QuerySet [<Medication_safety: Safety with aspirin>]>
+            'authorization': <Authorisation_details: aspirin is allowed 3 times>,
+            'med_timing': <Medication_timing: Timing of aspirin>,
+            'repetation': <Repetation: aspirin medicine is continued for  12 days>,
+            'med_safety': <Medication_safety: Safety with aspirin>
 
        }
     ]

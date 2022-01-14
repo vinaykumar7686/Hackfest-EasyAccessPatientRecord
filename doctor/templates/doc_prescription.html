@@ -10,17 +10,92 @@
 <h3>Prescription Details</h3>
 
 
-prescription_id : {{prescription_details.prescription_id}}<br><br>
-date : {{prescription_details.date}}<br><br>
-nextVisit : {{prescription_details.nextVisit }}<br><br>
-reason : {{prescription_details.reason}}<br><br>
-doctors_notes : {{prescription_details.doctors_notes }}<br><br>
-patient_id : {{prescription_details.patient_id}}<br><br>
-doctor_id : {{prescription_details.doctor_id}}<br><br>
+<div>prescription_id : {{prescription_details.prescription_id}}</div>
+<br>
+<div>patient_id : {{prescription_details.patient_id}}</div>
+<br>
+<div>doctor_id : {{prescription_details.doctor_id}}</div>
+<br>
+<div>date : {{prescription_details.date}}</div>
+<br>
+<div>nextVisit : {{prescription_details.nextVisit }}</div>
+<br>
+<div>reason : {{prescription_details.reason}}</div>
+<br>
+<div>doctors_notes : {{prescription_details.doctors_notes }}</div>
+<br><br>
 
-{% for medication_order in medication_data %}
+{% for data in medication_data %}
 
-Medication order: {{medication_order}}
+<h2>Medication order</h2>
+<br><br>
+medication_id : {{data.medication_order.medication_id}}
+<br>
+medication_unit : {{data.medication_order.medication_unit}}
+<br>
+prescription_id : {{data.medication_order.prescription_id}}
+<br>
+medicine_code : {{data.medication_order.medicine_code}}
+<br>
+<br>
+
+<h3>Medication Timing</h3>
+<br>
+ medication_timing_id: {{data.med_timing.medication_timing_id}}
+<br>
+ morning: {{data.med_timing.morning}}
+<br>
+ afternoon: {{data.med_timing.afternoon}}
+<br>
+ evening: {{data.med_timing.evening}}
+<br>
+ night: {{data.med_timing.night}}
+<br>
+ medication_id: {{data.med_timing.medication_id}}
+<br>
+<br>
+
+<h3>Medication Repetations</h3>
+<br>
+ repetation_id: {{data.repetation.repetation_id}}
+<br>
+ start_date: {{data.repetation.start_date}}
+<br>
+ end_date: {{data.repetation.end_date}}
+<br>
+ repetation_interval: {{data.repetation.repetation_interval}}
+<br>
+ medication_id: {{data.repetation.medication_id}}
+<br>
+<br>
+
+<h3>Medication Safety</h3>
+<br>
+ medication_safety_id: {{data.med_safety.medication_safety_id}}
+<br>
+ max_dose_per_period: {{data.med_safety.max_dose_per_period}}
+<br>
+ override_reason: {{data.med_safety.override_reason}}
+<br>
+ medication_id: {{data.med_safety.medication_id}}
+<br>
+<br>
+
+<h3>Authorisation Details</h3>
+<br>
+ authorization_id: {{data.authorization.authorization_id}}
+<br>
+ number_of_repeats_allowed: {{data.authorization.number_of_repeats_allowed}}
+<br>
+ validity_period: {{data.authorization.validity_period}}
+<br>
+ medication_id: {{data.authorization.medication_id}}
+<br>
+<br>
+
+
+
+<hr>
 {% endfor %}
 
 <div class="container">
@@ -44,18 +119,18 @@ prescription_data = {
      [
         {
             'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>,
-            'authorization': <QuerySet [<Authorisation_details: Paracetamol is allowed 3 times>]>,
-            'med_timing': <QuerySet [<Medication_timing: Timing of Paracetamol>]>,
-            'repetation': <QuerySet [<Repetation: Paracetamol medicine is continued for  12 days>]>,
-            'med_safety': <QuerySet [<Medication_safety: Safety with Paracetamol>]>
+            'authorization': <Authorisation_details: Paracetamol is allowed 3 times>>,
+            'med_timing': <Medication_timing: Timing of Paracetamol>,
+            'repetation': <Repetation: Paracetamol medicine is continued for  12 days>,
+            'med_safety': <Medication_safety: Safety with Paracetamol>
 
        },
         {
             'medication_order': <Medication_order: aspirin prescribed by Dr. Vinay Kumar>, 
-            'authorization': <QuerySet [<Authorisation_details: aspirin is allowed 3 times>]>,
-            'med_timing': <QuerySet [<Medication_timing: Timing of aspirin>]>,
-            'repetation': <QuerySet [<Repetation: aspirin medicine is continued for  12 days>]>,
-            'med_safety': <QuerySet [<Medication_safety: Safety with aspirin>]>
+            'authorization': <Authorisation_details: aspirin is allowed 3 times>,
+            'med_timing': <Medication_timing: Timing of aspirin>,
+            'repetation': <Repetation: aspirin medicine is continued for  12 days>,
+            'med_safety': <Medication_safety: Safety with aspirin>
 
        }
     ]
