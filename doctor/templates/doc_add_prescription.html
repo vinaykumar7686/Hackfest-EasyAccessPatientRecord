@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Prescription-Add</title>
+{% endblock %}
+
+{% block body %}
+
+<form action="/" method="" >
+    <h1> --------Doctor Prescription ----------</h1>
+<div>
+    <label for="date">Date: </label>
+    <input id="date" type="date" name="date">
+</div>
+<div>
+    <label for="nextvisit"> Next Visit </label>
+    <input id="nextvisit" type="date" name="nextVisit">
+</div>
+<div>
+    <label for="reason"> Reason: </label>
+    <input id="reason" type="text" name="reason">
+</div>
+<div>
+    <label for="doc_notes">Doctor Notes: </label>
+    <input id="doc_notes" type="text" name="doc_notes">
+</div>
+<div>
+    <label for="patient">Choose Patient: </label>
+
+    <select name="patient" id="patient" width=100px>
+        {% for patient in patients %}
+        <option value="{{ patient.patient_id }}">{{ patient.patient_name }}</option>
+        {% endfor %}
+    </select>
+</div>
+<div>
+    <label for="doctor">Choose Doctor: </label>
+
+    <select name="doctor" id="doctor" width=100px>
+        {% for doctor in doctors %}
+        <option value="{{ doctor.doctor_id }}">{{ doctor.doctor_name }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+
+    
+    <input type="button" value="Add Medicine" id='add_meds' onclick="addMeds()">
+    <div id = 'formfields'>
+
+    </div>
+    <input type="submit">
+</form>
+<script>
+    var reps = 0;
+    function addMeds() {
+        reps++;
+    
+        
+    var form_html = `
+    <div id = 'addfield'>
+
+
+
+<h2>------Medication Order-------</h2>
+<div>
+    <label for="doctor">Medicine: </label>
+
+    <select name="doctor" id="doctor" width=100px>
+        {% for medicine in medicines %}
+        <option value="{{ medicine.name }}">{{ medicine.name }}</option>
+        {% endfor %}
+    </select>
+</div>
+
+<br><br>
+
+
+<h4>------Medication Timing-------</h4>
+<div>
+    <label for="morning"> Morning: </label>
+    <input type="checkbox" name="morning" id="morning">
+</div>
+<div>
+    <label for="afternoon"> Afternoon: </label>
+    <input type="checkbox" name="afternoon" id="afternoon">
+</div>
+<div>
+    <label for="evening">Evening: </label>
+    <input type="checkbox" name="evening" id="evening">
+</div>
+<div>
+    <label for="night">Night: </label>
+    <input type="checkbox" name="night" id="night">
+</div>
+
+<br><br>
+<h4>------Repetation-------</h4>
+<div>
+    <label for="start_date"> Start Date: </label>
+    <input id="start_date" type="date" name="start_date">
+</div>
+<div>
+    <label for="end_date"> End Date: </label>
+    <input id="end_date" type="date" name="end_date">
+</div>
+<div>
+    <label for="repetation_interval">Repetation Interval: </label>
+    <input id="repetation_interval" type="text" name="repetation_interval">
+</div>
+
+<br><br>
+
+<h4>------ Authorisation Details -------</h4>
+<div>
+    <label for="number_of_repeats_allowed"> No of Repeats: </label>
+    <input id="number_of_repeats_allowed" type="number" name="repeats_allowed">
+</div>
+<div>
+    <label for="validity_period"> Validity Period: </label>
+    <input id="validity_period" type="date" name="validity_period">
+</div>
+
+<br><br>
+<h4>------Medication Safety-------</h4>
+<div>
+    <label for="max_dose_per_period"> Max Dose Per Period: </label>
+    <input id="max_dose_per_period" type="number" name="max_dose_per_period">
+</div>
+<div>
+    <label for="override_reason"> Override Reason: </label>
+    <input id="override_reason" type="text" name="override_reason">
+</div>
+
+<br><br>
+
+</div>
+    `
+    console.log("this is running");
+    var field = document.getElementById('formfields');
+
+    field.insertAdjacentHTML('afterend', form_html)
+    }
+</script>
+{% endblock %}
+
