@@ -1,5 +1,6 @@
 from .forms import RegForm, MedicalInfoForm
 from django.shortcuts import render,redirect
+from patient.models import *
 
 # Create your views here.
 def pat_homepage(request):
@@ -26,5 +27,8 @@ def pat_medicalForm(request):
     context = {'form': form}
     return render(request, 'pat_medicalForm.html', context)
 
-def pat_info(request):
-    return render(request, 'pat_info.html')
+def pat_info(request, id):
+    patient_info = PatientProfile.objects.filter(patient_id = id)[0]
+    pat_med_info = MedicalInfo.objects.filter(patient_id = id)[0]
+
+    return render(request, 'pat_info.html', {'patient_info': patient_info, 'pat_med_info': pat_med_info})
