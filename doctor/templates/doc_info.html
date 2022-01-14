@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Homepage-Doctor</title>
+{% endblock %}
+{% block body %}
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block text-center">
+                    <span class="text-white">All Doctors</span>
+                    <h1 class="text-capitalize mb-5 text-lg">Specalized doctors</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section doctors">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="section-title">
+                    <h2>Doctors</h2>
+                    <div class="divider mx-auto my-4"></div>
+                    <p>We provide a wide range of doctors specialised in a host of departments because you deserve
+                        only the best.</p>
+                    </div>
+                </div>
+            </div>
+
+            {% for doc in doctors %}
+            <div class="row shuffle-wrapper portfolio-gallery">
+                <div class="col-lg-3 col-sm-6 col-md-6 mb-4 shuffle-item">
+                    <div class="position-relative doctor-inner-box">
+                        <div class="doctor-profile">
+                            <div class="doctor-img">
+                                <img src="/static/images/1.jpg" alt="doctor-image" class="img-fluid w-100 img-rnd">
+                            </div>
+                        </div>
+                        <div class="content mt-3">
+                            <h4 class="mb-0"><a>{{doc.doctor_name}}</a></h4>
+                            <!-- <p>{{dept.department_name}}</p> -->
+                            <a>{{doc.email}}</a>
+                            <p>{{doc.phone_num}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section class="section cta-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="cta-content">
+                        <div class="divider mb-4"></div>
+                        <h2 class="mb-5 text-lg">We are pleased to offer you the <span class="title-color">chance to
+                            have a healthy life.</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
