@@ -160,7 +160,6 @@ def view_prescription(request):
         }
     
     for med_order in medication_orders:
-        print(med_order.medicine_code)
         authorization = Authorisation_details.objects.filter(medication_id=med_order.medication_id)[0]
         med_timing = Medication_timing.objects.filter(medication_id=med_order.medication_id)[0]
         repetation = Repetation.objects.filter(medication_id=med_order.medication_id)[0]
@@ -206,4 +205,32 @@ def view_prescription(request):
     return render(request,'doc_prescription.html', prescription_data)
 
     
-        
+def doc_info(request):
+    # dept = Department.objects.all()[0]
+    # doctors = DoctorProfile.objects.filter(department = dept.department_id)
+    # doctor_detail = {
+    #     'dept':dept,
+    #     'doctors':[]
+    # }
+    # print(doctors)
+    # print('-----------------------')
+    # for doc in doctors:
+    #     docProfile = DoctorProfile.objects.filter(department=doc.department_id)[0]
+    #     doctors={
+    #         'docProfile':docProfile
+    #     }       
+    #     doctor_detail['doctors'].append(doctors)
+    # return render(request, 'doc_info.html',{'doctors':doctors})
+    # return HttpResponse("Done")
+    doctors = DoctorProfile.objects.all()
+    return render(request, 'doc_info.html', {'doctors':doctors})
+
+def view_all_meds(request):
+    meds = Medicines.objects.all()
+    return render(request, 'view_all_meds.html', {'medicines':meds})
+
+def view_one_med(request, id):
+    meds = Medicines.objects.filter(code=id)[0]
+    preparation = Preparation.objects.filter(medicine_id=id)[0]
+    context={'meds':meds, 'prep':preparation}
+    return render(request, 'view_one_med.html',context)

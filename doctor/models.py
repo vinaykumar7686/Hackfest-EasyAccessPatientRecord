@@ -22,7 +22,7 @@ class DoctorProfile(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.doctor_name
+        return str(self.doctor_name)
     
     def get_doctor_by_email(email):
         try:
