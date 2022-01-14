@@ -25,3 +25,6 @@ def pat_medicalForm(request):
             return redirect('pat_homepage')
     context = {'form': form}
     return render(request, 'pat_medicalForm.html', context)
+
+def pat_info(request):
+    return render(request, 'pat_info.html')
