@@ -39,6 +39,22 @@ medicine_code : {{data.medication_order.medicine_code}}
 <br>
 <br>
 
+<h3>Medicine Details</h3>
+<br>
+ code: {{data.medicine_details.code}}
+<br>
+ name: {{data.medicine_details.name}}
+<br>
+ price: {{data.medicine_details.price}}
+<br>
+ brand: {{data.medicine_details.brand}}
+<br>
+ side_effects: {{data.medicine_details.side_effects}}
+<br>
+ description: {{data.medicine_details.description}}
+<br>
+<br>
+
 <h3>Medication Timing</h3>
 <br>
  medication_timing_id: {{data.med_timing.medication_timing_id}}
@@ -105,33 +121,25 @@ medicine_code : {{data.medication_order.medicine_code}}
 
 
 
-<!--
-prescription_data = {
-        'prescription_details': prescription,
-        'medication_data':[]
-        }
-    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-    {
+<!-- {
     'prescription_details': <DoctorPrescription: Dinesh Sharma is assigned to Dr. Vinay Kumar>,
-     'medication_data': 
-     [
+    'medication_data': 
+    [
         {
-            'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>,
-            'authorization': <Authorisation_details: Paracetamol is allowed 3 times>>,
-            'med_timing': <Medication_timing: Timing of Paracetamol>,
-            'repetation': <Repetation: Paracetamol medicine is continued for  12 days>,
-            'med_safety': <Medication_safety: Safety with Paracetamol>
-
-       },
+            'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>, 
+            'authorization': <Authorisation_details: Paracetamol is allowed 3 times>, 
+            'med_timing': <Medication_timing: Timing of Paracetamol>, 
+            'repetation': <Repetation: Paracetamol medicine is continued for  12 days>, 
+            'med_safety': <Medication_safety: Safety with Paracetamol>, 
+            'medicine_details': <Medicines: Paracetamol>
+        },
         {
             'medication_order': <Medication_order: aspirin prescribed by Dr. Vinay Kumar>, 
-            'authorization': <Authorisation_details: aspirin is allowed 3 times>,
-            'med_timing': <Medication_timing: Timing of aspirin>,
-            'repetation': <Repetation: aspirin medicine is continued for  12 days>,
-            'med_safety': <Medication_safety: Safety with aspirin>
-
-       }
+            'authorization': <Authorisation_details: aspirin is allowed 3 times>, 
+            'med_timing': <Medication_timing: Timing of aspirin>, 
+            'repetation': <Repetation: aspirin medicine is continued for  12 days>, 
+            'med_safety': <Medication_safety: Safety with aspirin>, 
+            'medicine_details': <Medicines: aspirin>
+        }
     ]
 } -->

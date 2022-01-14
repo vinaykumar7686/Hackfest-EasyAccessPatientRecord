@@ -153,23 +153,19 @@ def view_prescription(request):
         }
     
     for med_order in medication_orders:
+        print(med_order.medicine_code)
         authorization = Authorisation_details.objects.filter(medication_id=med_order.medication_id)[0]
         med_timing = Medication_timing.objects.filter(medication_id=med_order.medication_id)[0]
         repetation = Repetation.objects.filter(medication_id=med_order.medication_id)[0]
         med_safety = Medication_safety.objects.filter(medication_id=med_order.medication_id)[0]
-        medicine_details = Medicines.objects.filter(code = med_order.medicine_code)[0]
-        # print(med_order)
-        # print(authorization)
-        # print(med_timing)
-        # print(repetation)
-        # print(med_safety)
-        # print('-----------------------------------')
+        medicine_details = Medicines.objects.filter(name = med_order.medicine_code)[0]
         medication_data = {
             'medication_order': med_order,
             'authorization': authorization,
             'med_timing': med_timing,
             'repetation': repetation,
-            'med_safety': med_safety
+            'med_safety': med_safety,
+            'medicine_details': medicine_details
             }
         prescription_data['medication_data'].append(medication_data)
 
@@ -178,24 +174,24 @@ def view_prescription(request):
     
     {
     'prescription_details': <DoctorPrescription: Dinesh Sharma is assigned to Dr. Vinay Kumar>,
-     'medication_data': 
-     [
+    'medication_data': 
+    [
         {
-            'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>,
-            'authorization': <Authorisation_details: Paracetamol is allowed 3 times>>,
-            'med_timing': <Medication_timing: Timing of Paracetamol>,
-            'repetation': <Repetation: Paracetamol medicine is continued for  12 days>,
-            'med_safety': <Medication_safety: Safety with Paracetamol>
-
-       },
+            'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>, 
+            'authorization': <Authorisation_details: Paracetamol is allowed 3 times>, 
+            'med_timing': <Medication_timing: Timing of Paracetamol>, 
+            'repetation': <Repetation: Paracetamol medicine is continued for  12 days>, 
+            'med_safety': <Medication_safety: Safety with Paracetamol>, 
+            'medicine_details': <Medicines: Paracetamol>
+        },
         {
             'medication_order': <Medication_order: aspirin prescribed by Dr. Vinay Kumar>, 
-            'authorization': <Authorisation_details: aspirin is allowed 3 times>,
-            'med_timing': <Medication_timing: Timing of aspirin>,
-            'repetation': <Repetation: aspirin medicine is continued for  12 days>,
-            'med_safety': <Medication_safety: Safety with aspirin>
-
-       }
+            'authorization': <Authorisation_details: aspirin is allowed 3 times>, 
+            'med_timing': <Medication_timing: Timing of aspirin>, 
+            'repetation': <Repetation: aspirin medicine is continued for  12 days>, 
+            'med_safety': <Medication_safety: Safety with aspirin>, 
+            'medicine_details': <Medicines: aspirin>
+        }
     ]
 }
     '''
