@@ -87,10 +87,10 @@ def add_prescription(request):
 
         # +++++++++Adding Medication Order
         # medicines = Medicines.objects.all()[:2] #filter(code = 1)[0:2]
-        no_of_medicines = int(form_data.get('med_counter'))
-        for i in range(no_of_medicines):
-
-            medicine = Medicines.objects.filter(name = form_data.get(f'medicine{i}'))
+        no_of_medicines = int(form_data.get('medcounter'))
+        for i in range(1,no_of_medicines+1):
+            print(i,form_data.get(f'medicine{i}'))
+            medicine = Medicines.objects.filter(name = form_data.get(f'medicine{i}'))[0]
 
             medication_order = Medication_order(
             medication_unit = 10,
@@ -109,27 +109,27 @@ def add_prescription(request):
 
             # ++++++++++ Adding Medication_timing
             medication_timing = Medication_timing(
-                morning = False,
-                afternoon = True,
-                evening = True,
-                night = True,
+                morning = True if form_data.get(f'morning{i}') == 'on' else False,
+                afternoon = True if form_data.get(f'afternoon{i}') == 'on' else False,
+                evening = True if form_data.get(f'evening{i}') == 'on' else False,
+                night = True if form_data.get(f'night{i}') == 'on' else False,
                 medication_id = medication_order
             )
             medication_timing.save()
 
             # +++++++++++ Adding Repetations
             repetation = Repetation(
-                start_date = '1999-05-12',
-                end_date = '1999-05-12',
-                repetation_interval = '12',
+                start_date = form_data.get(f'start_date{i}'),
+                end_date = form_data.get(f'end_date{i}'),
+                repetation_interval = form_data.get(f'repetation_interval{i}'),
                 medication_id = medication_order
             )
             repetation.save()
 
             # +++++++++++ Adding Medication_safety
             medication_safety = Medication_safety(
-                max_dose_per_period = 5,
-                override_reason = 'Nothing',
+                max_dose_per_period = form_data.get(f'max_dose_per_period{i}'),
+                override_reason = form_data.get(f'override_reason{i}'),
                 medication_id = medication_order
             )
             medication_safety.save()
@@ -137,7 +137,7 @@ def add_prescription(request):
             print((f'{medicine.name} added Successfully!'))
 
         print(('Data Posted Successfully!'))
-        return HttpResponse('Data Posted Successfully!') 
+        return redirect('/doctor/')
 
     else:
         doctors = DoctorProfile.objects.all()
@@ -175,32 +175,6 @@ def view_prescription(request):
             }
         prescription_data['medication_data'].append(medication_data)
 
-    '''
-    # This is the JSON response that the front end will recieve
-    
-    {
-    'prescription_details': <DoctorPrescription: Dinesh Sharma is assigned to Dr. Vinay Kumar>,
-    'medication_data': 
-    [
-        {
-            'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>, 
-            'authorization': <Authorisation_details: Paracetamol is allowed 3 times>, 
-            'med_timing': <Medication_timing: Timing of Paracetamol>, 
-            'repetation': <Repetation: Paracetamol medicine is continued for  12 days>, 
-            'med_safety': <Medication_safety: Safety with Paracetamol>, 
-            'medicine_details': <Medicines: Paracetamol>
-        },
-        {
-            'medication_order': <Medication_order: aspirin prescribed by Dr. Vinay Kumar>, 
-            'authorization': <Authorisation_details: aspirin is allowed 3 times>, 
-            'med_timing': <Medication_timing: Timing of aspirin>, 
-            'repetation': <Repetation: aspirin medicine is continued for  12 days>, 
-            'med_safety': <Medication_safety: Safety with aspirin>, 
-            'medicine_details': <Medicines: aspirin>
-        }
-    ]
-}
-    '''
     print(prescription_data)
     return render(request,'doc_prescription.html', prescription_data)
 
@@ -234,3 +208,56 @@ def view_one_med(request, id):
     preparation = Preparation.objects.filter(medicine_id=id)[0]
     context={'meds':meds, 'prep':preparation}
     return render(request, 'view_one_med.html',context)
+
+
+
+#========> Form Response
+# {'csrfmiddlewaretoken': ['9UGllsw3J0T8pw2UUXrRMFOci3VHsYtoBA2fbn0wZIVcYql6jlNWcZtS0iUGC2fi'
+#     ], 'date': ['2022-01-29'
+#     ], 'nextVisit': ['2022-01-20'
+#     ], 'reason': ['Reason'
+#     ], 'doc_notes': [' Doctor Notes'
+#     ], 'patient': ['1'
+#     ], 'doctor': ['1'
+#     ], 'medicine1': ['Paracetamol'
+#     ], 'morning1': ['on'
+#     ], 'afternoon1': ['on'
+#     ], 'evening1': ['on'
+#     ], 'night1': ['on'
+#     ], 'start_date1': ['2022-01-27'
+#     ], 'end_date1': ['2022-01-29'
+#     ], 'repetation_interval1': [' Repitition Interval'
+#     ], 'repeats_allowed1': ['8'
+#     ], 'validity_period1': ['2022-01-28'
+#     ], 'max_dose_per_period1': ['5'
+#     ], 'override_reason1': ['Override Reason'
+#     ], 'submit': ['Submit'
+#     ]
+# }
+
+'''
+    # This is the JSON response that the front end will recieve
+    
+    {
+    'prescription_details': <DoctorPrescription: Dinesh Sharma is assigned to Dr. Vinay Kumar>,
+    'medication_data': 
+    [
+        {
+            'medication_order': <Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>, 
+            'authorization': <Authorisation_details: Paracetamol is allowed 3 times>, 
+            'med_timing': <Medication_timing: Timing of Paracetamol>, 
+            'repetation': <Repetation: Paracetamol medicine is continued for  12 days>, 
+            'med_safety': <Medication_safety: Safety with Paracetamol>, 
+            'medicine_details': <Medicines: Paracetamol>
+        },
+        {
+            'medication_order': <Medication_order: aspirin prescribed by Dr. Vinay Kumar>, 
+            'authorization': <Authorisation_details: aspirin is allowed 3 times>, 
+            'med_timing': <Medication_timing: Timing of aspirin>, 
+            'repetation': <Repetation: aspirin medicine is continued for  12 days>, 
+            'med_safety': <Medication_safety: Safety with aspirin>, 
+            'medicine_details': <Medicines: aspirin>
+        }
+    ]
+}
+    '''

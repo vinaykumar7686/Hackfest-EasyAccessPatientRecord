@@ -27,6 +27,7 @@ def pat_medicalForm(request):
     context = {'form': form}
     return render(request, 'pat_medicalForm.html', context)
 
+
 def pat_info(request, id):
     patient_info = PatientProfile.objects.filter(patient_id = id)[0]
     pat_med_info = MedicalInfo.objects.filter(patient_id = id)[0]
