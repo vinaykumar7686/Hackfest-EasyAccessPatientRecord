@@ -1,9 +1,211 @@
 {% extends "base.html" %}
 
 {% block head %}
-<title>EAPR-Hompage</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="description" content="Orbitor,business,company,agency,modern,bootstrap4,tech,software">
+	<meta name="author" content="themefisher.com">
+
+	<title>H-EAPR</title>
+
+	<!-- Favicon -->
+	<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
+
+	<!-- bootstrap.min css -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+	 <!-- Icon Font Css -->
+	 <link rel="stylesheet" href="css/icofont.min.css">
+
+	<!-- Main Stylesheet -->
+	<link rel="stylesheet" href="css/style.css">
+
 {% endblock %}
 
 {% block body %}
-<h1>THis is EAPR Homepage</h1>
+
+	<div id="top">
+
+		<!-- Slider Start -->
+		<section class="banner">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-12 col-xl-7">
+						<div class="block">
+							<div class="divider mb-3"></div>
+							<span class="text-uppercase text-sm letter-spacing ">Total Health care solution</span>
+							<h1 class="mb-3 mt-3">Your most trusted health partner</h1>
+							
+							<p class="mb-4 pr-5"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="features">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="feature-block d-lg-flex">
+							
+							<div class="feature-item mb-5 mb-lg-0">
+								<div class="feature-icon mb-4">
+									<i class="icofont-surgeon-alt"></i>
+								</div>
+								<span>24 Hours Service</span>
+								<h4 class="mb-3">On-Demand Doctors</h4>
+								<p class="mb-4">Peek into our industry leading professional doctors on demand</p>
+								<a href="#" class="btn btn-main btn-round-full">View Doctors</a>
+							</div>
+						
+							<div class="feature-item mb-5 mb-lg-0">
+								<div class="feature-icon mb-4">
+									<i class="icofont-support"></i>
+								</div>
+								<span>Medical History</span>
+								<h4 class="mb-3">Records On-Demand</h4>
+								<p>View all your previous medical records and prescriptions at the comfort of your home with the use of H-EAPR</p>
+							</div>
+
+							<div class="feature-item mb-5 mb-lg-0">
+								<div class="feature-icon mb-4">
+									<i class="icofont-ui-clock"></i>
+								</div>
+								<span>Medicine Schedule</span>
+								<h4 class="mb-3">Prescriptions</h4>
+								<p class="mb-4">View your prescriptions and be on top of your health by taking your medicines on time</p>
+								<a href="#" class="btn btn-main btn-round-full">View Prescription</a>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<section class="section about">
+			<div class="container">
+				<div class="row align-items-center">
+					<div class="col-lg-4 col-sm-6">
+						<div class="about-img">
+							<img src="images/about/img-1.jpg" alt="" class="img-fluid">
+							<img src="images/about/img-2.jpg" alt="" class="img-fluid mt-4">
+						</div>
+					</div>
+					<div class="col-lg-4 col-sm-6">
+						<div class="about-img mt-4 mt-lg-0">
+							<img src="images/about/img-3.jpg" alt="" class="img-fluid">
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="about-content pl-4 mt-4 mt-lg-0">
+							<h2 class="title-color">Personal care <br>& healthy living</h2>
+							<p class="mt-4 mb-5">We provide best leading medicle services from the edge of keeping a tract of your medication history to being on top of your ongoing precriptions. We got you covered.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		<section class="section service gray-bg">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-lg-7 text-center">
+						<div class="section-title">
+							<h2>Award winning patient care</h2>
+							<div class="divider mx-auto my-4"></div>
+							<p>Lets know more about the various services we offer to you in colaboration with our award winning doctors on site.</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="service-item mb-4">
+							<div class="icon d-flex align-items-center">
+								<i class="icofont-laboratory text-lg"></i>
+								<h4 class="mt-3 mb-3">Laboratory services</h4>
+							</div>
+
+							<div class="content">
+								<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="service-item mb-4">
+							<div class="icon d-flex align-items-center">
+								<i class="icofont-heart-beat-alt text-lg"></i>
+								<h4 class="mt-3 mb-3">Heart Disease</h4>
+							</div>
+							<div class="content">
+								<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="service-item mb-4">
+							<div class="icon d-flex align-items-center">
+								<i class="icofont-tooth text-lg"></i>
+								<h4 class="mt-3 mb-3">Dental Care</h4>
+							</div>
+							<div class="content">
+								<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="service-item mb-4">
+							<div class="icon d-flex align-items-center">
+								<i class="icofont-crutch text-lg"></i>
+								<h4 class="mt-3 mb-3">Body Surgery</h4>
+							</div>
+
+							<div class="content">
+								<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="service-item mb-4">
+							<div class="icon d-flex align-items-center">
+								<i class="icofont-brain-alt text-lg"></i>
+								<h4 class="mt-3 mb-3">Neurology Sargery</h4>
+							</div>
+							<div class="content">
+								<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-lg-4 col-md-6 col-sm-6">
+						<div class="service-item mb-4">
+							<div class="icon d-flex align-items-center">
+								<i class="icofont-dna-alt-1 text-lg"></i>
+								<h4 class="mt-3 mb-3">Gynecology</h4>
+							</div>
+							<div class="content">
+								<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	
+		
+		<!-- 
+		Essential Scripts
+		=====================================-->
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+
+	</div>
+
 {% endblock %}
+   
