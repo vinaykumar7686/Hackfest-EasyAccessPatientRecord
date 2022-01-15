@@ -45,7 +45,6 @@ def pat_register(request):
 @login_required(login_url='/login/')
 @user_passes_test(patient_check, login_url='/login/')
 def pat_medicalForm(request):
-    form = MedicalInfoForm()
     if request.method == 'POST':
         height = request.POST.get('height')
         weight = request.POST.get('weight')
