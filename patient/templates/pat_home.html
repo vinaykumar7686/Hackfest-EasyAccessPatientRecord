@@ -1,90 +1,102 @@
 {% extends "base.html" %}
 
 {% block head %}
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-	<title>H-EAPR</title>
+<title>H-EAPR</title>
 
-	<!-- Favicon -->
-	<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" />
+<!-- Favicon -->
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" />
 
-	<!-- bootstrap.min css -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<!-- bootstrap.min css -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+	integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
 
-	<!-- Main Stylesheet -->
-	<link rel="stylesheet" href="css/style.css">
+<!-- Main Stylesheet -->
+<link rel="stylesheet" href="css/style.css">
 
 {% endblock %}
 {% block body %}
-	<div id="top">
+<div id="top">
 
 
-		<section class="page-title bg-2">
+	<section class="page-title bg-2">
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row">
-			<div class="col-md-12">
-				<div class="block text-center">
-				<h1 class="text-capitalize mb-5 text-lg">Patient</h1>
-				<span class="text-white">Home Page</span>
+				<div class="col-md-12">
+					<div class="block text-center">
+						<h1 class="text-capitalize mb-5 text-lg">Patient</h1>
+						<span class="text-white">Home Page</span>
+					</div>
 				</div>
-			</div>
 			</div>
 		</div>
-		</section>
+	</section>
 
 
-		<!-- portfolio -->
-		<section class="section doctors">
-			<div class="container">
-				<div class="row justify-content-center">
-					<div class="col-lg-6 text-center">
-						<div class="section-title">
-							<p>We provide a wide range of creative services adipisicing elit. Autem maxime rem modi eaque, voluptate. Beatae officiis neque </p>
-						</div>
+	<!-- portfolio -->
+	<section class="section doctors" style="padding-top: 0px;">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 text-center">
+					<div class="section-title">
+						<div class="divider mx-auto my-4"></div>
+						<p>We provide a wide range of creative services adipisicing elit. Autem maxime rem modi eaque,
+							voluptate. Beatae officiis neque </p>
 					</div>
 				</div>
-
-
-
-				<div class="col-12 text-center  mb-5">
-					<div  data-toggle="buttons">
-					<div class="btn">
-						<input type="button" class="btn btn-main" value="View a Doctor" id='add_meds' onclick="location.href='about.html'">
-					</div>
-					<div class="btn">
-						<input type="button" class="btn btn-main" value="View My Prescription" id='add_meds' onclick="location.href='about.html'">
-					</div>
-					<div class="btn">
-						<input type="button" class="btn btn-main" value="Add Medicine" id='add_meds' onclick="location.href='about.html'">
-					</div>
-					</div>
-				</div>
-
-				<div class="row justify-content-center">
-					<div class="col-lg-6 text-center">
-						<div class="section-title subscribe-form text-lg-right mt-5 mt-lg-0">
-							<form action="#" class="subscribe">
-								<input type="text" class="form-control" placeholder="Search here ..">
-								<a href="#" class="btn btn-main-2 btn-round-full">Search</a>
-							</form>
-						</div>
-					</div>
-				</div>
-
 			</div>
-		</section>
 
-		
 
-		<!-- 
+
+			<div class="col-12 text-center  mb-5">
+				<div data-toggle="buttons">
+					<div class="btn">
+						
+						<input type="button" class="btn btn-main" value="View all Registered Doctors" id='add_meds'
+							onclick="location.href='/alldoctors'">
+					</div>
+					<div class="btn">
+						<form action="/patient/info/-99" action = "POST">
+							<input type="button" class="btn btn-main" value="View My Full Medical Profile" id='add_meds'
+							onclick="location.href='/patient/info/1'">
+							<!-- <input type="submit" class="btn btn-main" value="View My Full Medical Profile" id='add_meds'> -->
+						</form>
+						
+					</div>
+					<!-- <div class="btn">
+						<input type="button" class="btn btn-main" value="Add Medicine" id='add_meds' onclick="location.href='about.html'">
+					</div> -->
+				</div>
+			</div>
+
+			<div class="row justify-content-center">
+				<div class="col-lg-6 text-center">
+					<div class="section-title subscribe-form text-lg-right mt-5 mt-lg-0">
+						<form action="#" class="subscribe">
+							<input type="text" class="form-control" placeholder="Search here ..">
+							<a href="#" class="btn btn-main-2 btn-round-full">Search</a>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</section>
+
+
+
+	<!-- 
 		Essential Scripts
 		=====================================-->
 
-		<!-- Bootstrap 4.6.0 -->
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
- 
-		
-        </div>
-        {% endblock %}
+	<!-- Bootstrap 4.6.0 -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+		integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+		crossorigin="anonymous"></script>
+
+
+</div>
+{% endblock %}

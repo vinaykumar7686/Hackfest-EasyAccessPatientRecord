@@ -94,7 +94,7 @@
 
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <h5 class="mb-2">&nbsp;Patient Id </h5>
+                                    <h5 class="mb-2">&nbsp;Patient </h5>
                                     <select name="patient" id="patient" class="form-control">
                                         {% for patient in patients %}
                                         <option value="{{ patient.patient_id }}">{{ patient.patient_name }}</option>
@@ -105,7 +105,7 @@
 
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <h5 class="mb-2">&nbsp;Doctor Id </h5>
+                                    <h5 class="mb-2">&nbsp;Doctor </h5>
                                     <select name="doctor" id="doctor" class="form-control">
                                         {% for doctor in doctors %}
                                         <option value="{{ doctor.doctor_id }}">{{ doctor.doctor_name }}</option>

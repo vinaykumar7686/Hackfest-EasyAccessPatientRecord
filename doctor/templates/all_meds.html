@@ -5,17 +5,61 @@
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <h1>You are currently on medicine's page</h1>
-    <h3>Medicines</h3>
-    {% for meds in medicines %}
-    <h5>Medicine name - {{meds.name}}</h5>
-    <h5>Medicine price - {{meds.price}}</h5>
-    <h5>Medicine brand - {{meds.brand}}</h5>
-    <h5>Medicine Side Effects - {{meds.side_effects}}</h5>
-    <h5>Medicine Description - {{meds.description}}</h5>
-    <a class="btn btn-primary" type="button" href="/medicine/{{meds.code}}" >more details</a>
-    <h5>--------------------------------</h5>
-    {% endfor %}
-</div>
+<section class="page-title bg-3">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block text-center">
+                    <h1 class="text-capitalize mb-5 text-lg">All Medicinal Information</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section department-single">
+    <div class="container">
+        {% for meds in medicines %}
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="department-content sidebars-widget schedules-widget mt-5">
+                    <h5 class="text-md">Details</h5>
+                    <div class="divider my-4"></div>
+                    <ul class="list-unstyled">
+                        <li class="d-flex justify-content-between align-items-center">
+                            <a>Medicine Name&nbsp;:&nbsp;&nbsp;</a>
+                            <span>{{meds.name}}</span>
+                        </li>
+                        <br>
+                        <li class="d-flex justify-content-between align-items-center">
+                            <a>Medicine Price&nbsp;:&nbsp;&nbsp;</a>
+                            <span>{{meds.price}}</span>
+                        </li>
+                        <br>
+                        <li class="d-flex justify-content-between align-items-center">
+                            <a>Medicine Brand&nbsp;:&nbsp;&nbsp;</a>
+                            <span>{{meds.brand}}</span>
+                        </li>
+                        <br>
+                        <li class="d-flex justify-content-between align-items-center">
+                            <a>Medicine Side Effects&nbsp;:&nbsp;&nbsp;</a>
+                            <span>{{meds.side_effects}}</span>
+                        </li>
+                        <br>
+                        <li class="d-flex justify-content-between align-items-center">
+                            <a>Medicine Description&nbsp;:&nbsp;&nbsp;</a>
+                            <span>{{meds.description}}</span>
+                        </li>
+                    </ul>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="my-4">
+            <input type="button" class="btn btn-main" value="View Details" id='add_meds'
+                onclick="location.href='/medicine/{{meds.code}}'">
+        </div>
+        {% endfor %}
+    </div>
+</section>
 {% endblock %}

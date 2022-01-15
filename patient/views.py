@@ -2,10 +2,17 @@ from .forms import RegForm, MedicalInfoForm
 from django.shortcuts import render,redirect
 from patient.models import *
 from doctor.models import *
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+def patient_check(user):
+    return not user.is_doctor
 
 # Create your views here.
+@login_required(login_url='/login/')
+@user_passes_test(patient_check, login_url='/login/')
 def pat_homepage(request):
     return render(request=request, template_name='pat_home.html')
+
 
 def pat_register(request):
     form = RegForm()
@@ -17,7 +24,8 @@ def pat_register(request):
     context = {'form': form}
     return render(request, 'pat_register.html', context)
 
-
+@login_required(login_url='/login/')
+@user_passes_test(patient_check, login_url='/login/')
 def pat_medicalForm(request):
     form = MedicalInfoForm()
     if request.method == 'POST':
@@ -28,7 +36,7 @@ def pat_medicalForm(request):
     context = {'form': form}
     return render(request, 'pat_medicalForm.html', context)
 
-
+@login_required(login_url='/login/')
 def pat_info(request, id):
     patient_info = PatientProfile.objects.filter(patient_id = id)[0]
     pat_med_info = MedicalInfo.objects.filter(patient_id = id)[0]
@@ -54,7 +62,4 @@ def pat_info(request, id):
 
         i+=1
     print(data)
-
-    
-
     return render(request, 'pat_info.html', {'patient_info': patient_info, 'pat_med_info': pat_med_info, 'data': data})

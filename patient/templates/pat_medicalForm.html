@@ -3,12 +3,111 @@
 {% block head %}
 <title>Patient-Medical-Form</title>
 
+
 {% endblock %} 
 
 {% block body %}
 <form action="" method="post">
   {% csrf_token %} 
-  {{ form.as_p }}
-  <input type="submit" value="Register" />
-</form>
+  <!-- {{ form.as_p }} -->
+  <section class="contact-form-wrap section">
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <form id="contact-form" class="contact__form " method="post" action= "/doctor/register/">
+                  {% csrf_token %}
+                 <!-- form message -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-success contact__msg" style="display: none" role="alert">
+                                Your message was sent successfully.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="height" id="height" type="number" class="form-control" placeholder="Height" >
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="weight" id="weight" type="number" class="form-control" placeholder="Weight">
+                            </div>
+                        </div>
+                        
+                                    <!-- <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="bloodtype" id="bloodtype" type="text" class="form-control" placeholder="Blood Group">
+                            </div>
+                        </div> -->
+                        &nbsp; &nbsp;
+                        <div>
+                          <label for="department"><p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Choose a Blood Group: </p></label>
+
+                          <select name="bloodType" id="bloodType" width = 100px>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                          </select>
+                      </div>
+
+                        <!-- <div class="col-lg-12">
+                          <div class="form-group">
+                              <input name="department" id="department" type="text" class="form-control" placeholder="Your Department" >
+                          </div>
+                      </div> -->
+
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                            <input name="allergy" id="allergy" type="Text" class="form-control" placeholder="Allergy">
+                        </div>
+                    </div>
+
+                      <br>
+                      <div class="col-lg-12">
+                        <input type="checkbox" id="alzheimer" name="alzheimer" value="alzheimer">
+                        <label for="alzheimer"> <p style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Alzheimer</p></label><br>
+                        <input type="checkbox" id="asthma" name="asthma" value="asthma">
+                        <label for="vehicle2"><p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Asthma</p></label><br>
+                        <input type="checkbox" id="diabetes" name="diabetes" value="diabetes">
+                        <label for="vehicle3"><p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Diabetes</p></label><br>
+                        <input type="checkbox" id="stroke" name="stroke" value="stroke">
+                        <label for="vehicle3"><p style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;">Stroke</p></label><br>
+                      </div>
+
+                      <div class="col-lg-12">
+                        <div class="form-group">
+                            <input name="medicalHistory" id="medicalHistory" type="Text" class="form-control" placeholder="Medical History">
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-12">
+                      <div class="form-group">
+                          <input name="patientId" id="patientId" type="Text" class="form-control" placeholder="Patient Id">
+                      </div>
+                  </div>
+
+                                    
+                    </div>
+
+                    <div class="text-center">
+                        <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Submit"></input>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+  <!-- <input type="submit" value="Register" />
+</form> -->
 {% endblock %}
