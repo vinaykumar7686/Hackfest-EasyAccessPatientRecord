@@ -105,7 +105,10 @@
 								</thead>
 							</table>
 							<!-- <input type="text" name="clickedpres" id="clickedpres", value = ""> -->
-							<a href="/doctor/prescription/{{prescription.prescription_id}}" value = 'View'>View</a>
+							<!-- <a href="/doctor/prescription/{{prescription.prescription_id}}" value = 'View' method = "POST">View</a> -->
+							<form action="/prescription/{{prescription.prescription_id}}" method="post"> {% csrf_token %}
+								<button type="submit" name="prescription{{prescription_id}}" value="prescription{{prescription_id}}" class="btn-link">View</button>
+							</form>
 							{% endfor %}
 						</div>
 					</div>

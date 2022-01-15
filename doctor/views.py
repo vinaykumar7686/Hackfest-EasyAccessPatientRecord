@@ -147,14 +147,9 @@ def add_prescription(request):
         return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines})
 
 
-def view_prescription(request):
-    prescription = DoctorPrescription.objects.all()[0]#filter(prescription_id = 4)[0]
-    # print(prescription)
-    # print(prescription.prescription_id)
-    # print('------------')
+def view_prescription(request, id):
+    prescription = DoctorPrescription.objects.filter(prescription_id = id)[0]
     medication_orders = Medication_order.objects.filter(prescription_id=prescription.prescription_id)
-    # print(prescription)
-
     prescription_data = {
         'prescription_details': prescription,
         'medication_data':[]
