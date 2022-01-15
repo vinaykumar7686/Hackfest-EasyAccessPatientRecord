@@ -1,0 +1,12 @@
+{
+    'prescriptions': 
+    [
+        <DoctorPrescription: Dinesh Sharma is assigned to Dr. Vinay Kumar>,
+        <DoctorPrescription: Dinesh Sharma is assigned to Dr. Vinay Kumar>
+        ],
+        'medications': 
+        {
+            'prescription1': <QuerySet [<Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>, <Medication_order: aspirin prescribed by Dr. Vinay Kumar>]>, 
+            'prescription2': <QuerySet [<Medication_order: Paracetamol prescribed by Dr. Vinay Kumar>]>
+    }
+}

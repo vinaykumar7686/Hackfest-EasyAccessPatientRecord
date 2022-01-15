@@ -87,7 +87,8 @@ def add_prescription(request):
 
         # +++++++++Adding Medication Order
         # medicines = Medicines.objects.all()[:2] #filter(code = 1)[0:2]
-        no_of_medicines = int(form_data.get('medcounter'))
+        no_of_medicines =  0 if form_data.get('medcounter') == '' else int(form_data.get('medcounter'))
+        
         for i in range(1,no_of_medicines+1):
             print(i,form_data.get(f'medicine{i}'))
             medicine = Medicines.objects.filter(name = form_data.get(f'medicine{i}'))[0]

@@ -68,9 +68,46 @@
 							</li>
 						</ul>
 						<br>
-						<h5 class="text-md">Medical History</h5>
+						<h5 class="text-md">Prescription History</h5>
 						<div class="divider my-4"></div>
-						<p>Prescriptions to be added here!</p>
+						<div>
+							<p>Below are the prescriptions</p>
+							{% for prescription in data.prescriptions %}
+							<br>
+							<h5>Prescription </h5>
+							<table class="center" border="">
+								<thead>
+									<tr>
+										<td colspan="2">Prescription ID : </td>
+										<td colspan="2">{{prescription.prescription_id}}</td>
+
+									</tr>
+									<tr>
+										<td>Patient Name : </td>
+										<td>{{prescription.patient_id}}</td>
+										<td>Doctor Name : </td>
+										<td>{{prescription.doctor_id}}</td>
+									</tr>
+									<tr>
+										<td>Date : </td>
+										<td>{{prescription.date}}</td>
+										<td>Next Visit : </td>
+										<td>{{prescription.nextVisit }}</td>
+									</tr>
+									<tr>
+										<td colspan="1">Reason : </td>
+										<td colspan="5">{{prescription.reason}}</td>
+									</tr>
+									<tr>
+										<td colspan="1">Doctor Notes : </td>
+										<td colspan="5">{{prescription.doctors_notes }}</td>
+									</tr>
+								</thead>
+							</table>
+							<!-- <input type="text" name="clickedpres" id="clickedpres", value = ""> -->
+							<a href="/doctor/prescription/{{prescription.prescription_id}}" value = 'View'>View</a>
+							{% endfor %}
+						</div>
 					</div>
 				</div>
 				<div class="col-lg-2">
