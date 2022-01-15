@@ -19,7 +19,8 @@ urlpatterns = [
     path('allmedicines/',view_all_meds,name='view_all_meds'),
 
     path('prescription/<int:id>', view_prescription, name='view_prescription'),
-    path('prescription/add', add_prescription),
+    path('prescription/add/', add_prescription),
+    path('prescription/add/<int:id>', add_prescription),
     
     path('medicine/<int:id>',view_one_med, name='view_meds'),
 ]

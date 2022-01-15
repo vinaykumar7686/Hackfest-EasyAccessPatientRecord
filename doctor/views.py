@@ -64,7 +64,7 @@ def doc_register(request):
         print(departments)
         return render(request, 'doc_register.html', {'departments' : departments})
 
-def add_prescription(request):
+def add_prescription(request, *args, **kwargs):
 
     if request.method == 'POST':
         
@@ -141,10 +141,16 @@ def add_prescription(request):
         return redirect('/doctor/')
 
     else:
-        doctors = DoctorProfile.objects.all()
-        patients = PatientProfile.objects.all()
-        medicines = Medicines.objects.all()
-        return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines})
+        if not args and not kwargs:
+            doctors = DoctorProfile.objects.all()
+            patients = PatientProfile.objects.all()
+            medicines = Medicines.objects.all()
+            return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines})
+        else:
+            doctors = DoctorProfile.objects.all()
+            patients = PatientProfile.objects.filter(patient_id = kwargs['id'])
+            medicines = Medicines.objects.all()
+            return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines})
 
 
 def view_prescription(request, id):
@@ -235,8 +241,6 @@ def doc_info(request):
 
         i+=1
     print(data)
-
-    
 
     return render(request, 'doc_info.html', {'doctor_info': doctor_info,  'data': data})
     # return render(request, 'doc_info.html',{'doctor_info':doctor_info})
