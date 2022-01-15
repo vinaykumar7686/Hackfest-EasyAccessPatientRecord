@@ -209,6 +209,47 @@ def view_all_patients(request):
     patients = PatientProfile.objects.all()
     return render(request, 'all_pat.html', {'patients':patients})
 
+
+def doc_info(request):
+    doctor_info = DoctorProfile.objects.all()[0]
+
+    prescriptions_info = DoctorPrescription.objects.all()#filter(doctor_id = id)
+    # print(prescriptions_info)
+    data = {'prescriptions': [], 'medications' : {}}
+    i = 1
+    for prescription_info in prescriptions_info:
+
+        data['prescriptions'].append(prescription_info)
+
+        medications = Medication_order.objects.filter(prescription_id = prescription_info)
+        # print(medications)
+
+        # data1 = {'medicines':[]}
+        # for medication in medications:
+        #     # medicines = Medicines.objects.filter(code = )
+        #     # print(medication.medicine_code)
+
+        #     data1['medicines'].append(medication)
+        
+        data['medications'][f'prescription{i}'] = medications
+
+        i+=1
+    print(data)
+
+    
+
+    return render(request, 'doc_info.html', {'doctor_info': doctor_info,  'data': data})
+    # return render(request, 'doc_info.html',{'doctor_info':doctor_info})
+
+
+
+
+
+
+
+
+
+
 #========> Form Response
 # {'csrfmiddlewaretoken': ['9UGllsw3J0T8pw2UUXrRMFOci3VHsYtoBA2fbn0wZIVcYql6jlNWcZtS0iUGC2fi'
 #     ], 'date': ['2022-01-29'
