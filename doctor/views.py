@@ -175,7 +175,7 @@ def view_prescription(request, id):
     return render(request,'doc_prescription.html', prescription_data)
 
     
-def doc_info(request):
+def view_all_doctors(request):
     # dept = Department.objects.all()[0]
     # doctors = DoctorProfile.objects.filter(department = dept.department_id)
     # doctor_detail = {
@@ -193,11 +193,11 @@ def doc_info(request):
     # return render(request, 'doc_info.html',{'doctors':doctors})
     # return HttpResponse("Done")
     doctors = DoctorProfile.objects.all()
-    return render(request, 'doc_info.html', {'doctors':doctors})
+    return render(request, 'all_doc.html', {'doctors':doctors})
 
 def view_all_meds(request):
     meds = Medicines.objects.all()
-    return render(request, 'view_all_meds.html', {'medicines':meds})
+    return render(request, 'all_meds.html', {'medicines':meds})
 
 def view_one_med(request, id):
     meds = Medicines.objects.filter(code=id)[0]
@@ -205,7 +205,9 @@ def view_one_med(request, id):
     context={'meds':meds, 'prep':preparation}
     return render(request, 'view_one_med.html',context)
 
-
+def view_all_patients(request):
+    patients = PatientProfile.objects.all()
+    return render(request, 'all_pat.html', {'patients':patients})
 
 #========> Form Response
 # {'csrfmiddlewaretoken': ['9UGllsw3J0T8pw2UUXrRMFOci3VHsYtoBA2fbn0wZIVcYql6jlNWcZtS0iUGC2fi'

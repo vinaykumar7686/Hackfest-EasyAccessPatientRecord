@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>Homepage-All Patients</title>
+{% endblock %}
+{% block body %}
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block text-center">
+                    <span class="text-white">All Patients</span>
+                    <h1 class="text-capitalize mb-5 text-lg">Patients</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section doctors" style="padding-top: 0px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="section-title">
+                    <div class="divider mx-auto my-4"></div>
+                    <p>We provide a wide range of doctors specialised in a host of departments because you deserve
+                        only the best.</p>
+                    </div>
+                </div>
+            </div>
+
+            {% for patient in patients %}
+            <div class="row shuffle-wrapper portfolio-gallery">
+                <div class="col-lg-3 col-sm-6 col-md-6 mb-4 shuffle-item">
+                    <div class="position-relative doctor-inner-box">
+                        <div class="doctor-profile">
+                            <div class="doctor-img">
+                                <img src="/static/images/1.jpg" alt="patient-image" class="img-fluid w-100 img-rnd">
+                            </div>
+                        </div>
+                        <div class="content mt-3">
+                            <h4 class="mb-0"><a>{{patient.patient_name}}</a></h4>
+                            <p class="mb-0">{{patient.prior_ailments}}</p>
+                            <a>{{patient.email}}</a>
+                            <p class="mb-0">{{patient.phone_num}}</p>
+                            <p class="mb-0">{{patient.gender}}</p>
+                            <p class="mb-0">{{patient.dob}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <section class="section cta-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="cta-content">
+                        <div class="divider mb-4"></div>
+                        <h2 class="mb-5 text-lg">We are pleased to offer you the <span class="title-color">chance to
+                            have a healthy life.</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -13,7 +13,8 @@ urlpatterns = [
     path('doctor/', doc_homepage, name = 'doc_homepage'),
     path('doctor/register/', doc_register, name = 'doc_register'),  
 
-    path('alldoctors/',doc_info),
+    path('alldoctors/',view_all_doctors),
+    path('allpatients/', view_all_patients),
 
     path('prescription/<int:id>', view_prescription, name='view_prescription'),
     path('prescription/add', add_prescription),
