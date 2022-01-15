@@ -12,13 +12,14 @@ urlpatterns = [
 
     path('doctor/', doc_homepage, name = 'doc_homepage'),
     path('doctor/register/', doc_register, name = 'doc_register'),  
-
+    path('doctor/allprescriptions', doc_info),
+    
     path('alldoctors/',view_all_doctors),
     path('allpatients/', view_all_patients),
+    path('allmedicines/',view_all_meds,name='view_all_meds'),
 
     path('prescription/<int:id>', view_prescription, name='view_prescription'),
     path('prescription/add', add_prescription),
     
-    path('medicines/',view_all_meds,name='view_all_meds'),
     path('medicine/<int:id>',view_one_med, name='view_meds'),
 ]
