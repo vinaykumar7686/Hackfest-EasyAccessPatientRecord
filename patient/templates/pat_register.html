@@ -4,13 +4,227 @@
 <title>Register-Patient</title>
 {% endblock %}
 
+
 {% block body %}
+<section class="page-title bg-1">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="block text-center">
+            <h1 class="text-capitalize mb-5 text-lg">Sign Up</h1>
+            <span class="text-white">For Patients only!</span>
+  
+            <!-- <ul class="list-inline breadcumb-nav">
+              <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
+              <li class="list-inline-item"><span class="text-white">/</span></li>
+              <li class="list-inline-item"><a href="#" class="text-white-50">Contact Us</a></li>
+            </ul> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- contact form start -->
+  
+  <section class="contact-form-wrap section">
+      <div class="container">
+          
+          <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                  <form id="contact-form" class="contact__form " method="post" action= "/" >
+                    {% csrf_token %}
+                   <!-- form message -->
+  
+                      <div class="row">
+                          <div class="col-lg-12">
+                              <div class="form-group">
+                                  <input name="name" id="name" type="text" class="form-control" placeholder="Patient Name" required >
+                                  <span class="text-danger font-weight-bold" id="user_name"></span>
+                              </div>
+                          </div>
+
+                          <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="relative_name" id="relative_name" type="text" class="form-control" placeholder="Patient Relative Name" required >
+                                <span class="text-danger font-weight-bold" id="rel_name"></span>
+                            </div>
+                          </div>
+  
+                          <div class="col-lg-12">
+                              <div class="form-group">
+                                  <input name="gender" id="gender" type="text" class="form-control" placeholder="Patient Gender" required>
+                                  <span class="text-danger font-weight-bold" id="pat_gender"></span>
+                              </div>
+                          </div>
+                          
+                          <div class="col-lg-12">
+                              <div class="form-group">
+                                  <input name="phone" id="phone" type="number" class="form-control" placeholder="Patient Phone Number" required>
+                                  <span class="text-danger font-weight-bold" id="phone_num"></span>
+                              </div>
+                          </div>
+
+                          <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="relatve_phone" id="rel_phone" type="number" class="form-control" placeholder="Patient Relative Phone Number" required>
+                                <span class="text-danger font-weight-bold" id="rel_phone_num"></span>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="pat_dob" id="patient_dob" type="date" class="form-control" placeholder="Patient DOB" required>
+                                <span class="text-danger font-weight-bold" id="pat_dob"></span>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="patient_email" id="patient_email" type="email" class="form-control" placeholder="Patient Email Address" required>
+                                <span class="text-danger font-weight-bold" id="pat_email"></span>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="patient_address" id="patient_address" type="text" class="form-control" placeholder="Patient Address" required>
+                                <span class="text-danger font-weight-bold" id="pat_address"></span>
+                            </div>
+                          </div>
+
+                          <div class="col-lg-12">
+                            <div class="form-group">
+                                <input name="patient_prior_ailments" id="patient_prior_ailments" type="text" class="form-control" placeholder="Patient Prior Ailments" required>
+                                <span class="text-danger font-weight-bold" id="pat_prior_ailment"></span>
+                            </div>
+                          </div>
+
+  
+                          <div class="col-lg-12">
+                              <div class="form-group">
+                                  <input name="password1" id="password1" type="password" class="form-control" placeholder="Your Password" required>
+                                  <span class="text-danger font-weight-bold" id="pass1"></span>
+                              </div>
+                              <div class="form-group">
+                                  <input name="password2" id="password2" type="password" class="form-control" placeholder="Confirm Password" required>
+                                  <span class="text-danger font-weight-bold" id="pass2"></span>
+                              </div>
+                          </div>
+                          
+                      </div>
+  
+                      <div class="text-center">
+                          <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Sign Up" onclick="return validation()" >
+                      </div>
+                      
+                  </form>
+              </div>
+          </div>
+      </div>
+  </section>
+
+    <script type="text/javascript">
+
+          function validation(){
+              var name = document.getElementById('name').value;
+              var relative_name = document.getElementById('relative_name').value;
+
+              var gender = document.getElementById('gender').value;
+
+              var phone = document.getElementById('phone').value;
+              var rel_phone = document.getElementById('rel_phone').value;
+
+              var patient_email = document.getElementById('patient_email').value;
+              var patient_address = document.getElementById('patient_address').value;
+              
+              var password1 = document.getElementById('password1').value;
+              var password2 = document.getElementById('password2').value;
+
+              var check = /^[a-z A-Z]+$/;
+
+              if(!check.test(name)){
+                  var user_name = document.getElementById('user_name');
+                  user_name.innerHTML = 'Name can not be blank or a number!!';
+
+                  return false;
+              }
+
+              if(name.length < 5 || name.length > 20){
+                  var user_name = document.getElementById('user_name');
+                  user_name.innerHTML = 'Name should be between 5-20 character long!!';
+
+                  return false;
+              }
+
+              if(!check.test(relative_name)){
+                  document.getElementById('rel_name').innerHTML = 'Name can not be blank or a number!!';
+                  return false;
+              }
+
+              if(relative_name.length < 5 || relative_name.length > 20){
+                  var rel_name = document.getElementById('rel_name');
+                  rel_name.innerHTML = 'Name should be between 5-20 character long!!';
+
+                  return false;
+              }
+
+              if(gender!='male' && gender!='Male' && gender!='Female' && gender!='female'){
+                  document.getElementById('pat_gender').innerHTML = 'Gender is incorrect!!';
+
+                  return false;
+              }
+
+              if(phone.length != 10){
+                  var phone_num = document.getElementById('phone_num');
+                  phone_num.innerHTML = 'Phone Number must be 10 character long!!';
+
+                  return false;
+              }
+
+              if(rel_phone.length != 10){
+                  document.getElementById('rel_phone_num').innerHTML = 'Phone Number must be 10 character long!!';
+
+                  return false;
+              }
+
+              if(patient_email.indexOf('@') <= 0){
+                  document.getElementById('pat_email').innerHTML = 'Invalid Email Id!!';
+
+                  return false;
+              }
+
+              if((patient_email.charAt(patient_email.length-4)!='.') && (patient_email.charAt(patient_email.length-3)!='.')){
+                  document.getElementById('pat_email').innerHTML = 'Invalid Email Id!!';
+
+                  return false;
+              }
+
+              if(patient_address.length < 10 || password1.length > 100){
+                  var pat_address = document.getElementById('pat_address');
+                  pat_address.innerHTML = 'Address is too sort!!';
 
 
-<form action="" method="post">
-  {% csrf_token %} 
-  {{ form.as_p }}
-  <input type="submit" value="Register" />
-</form>
+                  return false;
+              }
+
+              if(password1.length < 8 || password1.length > 20){
+                  var pass1 = document.getElementById('pass1');
+                  pass1.innerHTML = 'Password must be 8-20 character long!!';
+
+
+                  return false;
+              }
+
+              if(password2 != password1){
+                  var pass2 = document.getElementById('pass2');
+                  pass2.innerHTML = 'Password is not matching!!';
+
+
+                  return false;
+              }
+          }
+
+    </script>
 
 {% endblock %}
