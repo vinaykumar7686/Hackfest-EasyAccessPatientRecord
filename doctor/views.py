@@ -65,10 +65,16 @@ def doc_register(request):
 
         department_inst = Department.objects.filter(department_id = department)[0]
 
-        doctor = DoctorProfile(doctor_name=doctor_name, email=email, phone_num=phone_num, department=department_inst, password = password1)
+        doctor = DoctorProfile(doctor_name=doctor_name, email=email, phone_num=phone_num, department=department_inst)
 
         doctor.save()
-        return HttpResponse('doctor is registered')
+        MyUser.objects.create_user( email = email, is_doctor = True, password = password1)
+
+        # Logging into newly created account
+        user = authenticate(request, email=email, password=password1)
+        login(request, user)
+        
+        return redirect('/doctor')
         
     else:
         departments = Department.objects.all()
