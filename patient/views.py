@@ -55,14 +55,26 @@ def pat_register(request):
 @login_required(login_url='/login/')
 @user_passes_test(patient_check, login_url='/login/')
 def pat_medicalForm(request):
-    form = MedicalInfoForm()
     if request.method == 'POST':
-        form = MedicalInfoForm(request.POST)
-        if form.is_valid:
-            form.save()
-            return redirect('pat_homepage')
-    context = {'form': form}
-    return render(request, 'pat_medicalForm.html', context)
+        height = request.POST.get('height')
+        weight = request.POST.get('weight')
+        bloodType = request.POST.get('bloodType')
+        allergy = request.POST.get('allergy')
+        alzheimer = request.POST.get('alzheimer')
+        asthma = request.POST.get('asthma')
+        diabetes = request.POST.get('diabetes')
+        stroke = request.POST.get('stroke')
+        medicalHistory = request.POST.get('medicalHistory')
+        patientId = request.POST.get('patientId')
+        patientInfo = MedicalInfo(height=height, weight=weight, bloodType=bloodType, allergy=allergy, alzheimer=alzheimer,
+        asthma=asthma, diabetes=diabetes, stroke=stroke, medicalHistory=medicalHistory, patientId=patientId)
+        patientInfo.save()
+        return HTTPResponse('Patient medical info stored successfully')
+        # add message here and redirect it to patient info page route
+    else:
+        patientInfo = MedicalInfo.objects.all()
+        print(patientInfo)
+        return render(request, 'pat_medicalForm.html', {'patientInfo': patientInfo})
 
 @login_required(login_url='/login/')
 def pat_info(request, id):
@@ -73,21 +85,15 @@ def pat_info(request, id):
     data = {'prescriptions': [], 'medications' : {}}
     i = 1
     for prescription_info in prescriptions_info:
-
         data['prescriptions'].append(prescription_info)
-
         medications = Medication_order.objects.filter(prescription_id = prescription_info)
         # print(medications)
-
         # data1 = {'medicines':[]}
         # for medication in medications:
         #     # medicines = Medicines.objects.filter(code = )
         #     # print(medication.medicine_code)
-
         #     data1['medicines'].append(medication)
-        
         data['medications'][f'prescription{i}'] = medications
-
         i+=1
     print(data)
     return render(request, 'pat_info.html', {'patient_info': patient_info, 'pat_med_info': pat_med_info, 'data': data})
