@@ -1,34 +1,42 @@
 from django.shortcuts import redirect, render
-from .models import DoctorProfile
 from django.http import HttpResponse
-from .models import Department
-from patient.models import PatientProfile
-from. models import *
+from django.contrib.auth import authenticate, login
+from .models import *
+from patient.models import *
 
 # Create your views here.
-def login(request):
+def common_login(request):
     if request.method == 'GET':
         return render(request, 'login.html')
     else:
         email = request.POST.get('email')
         password = request.POST.get('password')
+        # print(email, password)
+        # Authenticating user
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            print('===Authenticated===')
 
-        doctor = DoctorProfile.get_doctor_by_email(email)
+            obj = MyUser.objects.filter(email = email)[0]
+            is_doctor = obj.is_doctor
 
-        error_message = None 
+            # print("doctor? ",is_doctor)
+            if is_doctor:
+                # request.session['doctor_id'] = doctor.doctor_id
+                return redirect('/doctor')
 
-        if doctor and (password== doctor.password):
-            request.session['doctor_id'] = doctor.doctor_id
-            return redirect('homepage')
-
-        else:
-            patient = PatientProfile.get_patient_by_email(email)
-
-            if patient and (password == patient.password):
-                request.session['patient_id'] = patient.patient_id
-                return redirect('pat_homepage')
             else:
-                error_message = 'Invalid Email or Password!!'
+                return redirect('/patient')
+        # error_message = 'Invalid Email or Password!!'
+        #     return redirect('/')
+
+        # print(f'=== {user}, Not Authenticated===')
+        # # print(MyUser.objects.filter(email = user)[0].get('is_doctor'))
+
+        # # doctor = DoctorProfile.get_doctor_by_email(email)
+
+        # # error_message = None 
 
         return render(request, 'login.html', {'error_message': error_message})
 

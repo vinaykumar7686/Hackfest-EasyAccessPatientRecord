@@ -7,6 +7,9 @@ from django.contrib.auth.models import (
 
 class PatientProfile(models.Model):
     patient_id = models.AutoField(primary_key=True)
+    email = models.EmailField(unique=True)
+    # password = models.TextField(max_length=50)
+
     patient_name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     phone_num = models.CharField(max_length=15)
@@ -15,8 +18,6 @@ class PatientProfile(models.Model):
     resd_address = models.TextField()
     prior_ailments = models.TextField()
     dob = models.DateField(null=True)
-    email = models.EmailField(null = False)
-    password = models.TextField(max_length=50)
 
            # critical/serious
     # ---------------Foreign Keys-------------------
@@ -131,6 +132,8 @@ class MyUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+    
 
 
 
