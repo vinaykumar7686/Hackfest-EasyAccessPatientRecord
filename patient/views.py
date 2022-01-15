@@ -1,3 +1,4 @@
+from http.client import HTTPResponse
 from .forms import RegForm, MedicalInfoForm
 from django.shortcuts import render,redirect
 from patient.models import *
@@ -15,14 +16,31 @@ def pat_homepage(request):
 
 
 def pat_register(request):
-    form = RegForm()
     if request.method == 'POST':
-        form = RegForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('pat_homepage')
-    context = {'form': form}
-    return render(request, 'pat_register.html', context)
+        patient_name = request.POST.get('name')
+        relative_name = request.POST.get('relative_name')
+        gender = request.POST.get('gender')
+        phone = request.POST.get('phone')
+        relative_phone = request.POST.get('relative_phone')
+        patient_dob = request.POST.get('pat_dob')
+        patient_email = request.POST.get('patient_email')
+        patient_address = request.POST.get('patient_address')
+        patient_prior_ailments = request.POST.get('patient_prior_ailments')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+        
+        if password1 != password2:
+            return redirect('/patient/register')
+
+        patient = PatientProfile(patient_name=patient_name, relative_name=relative_name, gender=gender, phone=phone, 
+        relative_phone=relative_phone,patient_dob=patient_dob, patient_email=patient_email, patient_address=patient_address, patient_prior_ailments=patient_prior_ailments)
+        patient.save()
+        return HTTPResponse('Patient registered successfully')
+        # add message here and redirect it to login page route
+    else:
+        patient = PatientProfile.objects.all()
+        print(patient)
+        return render(request, 'pat_register.html', {'patient': patient})
 
 @login_required(login_url='/login/')
 @user_passes_test(patient_check, login_url='/login/')
