@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .models import *
 from patient.models import *
 
@@ -11,36 +11,33 @@ def common_login(request):
     else:
         email = request.POST.get('email')
         password = request.POST.get('password')
-        # print(email, password)
+
         # Authenticating user
         user = authenticate(request, email=email, password=password)
+
         if user is not None:
             login(request, user)
-            print('===Authenticated===')
 
             obj = MyUser.objects.filter(email = email)[0]
             is_doctor = obj.is_doctor
 
-            # print("doctor? ",is_doctor)
             if is_doctor:
                 # request.session['doctor_id'] = doctor.doctor_id
                 return redirect('/doctor')
 
             else:
                 return redirect('/patient')
-        # error_message = 'Invalid Email or Password!!'
-        #     return redirect('/')
+        
+        else:
+            error_message = 'Invalid Email or Password!!'
+            return render(request, 'login.html', {'error_message': error_message})
 
-        # print(f'=== {user}, Not Authenticated===')
-        # # print(MyUser.objects.filter(email = user)[0].get('is_doctor'))
-
-        # # doctor = DoctorProfile.get_doctor_by_email(email)
-
-        # # error_message = None 
-
-        return render(request, 'login.html', {'error_message': error_message})
+def logout_view(request):
+    logout(request)
+    return redirect('/')
 
 # Website Hompage
+
 def homepage(request):
     return render(request=request, template_name='homepage.html')
     
