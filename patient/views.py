@@ -4,6 +4,7 @@ from django.shortcuts import render,redirect
 from patient.models import *
 from doctor.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import authenticate, login, logout
 
 def patient_check(user):
     return not user.is_doctor
@@ -32,10 +33,19 @@ def pat_register(request):
         if password1 != password2:
             return redirect('/patient/register')
 
-        patient = PatientProfile(patient_name=patient_name, relative_name=relative_name, gender=gender, phone=phone, 
-        relative_phone=relative_phone,patient_dob=patient_dob, patient_email=patient_email, patient_address=patient_address, patient_prior_ailments=patient_prior_ailments)
+        patient = PatientProfile(patient_name=patient_name, patient_relative_name=relative_name, gender=gender, phone_num=phone, 
+        patient_relative_contact=relative_phone,dob=patient_dob, email=patient_email, resd_address=patient_address, prior_ailments=patient_prior_ailments)
         patient.save()
-        return HTTPResponse('Patient registered successfully')
+        print('patientinfo saved')
+
+        MyUser.objects.create_user( email = patient_email, is_doctor = False, password = password1)
+        print('patient account created')
+        # Logging into newly created account
+        user = authenticate(request, email=patient_email, password=password1)
+        login(request, user)
+        print('patient logged in')
+
+        return redirect('/patient')
         # add message here and redirect it to login page route
     else:
         patient = PatientProfile.objects.all()
