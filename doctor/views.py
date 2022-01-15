@@ -1,41 +1,52 @@
+from .models import *
+from patient.models import *
 from django.shortcuts import redirect, render
-from .models import DoctorProfile
 from django.http import HttpResponse
-from .models import Department
-from patient.models import PatientProfile
-from. models import *
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
+
+def doctor_check(user):
+    return user.is_doctor
+
 
 # Create your views here.
-def login(request):
+def common_login(request):
     if request.method == 'GET':
         return render(request, 'login.html')
     else:
         email = request.POST.get('email')
         password = request.POST.get('password')
 
-        doctor = DoctorProfile.get_doctor_by_email(email)
+        # Authenticating user
+        user = authenticate(request, email=email, password=password)
 
-        error_message = None 
+        if user is not None:
+            login(request, user)
 
-        if doctor and (password== doctor.password):
-            request.session['doctor_id'] = doctor.doctor_id
-            return redirect('homepage')
+            obj = MyUser.objects.filter(email = email)[0]
+            is_doctor = obj.is_doctor
 
-        else:
-            patient = PatientProfile.get_patient_by_email(email)
+            if is_doctor:
+                # request.session['doctor_id'] = doctor.doctor_id
+                return redirect('/doctor')
 
-            if patient and (password == patient.password):
-                request.session['patient_id'] = patient.patient_id
-                return redirect('pat_homepage')
             else:
-                error_message = 'Invalid Email or Password!!'
+                return redirect('/patient')
+        
+        else:
+            error_message = 'Invalid Email or Password!!'
+            return render(request, 'login.html', {'error_message': error_message})
 
-        return render(request, 'login.html', {'error_message': error_message})
+def common_logout(request):
+    logout(request)
+    return redirect('/')
 
 # Website Hompage
 def homepage(request):
     return render(request=request, template_name='homepage.html')
     
+@login_required(login_url='/login/')
+@user_passes_test(doctor_check, login_url='/login/')
 def doc_homepage(request):
     return render(request=request, template_name='doc_home.html')
 
@@ -64,6 +75,8 @@ def doc_register(request):
         print(departments)
         return render(request, 'doc_register.html', {'departments' : departments})
 
+@login_required(login_url='/login/')
+@user_passes_test(doctor_check, login_url='/login/')
 def add_prescription(request, *args, **kwargs):
 
     if request.method == 'POST':
@@ -152,7 +165,7 @@ def add_prescription(request, *args, **kwargs):
             medicines = Medicines.objects.all()
             return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines})
 
-
+@login_required(login_url='/login/')
 def view_prescription(request, id):
     prescription = DoctorPrescription.objects.filter(prescription_id = id)[0]
     medication_orders = Medication_order.objects.filter(prescription_id=prescription.prescription_id)
@@ -201,21 +214,29 @@ def view_all_doctors(request):
     doctors = DoctorProfile.objects.all()
     return render(request, 'all_doc.html', {'doctors':doctors})
 
+@login_required(login_url='/login/')
+@user_passes_test(doctor_check, login_url='/login/')
 def view_all_meds(request):
     meds = Medicines.objects.all()
     return render(request, 'all_meds.html', {'medicines':meds})
 
+
+@login_required(login_url='/login/')
+@user_passes_test(doctor_check, login_url='/login/')
 def view_one_med(request, id):
     meds = Medicines.objects.filter(code=id)[0]
     preparation = Preparation.objects.filter(medicine_id=id)[0]
     context={'meds':meds, 'prep':preparation}
     return render(request, 'view_one_med.html',context)
 
+@login_required(login_url='/login/')
+@user_passes_test(doctor_check, login_url='/login/')
 def view_all_patients(request):
     patients = PatientProfile.objects.all()
     return render(request, 'all_pat.html', {'patients':patients})
 
-
+@login_required(login_url='/login/')
+@user_passes_test(doctor_check, login_url='/login/')
 def doc_info(request):
     doctor_info = DoctorProfile.objects.all()[0]
 
