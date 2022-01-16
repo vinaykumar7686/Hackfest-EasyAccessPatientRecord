@@ -21,26 +21,26 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <form id="contact-form" class="contact__form " method="POST" action="/patient/register/">
+                <form id="contact-form" class="contact__form " method="POST" action="/patient/update/info/">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <input name="name" id="name" type="text" class="form-control" placeholder="Patient Name"
-                                    required>
+                                    value= "{{patientinfo.patient_name}}" readonly>
                                 <span class="text-danger font-weight-bold" id="user_name"></span>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <input name="relative_name" id="relative_name" type="text" class="form-control"
-                                    placeholder="Patient Relative Name" required>
+                                    placeholder="Patient Relative Name" value= "{{patientinfo.patient_relative_name}}" required>
                                 <span class="text-danger font-weight-bold" id="rel_name"></span>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <select name="gender" id="ender" class="form-control">
+                                <select name="gender" id="ender" class="form-control" value= "{{patientinfo.gender}}">
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                     <option value="Others">Others</option>
@@ -52,35 +52,35 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <input name="phone" id="phone" type="number" class="form-control"
-                                    placeholder="Patient Phone Number" required>
+                                    placeholder="Patient Phone Number" value= "{{patientinfo.phone_num}}" required>
                                 <span class="text-danger font-weight-bold" id="phone_num"></span>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <input name="relative_phone" id="rel_phone" type="number" class="form-control"
-                                    placeholder="Patient Relative Phone Number" required>
+                                    placeholder="Patient Relative Phone Number" value= "{{patientinfo.patient_relative_contact}}" required>
                                 <span class="text-danger font-weight-bold" id="rel_phone_num"></span>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <input name="pat_dob" id="patient_dob" type="date" class="form-control"
-                                    placeholder="Patient DOB" required>
+                                    placeholder="Patient DOB" value= "{{patientinfo.dob}}" required>
                                 <span class="text-danger font-weight-bold" id="pat_dob"></span>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <input name="patient_address" id="patient_address" type="text" class="form-control"
-                                    placeholder="Patient Address" required>
+                                    placeholder="Patient Address" value= "{{patientinfo.resd_address}}" required>
                                 <span class="text-danger font-weight-bold" id="pat_address"></span>
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <input name="patient_prior_ailments" id="patient_prior_ailments" type="text"
-                                    class="form-control" placeholder="Patient Prior Ailments" required>
+                                    class="form-control" placeholder="Patient Prior Ailments" value= "{{patientinfo.prior_ailments}}" required>
                                 <span class="text-danger font-weight-bold" id="pat_prior_ailment"></span>
                             </div>
                         </div>

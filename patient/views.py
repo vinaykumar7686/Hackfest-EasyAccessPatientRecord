@@ -173,7 +173,7 @@ def update_patient(request):
         return redirect('/patient')
     else:
         patientinfo = PatientProfile.objects.filter(email = request.user.email)[0]
-        return render(request, 'pat_update.html', {'patientinfo': patientinfo, 'username': userprofile.patient_name, 'usertype': 'patient'})
+        return render(request, 'pat_update_info.html', {'patientinfo': patientinfo, 'username': userprofile.patient_name, 'usertype': 'patient'})
 
 
 

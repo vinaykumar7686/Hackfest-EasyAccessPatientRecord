@@ -7,6 +7,7 @@ urlpatterns = [
     path('register/', pat_register),
     path('medicalForm/', pat_medicalForm),
     path('info/', pat_info),
-    path('update/medicalinfo/', update_medicalinfo)
+    path('update/medicalinfo/', update_medicalinfo),
+    path('update/info/', update_patient),
 ]
 
