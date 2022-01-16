@@ -75,6 +75,11 @@ def doc_register(request):
 
         if password1!=password2:
             return redirect('/doctor/register')
+
+        if MyUser.objects.filter(email = email):
+            # User with same email already exists
+            print('User with same email already exists')
+            return redirect('/doctor/register')
         
 
         department_inst = Department.objects.filter(department_id = department)[0]
@@ -91,6 +96,7 @@ def doc_register(request):
         return redirect('/doctor')
         
     else:
+        
         departments = Department.objects.all()
         print(departments)
         return render(request, 'doc_register.html', {'departments' : departments})

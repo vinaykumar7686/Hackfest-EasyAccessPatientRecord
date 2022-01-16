@@ -46,6 +46,11 @@ def pat_register(request):
         
         if password1 != password2:
             return redirect('/patient/register')
+            
+        if MyUser.objects.filter(email = patient_email):
+            # User with same email already exists
+            print('User with same email already exists')
+            return redirect('/doctor/register')
 
         patient = PatientProfile(patient_name=patient_name, patient_relative_name=relative_name, gender=gender, phone_num=phone, 
         patient_relative_contact=relative_phone,dob=patient_dob, email=patient_email, resd_address=patient_address, prior_ailments=patient_prior_ailments)
