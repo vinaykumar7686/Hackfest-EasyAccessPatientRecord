@@ -26,4 +26,6 @@ urlpatterns = [
     path('prescription/add/<int:id>', add_prescription),
     
     path('medicine/<int:id>',view_one_med, name='view_meds'),
+    path('doctordetails/<int:doctor_id>/', GenericAPIView.as_view(), name='GenericAPIView'),
+    path('doctordetails/', GenericAPIView.as_view(), name='GenericAPIView'),
 ]

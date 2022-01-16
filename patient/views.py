@@ -159,9 +159,9 @@ mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
     serializer_class = PatientSerializer
     queryset = PatientProfile.objects.all()
     lookup_field = 'patient_id'
-    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, patient_id=None):
         if patient_id:

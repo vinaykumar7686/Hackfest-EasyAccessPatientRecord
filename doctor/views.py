@@ -4,6 +4,44 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
+from .serializers import DoctorSerializer
+from rest_framework.parsers import JSONParser
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework import mixins
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
+
+class GenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin,mixins.UpdateModelMixin, 
+mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
+    serializer_class = DoctorSerializer
+    queryset = DoctorProfile.objects.all()
+    lookup_field = 'doctor_id'
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, doctor_id=None):
+        if doctor_id:
+            return self.retrieve(request)
+        else:
+            return self.list(request)
+    
+    def post(self, request):
+        return self.create(request)
+
+    def put(self, request, doctor_id=None):
+        return self.update(request, doctor_id)
+
+    def delete(self, request, doctor_id=None):
+        return self.destroy(request, doctor_id)
 
 def doctor_check(user):
     return user.is_doctor
