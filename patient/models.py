@@ -63,9 +63,6 @@ class MedicalInfo(models.Model):
         db_table = 'MedicalInfo'
 
 
-
-
-
 class MyUserManager(BaseUserManager):
     def create_user(self, email, is_doctor, password=None):
         """
@@ -105,12 +102,9 @@ class MyUser(AbstractBaseUser):
                     )
 
     is_doctor = models.BooleanField(default = False)
-
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-
     objects = MyUserManager()
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['is_doctor']
 

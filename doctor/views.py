@@ -4,6 +4,7 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
 
 def doctor_check(user):
     return user.is_doctor
@@ -40,15 +41,19 @@ def common_login(request):
             is_doctor = obj.is_doctor
 
             if is_doctor:
-                # request.session['doctor_id'] = doctor.doctor_id
+                messages.success(request, " You are logged in successfully")
+                messages.debug(request, " You are logged in successfully")
+                messages.info(request, " You are logged in successfully")
                 return redirect('/doctor')
 
             else:
                 return redirect('/patient')
-        
+         
         else:
-            error_message = 'Invalid Email or Password!!'
-            return render(request, 'login.html', {'error_message': error_message})
+            messages.warning(request, " Invalid Credentials, Try Again!")
+            return redirect('/login')
+            # error_message = 'Invalid Email or Password!!'
+            # return render(request, 'login.html', {'error_message': error_message})
 
 def common_logout(request):
     logout(request)
@@ -83,16 +88,14 @@ def doc_register(request):
         
 
         department_inst = Department.objects.filter(department_id = department)[0]
-
         doctor = DoctorProfile(doctor_name=doctor_name, email=email, phone_num=phone_num, department=department_inst)
-
         doctor.save()
         MyUser.objects.create_user( email = email, is_doctor = True, password = password1)
 
         # Logging into newly created account
         user = authenticate(request, email=email, password=password1)
         login(request, user)
-        
+        messages.info(request, "Account created successfully!")
         return redirect('/doctor')
         
     else:
@@ -176,9 +179,9 @@ def add_prescription(request, *args, **kwargs):
 
             print((f'{medicine.name} added Successfully!'))
 
+        messages.info(request, "Prescription added successfully!")
         print(('Data Posted Successfully!'))
         return redirect('/doctor/')
-
     else:
         print(request.user.email)
         docprofile = DoctorProfile.objects.filter(email = request.user.email)[0]

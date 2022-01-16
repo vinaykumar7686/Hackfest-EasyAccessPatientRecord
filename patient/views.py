@@ -5,6 +5,7 @@ from patient.models import *
 from doctor.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 def patient_check(user):
     return not user.is_doctor
@@ -59,11 +60,10 @@ def pat_register(request):
 
         MyUser.objects.create_user( email = patient_email, is_doctor = False, password = password1)
         print('patient account created')
-        # Logging into newly created account
         user = authenticate(request, email=patient_email, password=password1)
         login(request, user)
         print('patient logged in')
-
+        messages.info(request, "Registered Successfully!")
         return redirect('/patient/medicalForm')
         # add message here and redirect it to login page route
     else:
@@ -89,11 +89,10 @@ def pat_medicalForm(request):
         diabetes = True if form_data.get('diabetes') == 'on' else False
         stroke = True if form_data.get('stroke') == 'on' else False
         medical_history = form_data.get('medicalHistory')
-
         patientInfo = MedicalInfo(height=height, weight=weight, bloodType=bloodType, allergy=allergy, alzheimer=alzheimer,
         asthma=asthma, diabetes=diabetes, stroke=stroke, medical_history=medical_history, patient_id=patient)
         patientInfo.save()
-
+        messages.info(request, "Welcome to Hompage")
         return redirect('/patient')
         # add message here and redirect it to patient info page route
     else:
@@ -194,8 +193,6 @@ def update_medicalinfo(request):
         stroke = True if form_data.get('stroke') == 'on' else False
         medical_history = form_data.get('medicalHistory')
 
-        
-
         MedicalInfo.objects.filter(patient_id = userprofile.patient_id).update(
             height=height, 
             weight=weight, 
@@ -207,7 +204,7 @@ def update_medicalinfo(request):
             stroke=stroke, 
             medical_history=medical_history)
         
-
+        messages.info(request, "Details updated successfully")
         return redirect('/patient')
 
     else:
