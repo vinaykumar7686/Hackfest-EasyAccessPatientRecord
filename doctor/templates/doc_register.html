@@ -1,189 +1,141 @@
 {% extends "base.html" %}
+
 {% load static %}
 {% block head %}
 <title>Register-Doctor</title>
 <!-- Favicon -->
 <link rel="shortcut icon" type="favicon" href="{% static 'images/logo.png' %}" />
 {% endblock %}
-
 {% block body %}
 <section class="page-title bg-1">
     <div class="overlay"></div>
     <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-        <div class="block text-center">
-            <h1 class="text-capitalize mb-5 text-lg">Sign Up</h1>
-            <span class="text-white">For Doctors only!</span>
-
-            <!-- <ul class="list-inline breadcumb-nav">
-            <li class="list-inline-item"><a href="index.html" class="text-white">Home</a></li>
-            <li class="list-inline-item"><span class="text-white">/</span></li>
-            <li class="list-inline-item"><a href="#" class="text-white-50">Contact Us</a></li>
-            </ul> -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block text-center">
+                    <h1 class="text-capitalize mb-5 text-lg">Sign Up</h1>
+                    <span class="text-white">For Doctors only!</span>
+                </div>
+            </div>
         </div>
-        </div>
-    </div>
     </div>
 </section>
-<!-- contact form start -->
-
 <section class="contact-form-wrap section">
     <div class="container">
-        
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <form id="contact-form" class="contact__form " method="post" action= "/doctor/register/" >
+                <form id="contact-form" class="contact__form " method="post" action="/doctor/register/">
                     {% csrf_token %}
-                    <!-- form message -->
-
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="name" id="name" type="text" class="form-control" placeholder="Your Full Name" required >
+                                <input name="name" id="name" type="text" class="form-control"
+                                    placeholder="Your Full Name" required>
                                 <span class="text-danger font-weight-bold" id="user_name"></span>
                             </div>
-                            
                         </div>
-
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="email" id="email" type="email" class="form-control" placeholder="Your Email Address" required>
+                                <input name="email" id="email" type="email" class="form-control"
+                                    placeholder="Your Email Address" required>
                                 <span class="text-danger font-weight-bold" id="email_id"></span>
                             </div>
                         </div>
-                        
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="phone" id="phone" type="number" class="form-control" placeholder="Your Phone Number" required>
+                                <input name="phone" id="phone" type="number" class="form-control"
+                                    placeholder="Your Phone Number" required>
                                 <span class="text-danger font-weight-bold" id="phone_num"></span>
                             </div>
                         </div>
-
-                        <!-- <div class="col-lg-12">
-                            <div class="form-group">
-                                <input name="department" id="department" type="text" class="form-control" placeholder="Your Department" >
-                            </div>
-                        </div> -->
-
                         <div>
                             <label for="department">Choose a department: </label>
 
-                            <select name="department" id="department" width = 100px>
+                            <select name="department" id="department" width=100px>
                                 {% for department in departments %}
-                                    <option value="{{ department.department_id }}">{{ department.department_name }}</option>
+                                <option value="{{ department.department_id }}">{{ department.department_name }}</option>
                                 {% endfor %}
                             </select>
                         </div>
-                        
-
-
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input name="password1" id="password1" type="password" class="form-control" placeholder="Your Password" required>
+                                <input name="password1" id="password1" type="password" class="form-control"
+                                    placeholder="Your Password" required>
                                 <span class="text-danger font-weight-bold" id="pass1"></span>
                             </div>
                             <div class="form-group">
-                                <input name="password2" id="password2" type="password" class="form-control" placeholder="Confirm Password" required>
+                                <input name="password2" id="password2" type="password" class="form-control"
+                                    placeholder="Confirm Password" required>
                                 <span class="text-danger font-weight-bold" id="pass2"></span>
                             </div>
                         </div>
-                        
                     </div>
-
                     <div class="text-center">
-                        <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Sign Up" onclick="return validation()" >
+                        <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Sign Up"
+                            onclick="return validation()">
                     </div>
-                    
                 </form>
             </div>
         </div>
     </div>
 </section>
 
-    <script type="text/javascript">
+<script type="text/javascript">
+    function validation() {
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var phone = document.getElementById('phone').value;
+        var password1 = document.getElementById('password1').value;
+        var password2 = document.getElementById('password2').value;
 
-        function validation(){
-            var name = document.getElementById('name').value;
-            var email = document.getElementById('email').value;
-            var phone = document.getElementById('phone').value;
-            var password1 = document.getElementById('password1').value;
-            var password2 = document.getElementById('password2').value;
+        var check = /^[a-zA-Z]+$/;
 
-            var check = /^[a-zA-Z]+$/;
+        //   if(!check.test(name)){
+        //       var user_name = document.getElementById('user_name');
+        //       user_name.innerHTML = 'Name can not be blank or a number!!';
 
-            //   if(!check.test(name)){
-            //       var user_name = document.getElementById('user_name');
-            //       user_name.innerHTML = 'Name can not be blank or a number!!';
+        //       return false;
+        //   }
 
-            //       return false;
-            //   }
+        if (name.length < 5 || name.length > 20) {
+            var user_name = document.getElementById('user_name');
+            user_name.innerHTML = 'Name should be between 5-20 character long!!';
 
-            if(name.length < 5 || name.length > 20){
-                var user_name = document.getElementById('user_name');
-                user_name.innerHTML = 'Name should be between 5-20 character long!!';
-
-                return false;
-            }
-
-            if(email.indexOf('@') <= 0){
-                document.getElementById('email_id').innerHTML = 'Invalid Email Id!!';
-                return false;
-            }
-
-            if((email.charAt(email.length-4)!='.') && (email.charAt(email.length-3)!='.')){
-                document.getElementById('email_id').innerHTML = 'Invalid Email Id!!';
-                return false;
-            }
-
-            if(phone.length != 10){
-                var phone_num = document.getElementById('phone_num');
-                phone_num.innerHTML = 'Phone Number must be 10 character long!!';
-
-                return false;
-            }
-
-
-            if(password1.length < 5 || password1.length > 20){
-                var pass1 = document.getElementById('pass1');
-                pass1.innerHTML = 'Password must be 5-20 character long!!';
-
-                return false;
-            }
-
-            if(password2 != password1){
-                var pass2 = document.getElementById('pass2');
-                pass2.innerHTML = 'Password is not matching!!';
-
-                return false;
-            }
+            return false;
         }
 
-    </script>
+        if (email.indexOf('@') <= 0) {
+            document.getElementById('email_id').innerHTML = 'Invalid Email Id!!';
+            return false;
+        }
+
+        if ((email.charAt(email.length - 4) != '.') && (email.charAt(email.length - 3) != '.')) {
+            document.getElementById('email_id').innerHTML = 'Invalid Email Id!!';
+            return false;
+        }
+
+        if (phone.length != 10) {
+            var phone_num = document.getElementById('phone_num');
+            phone_num.innerHTML = 'Phone Number must be 10 character long!!';
+
+            return false;
+        }
+
+        if (password1.length < 5 || password1.length > 20) {
+            var pass1 = document.getElementById('pass1');
+            pass1.innerHTML = 'Password must be 5-20 character long!!';
+
+            return false;
+        }
+
+        if (password2 != password1) {
+            var pass2 = document.getElementById('pass2');
+            pass2.innerHTML = 'Password is not matching!!';
+
+            return false;
+        }
+    }
+
+</script>
 
 {% endblock %}
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
