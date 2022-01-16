@@ -4,6 +4,7 @@ from django.urls import path
 from doctor.views import doc_homepage, login
 
 from .views import *
+from patient.views import pat_info
 
 urlpatterns = [
     path('', homepage, name='homepage'),
@@ -14,6 +15,7 @@ urlpatterns = [
     path('doctor/', doc_homepage, name = 'doc_homepage'),
     path('doctor/register/', doc_register, name = 'doc_register'),  
     path('doctor/info', doc_info),
+    path('doctor/patientinfo/<int:id>', pat_info),
     
     path('alldoctors/',view_all_doctors),
     path('allpatients/', view_all_patients),

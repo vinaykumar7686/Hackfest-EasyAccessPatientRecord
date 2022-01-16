@@ -86,9 +86,16 @@ def pat_medicalForm(request):
         return render(request, 'pat_medicalForm.html', {'patient_id': patient.patient_id, 'patient_name': patient.patient_name})
 
 @login_required(login_url='/login/')
-def pat_info(request):
-    patient = get_userprofile_by_email(request.user.email)
-
+def pat_info(request, *args, **kwargs):
+    if kwargs.get('id'):
+        if request.user.is_doctor:
+            patient = PatientProfile.objects.filter(patient_id = kwargs.get('id'))[0]
+        else:
+            # Not a doctor, trying to access patient info
+            return redirect('/login')
+    else:
+        patient = get_userprofile_by_email(request.user.email)
+    
     patient_info = PatientProfile.objects.filter(patient_id = patient.patient_id)[0]
     pat_med_info = MedicalInfo.objects.filter(patient_id = patient.patient_id)[0]
     prescriptions_info = DoctorPrescription.objects.filter(patient_id = patient.patient_id)
