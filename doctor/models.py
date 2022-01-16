@@ -16,13 +16,19 @@ class DoctorProfile(models.Model):
     doctor_id = models.AutoField(primary_key=True)
     doctor_name = models.CharField(max_length=100)
     phone_num = models.CharField(max_length=15)
-    email = models.CharField(max_length=50)
+    email = models.CharField(unique = True, max_length=50)
     # password = models.CharField(max_length=10)
     # ---------------Foreign Keys-------------------
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.doctor_name)
+
+    # def get_id_by_email(email):
+    #     try:
+    #         return DoctorProfile.objects.get(email=email)[0]['doctor_id']
+    #     except:
+    #         return False
     
     def get_doctor_by_email(email):
         try:

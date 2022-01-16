@@ -9,6 +9,9 @@ from django.contrib.auth import authenticate, login, logout
 def patient_check(user):
     return not user.is_doctor
 
+def get_userprofile_by_email(email):
+    return PatientProfile.objects.filter(email = email)[0]
+
 # Create your views here.
 @login_required(login_url='/login/')
 @user_passes_test(patient_check, login_url='/login/')
@@ -45,7 +48,7 @@ def pat_register(request):
         login(request, user)
         print('patient logged in')
 
-        return redirect('/patient')
+        return redirect('/patient/medicalForm')
         # add message here and redirect it to login page route
     else:
         patient = PatientProfile.objects.all()
@@ -55,26 +58,32 @@ def pat_register(request):
 @login_required(login_url='/login/')
 @user_passes_test(patient_check, login_url='/login/')
 def pat_medicalForm(request):
+    useremail = request.user.email
+    patient = get_userprofile_by_email(useremail)
+    print(useremail, patient.patient_id, patient.patient_name)
+
     if request.method == 'POST':
-        height = request.POST.get('height')
-        weight = request.POST.get('weight')
-        bloodType = request.POST.get('bloodType')
-        allergy = request.POST.get('allergy')
-        alzheimer = request.POST.get('alzheimer')
-        asthma = request.POST.get('asthma')
-        diabetes = request.POST.get('diabetes')
-        stroke = request.POST.get('stroke')
-        medicalHistory = request.POST.get('medicalHistory')
-        patientId = request.POST.get('patientId')
+        form_data =request.POST 
+        height = form_data.get('height')
+        weight = form_data.get('weight')
+        bloodType = form_data.get('bloodType')
+        allergy = form_data.get('allergy')
+        alzheimer = True if form_data.get('alzheimer') == 'on' else False
+        asthma = True if form_data.get('asthma') == 'on' else False
+        diabetes = True if form_data.get('diabetes') == 'on' else False
+        stroke = True if form_data.get('stroke') == 'on' else False
+        medical_history = form_data.get('medicalHistory')
+        patientId = patient
         patientInfo = MedicalInfo(height=height, weight=weight, bloodType=bloodType, allergy=allergy, alzheimer=alzheimer,
-        asthma=asthma, diabetes=diabetes, stroke=stroke, medicalHistory=medicalHistory, patientId=patientId)
+        asthma=asthma, diabetes=diabetes, stroke=stroke, medical_history=medical_history, patient_id=patientId)
         patientInfo.save()
-        return HTTPResponse('Patient medical info stored successfully')
+
+        return redirect('/patient')
         # add message here and redirect it to patient info page route
     else:
-        patientInfo = MedicalInfo.objects.all()
-        print(patientInfo)
-        return render(request, 'pat_medicalForm.html', {'patientInfo': patientInfo})
+        
+        # patientInfo = MedicalInfo.objects.all()
+        return render(request, 'pat_medicalForm.html', {'patient_id': patient.patient_id, 'patient_name': patient.patient_name})
 
 @login_required(login_url='/login/')
 def pat_info(request, id):

@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+
+from doctor.models import *
 # Create your models here.
 
 class PatientProfile(models.Model):
@@ -24,6 +26,12 @@ class PatientProfile(models.Model):
 
     def __str__(self):
         return str(self.patient_name)
+
+    # def get_id_by_email(email):
+    #     try:
+    #         return PatientProfile.objects.get(email=email)[0]['doctor_id']
+    #     except:
+    #         return False
 
     class Meta:
         db_table = 'PatientProfile'
@@ -106,9 +114,21 @@ class MyUser(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['is_doctor']
 
-    def get_full_name(self):
+    def get_email(self):
         # The user is identified by their email address
         return self.email
+    
+    def is_adoctor(self):
+        return self.is_doctor
+
+    # def get_userid(self):
+    #     # print(self.get_email())
+    #     if self.is_adoctor():
+    #         docData = DoctorProfile.objects.filter(email = self.get_email())[0]
+    #         return docData# ['doctor_id']
+    #     else:
+    #         patData = PatientProfile.objects.filter(email = self.get_email())[0]
+    #         return patData# ['patient_id']
 
     def get_short_name(self):
         # The user is identified by their email address
@@ -138,3 +158,11 @@ class MyUser(AbstractBaseUser):
 
 
 # user = MyUser.objects.create_user( email = 'abscdef@gmail.com', is_doctor = True, password = 'wowowowow')
+
+# useremail = request.user.email
+#         patient = get_userprofile_by_email(useremail)
+#         print(useremail, patient)
+
+
+# def get_userprofile_by_email(email):
+#     return PatientProfile.objects.filter(email = email)[0]
