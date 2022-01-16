@@ -9,14 +9,22 @@ from django.contrib.auth import authenticate, login, logout
 def patient_check(user):
     return not user.is_doctor
 
-def get_userprofile_by_email(email):
-    return PatientProfile.objects.filter(email = email)[0]
+def get_userprofile_by_email(request):
+    if request.user.is_authenticated:
+        try:
+            email = request.user.email
+            return PatientProfile.objects.filter(email = email)[0]
+        except:
+            return None
+    else:
+        return None
 
 # Create your views here.
 @login_required(login_url='/login/')
 @user_passes_test(patient_check, login_url='/login/')
 def pat_homepage(request):
-    return render(request=request, template_name='pat_home.html')
+    userprofile = get_userprofile_by_email(request)
+    return render(request, 'pat_home.html', {'username': userprofile.patient_name, 'usertype': 'patient'})
 
 
 def pat_register(request):
@@ -59,7 +67,7 @@ def pat_register(request):
 @user_passes_test(patient_check, login_url='/login/')
 def pat_medicalForm(request):
     useremail = request.user.email
-    patient = get_userprofile_by_email(useremail)
+    patient = get_userprofile_by_email(request)
     print(useremail, patient.patient_id, patient.patient_name)
 
     if request.method == 'POST':
@@ -83,7 +91,7 @@ def pat_medicalForm(request):
     else:
         
         # patientInfo = MedicalInfo.objects.all()
-        return render(request, 'pat_medicalForm.html', {'patient_id': patient.patient_id, 'patient_name': patient.patient_name})
+        return render(request, 'pat_medicalForm.html', {'patient_id': patient.patient_id, 'patient_name': patient.patient_name, 'disable': True})
 
 @login_required(login_url='/login/')
 def pat_info(request, *args, **kwargs):
@@ -94,7 +102,7 @@ def pat_info(request, *args, **kwargs):
             # Not a doctor, trying to access patient info
             return redirect('/login')
     else:
-        patient = get_userprofile_by_email(request.user.email)
+        patient = get_userprofile_by_email(request)
     
     patient_info = PatientProfile.objects.filter(patient_id = patient.patient_id)[0]
     pat_med_info = MedicalInfo.objects.filter(patient_id = patient.patient_id)[0]
@@ -114,4 +122,5 @@ def pat_info(request, *args, **kwargs):
         data['medications'][f'prescription{i}'] = medications
         i+=1
     print(data)
-    return render(request, 'pat_info.html', {'patient_info': patient_info, 'pat_med_info': pat_med_info, 'data': data})
+    userprofile = get_userprofile_by_email(request)
+    return render(request, 'pat_info.html', {'patient_info': patient_info, 'pat_med_info': pat_med_info, 'data': data, 'username': userprofile.patient_name, 'usertype': 'patient'})
