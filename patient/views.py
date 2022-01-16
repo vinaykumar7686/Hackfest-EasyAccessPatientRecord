@@ -63,7 +63,7 @@ def pat_register(request):
         user = authenticate(request, email=patient_email, password=password1)
         login(request, user)
         print('patient logged in')
-        messages.info(request, "Registered Successfully!")
+        messages.success(request, "Registered Successfully!")
         return redirect('/patient/medicalForm')
         # add message here and redirect it to login page route
     else:
@@ -204,7 +204,7 @@ def update_medicalinfo(request):
             stroke=stroke, 
             medical_history=medical_history)
         
-        messages.info(request, "Details updated successfully")
+        messages.success(request, "Details updated successfully")
         return redirect('/patient')
 
     else:

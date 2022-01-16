@@ -42,15 +42,14 @@ def common_login(request):
 
             if is_doctor:
                 messages.success(request, " You are logged in successfully")
-                messages.debug(request, " You are logged in successfully")
-                messages.info(request, " You are logged in successfully")
                 return redirect('/doctor')
 
             else:
+                messages.success(request, " You are logged in successfully")
                 return redirect('/patient')
          
         else:
-            messages.warning(request, " Invalid Credentials, Try Again!")
+            messages.error(request, " Invalid Credentials, Try Again!")
             return redirect('/login')
             # error_message = 'Invalid Email or Password!!'
             # return render(request, 'login.html', {'error_message': error_message})
@@ -102,7 +101,7 @@ def doc_register(request):
         # Logging into newly created account
         user = authenticate(request, email=email, password=password1)
         login(request, user)
-        messages.info(request, "Account created successfully!")
+        messages.success(request, "Account created successfully!")
         return redirect('/doctor')
         
     else:
@@ -186,7 +185,7 @@ def add_prescription(request, *args, **kwargs):
 
             print((f'{medicine.name} added Successfully!'))
 
-        messages.info(request, "Prescription added successfully!")
+        messages.success(request, "Prescription added successfully!")
         print(('Data Posted Successfully!'))
         return redirect('/doctor/')
     else:

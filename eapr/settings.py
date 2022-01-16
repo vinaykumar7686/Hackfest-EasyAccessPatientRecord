@@ -1,5 +1,5 @@
 
-
+from django.contrib.messages import constants as messages
 from pathlib import Path
 import os
 
@@ -120,3 +120,7 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = "patient.MyUser"
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
