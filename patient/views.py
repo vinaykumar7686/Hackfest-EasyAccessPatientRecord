@@ -98,12 +98,20 @@ def pat_medicalForm(request):
 
 @login_required(login_url='/login/')
 def pat_info(request, *args, **kwargs):
+    usertype = None
+    # To check whether to fetch patient id from urls or session
     if kwargs.get('id'):
         if request.user.is_doctor:
             patient = PatientProfile.objects.filter(patient_id = kwargs.get('id'))[0]
+            usertype = 'doctor'
+            userprofile = get_userprofile_by_email(request)
+            username = userprofile.doctor_name
         else:
             # Not a doctor, trying to access patient info
             return redirect('/login')
+            usertype = 'patient'
+            userprofile = get_userprofile_by_email(request)
+            username = userprofile.patient_name
     else:
         patient = get_userprofile_by_email(request)
     
@@ -125,5 +133,4 @@ def pat_info(request, *args, **kwargs):
         data['medications'][f'prescription{i}'] = medications
         i+=1
     print(data)
-    userprofile = get_userprofile_by_email(request)
-    return render(request, 'pat_info.html', {'patient_info': patient_info, 'pat_med_info': pat_med_info, 'data': data, 'username': userprofile.patient_name, 'usertype': 'patient'})
+    return render(request, 'pat_info.html', {'patient_info': patient_info, 'pat_med_info': pat_med_info, 'data': data, 'username': username, 'usertype': usertype})

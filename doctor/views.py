@@ -278,10 +278,11 @@ def view_all_patients(request):
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
 def doc_info(request):
-    doctor_info = DoctorProfile.objects.all()[0]
     userprofile = get_userprofile_by_email(request)
 
-    prescriptions_info = DoctorPrescription.objects.all()#filter(doctor_id = id)
+    doctor_info = DoctorProfile.objects.filter(doctor_id = userprofile.doctor_id)[0]
+
+    prescriptions_info = DoctorPrescription.objects.filter(doctor_id = userprofile.doctor_id)
     # print(prescriptions_info)
     data = {'prescriptions': [], 'medications' : {}}
     i = 1
