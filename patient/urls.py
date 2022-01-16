@@ -6,6 +6,6 @@ urlpatterns = [
     path('', pat_homepage, name='pat_homepage'),
     path('register/', pat_register),
     path('medicalForm/', pat_medicalForm),
-    path('info/<int:id>', pat_info)
+    path('info/', pat_info)
 ]
 

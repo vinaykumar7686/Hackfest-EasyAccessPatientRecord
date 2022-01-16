@@ -73,9 +73,9 @@ def pat_medicalForm(request):
         diabetes = True if form_data.get('diabetes') == 'on' else False
         stroke = True if form_data.get('stroke') == 'on' else False
         medical_history = form_data.get('medicalHistory')
-        patientId = patient
+
         patientInfo = MedicalInfo(height=height, weight=weight, bloodType=bloodType, allergy=allergy, alzheimer=alzheimer,
-        asthma=asthma, diabetes=diabetes, stroke=stroke, medical_history=medical_history, patient_id=patientId)
+        asthma=asthma, diabetes=diabetes, stroke=stroke, medical_history=medical_history, patient_id=patient)
         patientInfo.save()
 
         return redirect('/patient')
@@ -86,10 +86,12 @@ def pat_medicalForm(request):
         return render(request, 'pat_medicalForm.html', {'patient_id': patient.patient_id, 'patient_name': patient.patient_name})
 
 @login_required(login_url='/login/')
-def pat_info(request, id):
-    patient_info = PatientProfile.objects.filter(patient_id = id)[0]
-    pat_med_info = MedicalInfo.objects.filter(patient_id = id)[0]
-    prescriptions_info = DoctorPrescription.objects.filter(patient_id = id)
+def pat_info(request):
+    patient = get_userprofile_by_email(request.user.email)
+
+    patient_info = PatientProfile.objects.filter(patient_id = patient.patient_id)[0]
+    pat_med_info = MedicalInfo.objects.filter(patient_id = patient.patient_id)[0]
+    prescriptions_info = DoctorPrescription.objects.filter(patient_id = patient.patient_id)
     print(prescriptions_info)
     data = {'prescriptions': [], 'medications' : {}}
     i = 1
