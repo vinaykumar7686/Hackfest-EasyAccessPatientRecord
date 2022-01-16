@@ -13,7 +13,10 @@ def get_userprofile_by_email(request):
     if request.user.is_authenticated:
         try:
             email = request.user.email
-            return PatientProfile.objects.filter(email = email)[0]
+            if request.user.is_doctor:
+                return DoctorProfile.objects.filter(email = email)[0]
+            else:
+                return PatientProfile.objects.filter(email = email)[0]
         except:
             return None
     else:

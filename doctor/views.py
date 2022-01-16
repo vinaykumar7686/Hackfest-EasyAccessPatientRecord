@@ -8,6 +8,19 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 def doctor_check(user):
     return user.is_doctor
 
+def get_userprofile_by_email(request):
+    if request.user.is_authenticated:
+        try:
+            email = request.user.email
+            if request.user.is_doctor:
+                return DoctorProfile.objects.filter(email = email)[0]
+            else:
+                return PatientProfile.objects.filter(email = email)[0]
+        except:
+            return None
+    else:
+        return None
+
 
 # Create your views here.
 def common_login(request):
@@ -43,12 +56,13 @@ def common_logout(request):
 
 # Website Hompage
 def homepage(request):
-    return render(request=request, template_name='homepage.html')
+    return render(request,'homepage.html')
     
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
 def doc_homepage(request):
-    return render(request=request, template_name='doc_home.html')
+    userprofile = get_userprofile_by_email(request)
+    return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor'})
 
 def doc_register(request):
     if request.method == 'POST':
@@ -162,25 +176,27 @@ def add_prescription(request, *args, **kwargs):
     else:
         print(request.user.email)
         docprofile = DoctorProfile.objects.filter(email = request.user.email)[0]
-
+        userprofile = get_userprofile_by_email(request)
         if not args and not kwargs:
             doctors = DoctorProfile.objects.filter(doctor_id = docprofile.doctor_id)
             patients = PatientProfile.objects.all()
             medicines = Medicines.objects.all()
-            return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines})
+            return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
         else:
             doctors = DoctorProfile.objects.filter(doctor_id = docprofile.doctor_id)
             patients = PatientProfile.objects.filter(patient_id = kwargs['id'])
             medicines = Medicines.objects.all()
-            return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines})
+            return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
 
 @login_required(login_url='/login/')
 def view_prescription(request, id):
+    userprofile = get_userprofile_by_email(request)
     prescription = DoctorPrescription.objects.filter(prescription_id = id)[0]
     medication_orders = Medication_order.objects.filter(prescription_id=prescription.prescription_id)
     prescription_data = {
         'prescription_details': prescription,
-        'medication_data':[]
+        'medication_data':[],
+        'username': userprofile.doctor_name, 'usertype': 'doctor'
         }
     
     for med_order in medication_orders:
@@ -204,7 +220,9 @@ def view_prescription(request, id):
 
     
 def view_all_doctors(request):
-    # dept = Department.objects.all()[0]
+    
+
+    # dept = Department.objects.all()[0userprofile = get_userprofile_by_email(request)]
     # doctors = DoctorProfile.objects.filter(department = dept.department_id)
     # doctor_detail = {
     #     'dept':dept,
@@ -221,13 +239,24 @@ def view_all_doctors(request):
     # return render(request, 'doc_info.html',{'doctors':doctors})
     # return HttpResponse("Done")
     doctors = DoctorProfile.objects.all()
-    return render(request, 'all_doc.html', {'doctors':doctors})
+
+    # For Navbar
+    if request.user.is_authenticated:
+        userprofile = get_userprofile_by_email(request)
+        usertype = 'doctor' if request.user.is_doctor else 'patient'
+        if usertype == 'doctor':
+            return render(request, 'all_doc.html', {'doctors':doctors, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
+        else:
+            return render(request, 'all_doc.html', {'doctors':doctors, 'username': userprofile.patient_name, 'usertype': 'patient'})
+    else:
+        return render(request, 'all_doc.html', {'doctors':doctors})
 
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
 def view_all_meds(request):
     meds = Medicines.objects.all()
-    return render(request, 'all_meds.html', {'medicines':meds})
+    userprofile = get_userprofile_by_email(request)
+    return render(request, 'all_meds.html', {'medicines':meds, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
 
 
 @login_required(login_url='/login/')
@@ -235,19 +264,22 @@ def view_all_meds(request):
 def view_one_med(request, id):
     meds = Medicines.objects.filter(code=id)[0]
     preparation = Preparation.objects.filter(medicine_id=id)[0]
-    context={'meds':meds, 'prep':preparation}
+    userprofile = get_userprofile_by_email(request)
+    context={'meds':meds, 'prep':preparation, 'username': userprofile.doctor_name, 'usertype': 'doctor'}
     return render(request, 'view_one_med.html',context)
 
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
 def view_all_patients(request):
     patients = PatientProfile.objects.all()
-    return render(request, 'all_pat.html', {'patients':patients})
+    userprofile = get_userprofile_by_email(request)
+    return render(request, 'all_pat.html', {'patients':patients, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
 
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
 def doc_info(request):
     doctor_info = DoctorProfile.objects.all()[0]
+    userprofile = get_userprofile_by_email(request)
 
     prescriptions_info = DoctorPrescription.objects.all()#filter(doctor_id = id)
     # print(prescriptions_info)
@@ -272,7 +304,7 @@ def doc_info(request):
         i+=1
     print(data)
 
-    return render(request, 'doc_info.html', {'doctor_info': doctor_info,  'data': data})
+    return render(request, 'doc_info.html', {'doctor_info': doctor_info,  'data': data, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
     # return render(request, 'doc_info.html',{'doctor_info':doctor_info})
 
 
