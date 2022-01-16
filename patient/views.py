@@ -196,7 +196,7 @@ def update_medicalinfo(request):
 
         
 
-        patientInfo = MedicalInfo.objects.filter(patient_id = userprofile.patient_id).update(
+        MedicalInfo.objects.filter(patient_id = userprofile.patient_id).update(
             height=height, 
             weight=weight, 
             bloodType=bloodType, 
@@ -206,10 +206,10 @@ def update_medicalinfo(request):
             diabetes=diabetes, 
             stroke=stroke, 
             medical_history=medical_history)
-        patientInfo.save()
+        
 
         return redirect('/patient')
 
     else:
-        medicalinfo = MedicalInfo.objects.filter(email = request.user.email)[0]
+        medicalinfo = MedicalInfo.objects.filter(patient_id = userprofile.patient_id)[0]
         return render(request, 'pat_update_medicalInfo.html', {'patient_id': userprofile.patient_id, 'patient_name': userprofile.patient_name,'medicalinfo':medicalinfo, 'username': userprofile.patient_name, 'usertype': 'patient'})
