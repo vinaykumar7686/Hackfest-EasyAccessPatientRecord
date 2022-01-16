@@ -142,3 +142,74 @@ def pat_info(request, *args, **kwargs):
         i+=1
     print(data)
     return render(request, 'pat_info.html', {'patient_info': patient_info, 'pat_med_info': pat_med_info, 'data': data, 'username': username, 'usertype': usertype})
+
+
+@login_required
+@user_passes_test(patient_check, login_url='/login/')
+def update_patient(request):
+    userprofile = get_userprofile_by_email(request)
+
+    if request.method == 'POST':
+        formdata = request.POST
+        patient_name = formdata.get('name')
+        relative_name = formdata.get('relative_name')
+        gender = formdata.get('gender')
+        phone = formdata.get('phone')
+        relative_phone = formdata.get('relative_phone')
+        patient_dob = formdata.get('pat_dob')
+        patient_address = formdata.get('patient_address')
+        patient_prior_ailments = formdata.get('patient_prior_ailments')
+
+        PatientProfile.objects.filter(email=userprofile.email).update(
+            patient_name=patient_name, 
+            patient_relative_name=relative_name, 
+            gender=gender, 
+            phone_num=phone, 
+            patient_relative_contact=relative_phone,
+            dob=patient_dob, 
+            resd_address=patient_address, 
+            prior_ailments=patient_prior_ailments)
+
+        return redirect('/patient')
+    else:
+        patientinfo = PatientProfile.objects.filter(email = request.user.email)[0]
+        return render(request, 'pat_update.html', {'patientinfo': patientinfo, 'username': userprofile.patient_name, 'usertype': 'patient'})
+
+
+
+@login_required
+@user_passes_test(patient_check, login_url='/login/')
+def update_medicalinfo(request):
+    userprofile = get_userprofile_by_email(request)
+    
+    if request.method == 'POST':
+        form_data =request.POST 
+        height = form_data.get('height')
+        weight = form_data.get('weight')
+        bloodType = form_data.get('bloodType')
+        allergy = form_data.get('allergy')
+        alzheimer = True if form_data.get('alzheimer') == 'on' else False
+        asthma = True if form_data.get('asthma') == 'on' else False
+        diabetes = True if form_data.get('diabetes') == 'on' else False
+        stroke = True if form_data.get('stroke') == 'on' else False
+        medical_history = form_data.get('medicalHistory')
+
+        
+
+        patientInfo = MedicalInfo.objects.filter(patient_id = userprofile.patient_id).update(
+            height=height, 
+            weight=weight, 
+            bloodType=bloodType, 
+            allergy=allergy, 
+            alzheimer=alzheimer,
+            asthma=asthma, 
+            diabetes=diabetes, 
+            stroke=stroke, 
+            medical_history=medical_history)
+        patientInfo.save()
+
+        return redirect('/patient')
+
+    else:
+        medicalinfo = MedicalInfo.objects.filter(email = request.user.email)[0]
+        return render(request, 'pat_update_medicalInfo.html', {'patient_id': userprofile.patient_id, 'patient_name': userprofile.patient_name,'medicalinfo':medicalinfo, 'username': userprofile.patient_name, 'usertype': 'patient'})
