@@ -61,7 +61,14 @@ def common_logout(request):
 
 # Website Hompage
 def homepage(request):
-    return render(request,'homepage.html')
+    userprofile = get_userprofile_by_email(request)
+    if userprofile is not None:
+        if request.user.is_doctor:
+            return render(request,'homepage.html', {'username': userprofile.doctor_name, 'usertype': 'doctor'})
+        else:
+            return render(request,'homepage.html', {'username': userprofile.patient_name, 'usertype': 'patient'})
+    else:
+        return render(request,'homepage.html')
     
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
