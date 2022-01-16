@@ -160,13 +160,16 @@ def add_prescription(request, *args, **kwargs):
         return redirect('/doctor/')
 
     else:
+        print(request.user.email)
+        docprofile = DoctorProfile.objects.filter(email = request.user.email)[0]
+
         if not args and not kwargs:
-            doctors = DoctorProfile.objects.all()
+            doctors = DoctorProfile.objects.filter(doctor_id = docprofile.doctor_id)
             patients = PatientProfile.objects.all()
             medicines = Medicines.objects.all()
             return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines})
         else:
-            doctors = DoctorProfile.objects.all()
+            doctors = DoctorProfile.objects.filter(doctor_id = docprofile.doctor_id)
             patients = PatientProfile.objects.filter(patient_id = kwargs['id'])
             medicines = Medicines.objects.all()
             return render(request, 'doc_add_prescription.html', {'doctors': doctors, 'patients': patients, 'medicines': medicines})
