@@ -113,10 +113,10 @@ def pat_info(request, *args, **kwargs):
             username = userprofile.doctor_name
         else:
             # Not a doctor, trying to access patient info
-            return redirect('/login')
             usertype = 'patient'
             userprofile = get_userprofile_by_email(request)
             username = userprofile.patient_name
+            return redirect('/login')
     else:
         patient = get_userprofile_by_email(request)
         username = patient.patient_name
