@@ -253,8 +253,32 @@ def view_all_doctors(request):
     #     doctor_detail['doctors'].append(doctors)
     # return render(request, 'doc_info.html',{'doctors':doctors})
     # return HttpResponse("Done")
-    doctors = DoctorProfile.objects.all()
+    object = {'departments' : {}}
+    allDepartments = Department.objects.all()
 
+    for department in allDepartments:
+        docs = DoctorProfile.objects.filter(department = department)
+        object['departments'][department.department_name] = [docs]
+
+    print(object)
+     
+    '''{
+        'departments': 
+        {
+        'neuro': [<QuerySet [<DoctorProfile: RajBalhara>]>],
+        'psyco': [<QuerySet []>]
+        }
+    }'''
+
+
+
+
+
+
+
+
+
+    doctors = DoctorProfile.objects.all()
     # For Navbar
     if request.user.is_authenticated:
         userprofile = get_userprofile_by_email(request)
@@ -264,7 +288,7 @@ def view_all_doctors(request):
         else:
             return render(request, 'all_doc.html', {'doctors':doctors, 'username': userprofile.patient_name, 'usertype': 'patient'})
     else:
-        return render(request, 'all_doc.html', {'doctors':doctors})
+        return render(request, 'all_doc.html', {'doctors':doctors, 'object': object})
 
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
