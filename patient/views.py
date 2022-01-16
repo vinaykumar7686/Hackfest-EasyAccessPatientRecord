@@ -1,10 +1,23 @@
 from http.client import HTTPResponse
 from .forms import RegForm, MedicalInfoForm
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect, get_object_or_404
 from patient.models import *
 from doctor.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
+from .serializers import PatientSerializer
+from rest_framework.parsers import JSONParser
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework import generics
+from rest_framework import mixins
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
 
 def patient_check(user):
     return not user.is_doctor
@@ -139,3 +152,124 @@ def pat_info(request, *args, **kwargs):
         i+=1
     print(data)
     return render(request, 'pat_info.html', {'patient_info': patient_info, 'pat_med_info': pat_med_info, 'data': data, 'username': username, 'usertype': usertype})
+
+# ---------------------------------------API---------------------------------------------- #
+class GenericAPIView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin,mixins.UpdateModelMixin, 
+mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
+    serializer_class = PatientSerializer
+    queryset = PatientProfile.objects.all()
+    lookup_field = 'patient_id'
+    # authentication_classes = [SessionAuthentication, BasicAuthentication]
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAuthenticated]
+
+    def get(self, request, patient_id=None):
+        if patient_id:
+            return self.retrieve(request)
+        else:
+            return self.list(request)
+    
+    def post(self, request):
+        return self.create(request)
+
+    def put(self, request, patient_id=None):
+        return self.update(request, patient_id)
+
+    def delete(self, request, patient_id=None):
+        return self.destroy(request, patient_id)
+
+# class PatientDetailsAPIView(APIView):
+#     def get(self, request):
+#         patient = PatientProfile.objects.all()
+#         serializer = PatientSerializer(patient, many=True)
+#         return Response(serializer.data)
+
+#     def post(self, request):
+#         serializer = PatientSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# class PatientViewSet(viewsets.ViewSet):
+#     def list(self, request):
+#         patient = PatientProfile.objects.all()
+#         serializer = PatientSerializer(patient, many=True)
+#         return Response(serializer.data)
+    
+#     def create(self, request):
+#         serializer = PatientSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
+#     def retrieve(self, request, patient_id=None):
+#         queryset = PatientProfile.objects.all()
+#         patient = get_object_or_404(queryset, patient_id=patient_id)
+#         serializer = PatientSerializer(patient)
+#         return Response(serializer.data)
+
+
+# class PatientProfileDetailsAPIView(APIView):
+#     def get_object(self, id):
+#         try:
+#             return PatientProfile.objects.get(patient_id=id)
+#         except PatientSerializer.DoesNotExist:
+#             return HTTPResponse(status=status.HTTP_404_NOT_FOUND)
+
+#     def get(self, request, id):
+#         patient = self.get_object(id)
+#         serializer = PatientSerializer(patient)
+#         return Response(serializer.data)
+
+#     def put(self, request, id):
+#         patient = self.get_object(id)
+#         serializer = PatientSerializer(patient, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     def delete(self, request, id):
+#         patient = self.get_object(id)
+#         patient.delete()
+#         return HTTPResponse(status=status.HTTP_204_NO_CONTENT)
+
+
+# @api_view(['GET', 'POST',])
+# def patient_details(request):
+#     if request.method == 'GET':
+#         patient = PatientProfile.objects.all()
+#         serializer = PatientSerializer(patient, many=True)
+#         return Response(serializer.data)
+
+#     elif request.method == 'POST':
+#         serializer = PatientSerializer(data=request.data)
+
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# @api_view(['GET', 'PUT', 'DELETE'])
+# def patient_profile_details(request,id):
+#     try:
+#         patient = PatientProfile.objects.get(patient_id=id)
+#     except PatientSerializer.DoesNotExist:
+#         return HTTPResponse(status=status.HTTP_404_NOT_FOUND)
+
+#     if request.method == 'GET':
+#         serializer = PatientSerializer(patient)
+#         return Response(serializer.data)
+
+#     elif request.method == 'PUT':
+#         serializer = PatientSerializer(patient, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     elif request.method == 'DELETE':
+#         patient.delete()
+#         return HTTPResponse(status=status.HTTP_204_NO_CONTENT)
