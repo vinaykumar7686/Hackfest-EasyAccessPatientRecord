@@ -58,7 +58,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="department-content sidebars-widget schedules-widget mt-5">
-						<h5 class="text-md">My Prescription History</h5>
+						<h5 class="text-md">My Patient's Prescription History</h5>
 						<div class="divider my-4"></div>
 					</div>
 					{% for prescription in data.prescriptions %}
@@ -96,8 +96,8 @@
 					<!-- <input type="text" name="clickedpres" id="clickedpres", value = ""> -->
 					<!-- <a href="/doctor/prescription/{{prescription.prescription_id}}" value = 'View' method = "POST">View</a> -->
 					<form action="/prescription/{{prescription.prescription_id}}" method="post"> {% csrf_token %}
-						<br>
 						<button type="submit" name="prescription{{prescription_id}}" value="prescription{{prescription_id}}" class="btn btn-main">View</button>
+						<br>
 					</form>
 					{% endfor %}		
 				</div>
