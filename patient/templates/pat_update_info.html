@@ -4,14 +4,13 @@
 <title>Register-Patient</title>
 {% endblock %}
 {% block body %}
-<section class="page-title bg-1">
+<section class="page-title bg-2">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
                 <div class="block text-center">
-                    <h1 class="text-capitalize mb-5 text-lg">Update Info</h1>
-                    <span class="text-white">For Patients only!</span>
+                    <h1 class="text-capitalize mb-5 text-lg">Update Profile</h1>
                 </div>
             </div>
         </div>
@@ -23,71 +22,71 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <form id="contact-form" class="contact__form " method="POST" action="/patient/update/info/">
                     {% csrf_token %}
+                    
                     <div class="row">
-                        <div class="col-lg-12">
+
+                        <div class="col-lg-6">
                             <div class="form-group">
-                                <input name="name" id="name" type="text" class="form-control" placeholder="Patient Name"
-                                    value= "{{patientinfo.patient_name}}" readonly>
-                                <span class="text-danger font-weight-bold" id="user_name"></span>
+                                <h5 class="mb-2">&nbsp;Name</h5>
+                                <input name="name" id="name" type="text" class="form-control" value= "{{patientinfo.patient_name}}" readonly>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+
+                        <div class="col-lg-6">
                             <div class="form-group">
-                                <input name="relative_name" id="relative_name" type="text" class="form-control"
-                                    placeholder="Patient Relative Name" value= "{{patientinfo.patient_relative_name}}" required>
-                                <span class="text-danger font-weight-bold" id="rel_name"></span>
+                                <h5 class="mb-2">&nbsp;Phone</h5>
+                                <input name="phone" id="phone" type="number" class="form-control" value= "{{patientinfo.phone_num}}" required>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+
+                        <div class="col-lg-6">
                             <div class="form-group">
+                                <h5 class="mb-2">&nbsp;Relative Name</h5>
+                                <input name="relative_name" id="relative_name" type="text" class="form-control" value= "{{patientinfo.patient_relative_name}}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <h5 class="mb-2">&nbsp;Relative Phone</h5>
+                                <input name="relative_phone" id="rel_phone" type="number" class="form-control" value= "{{patientinfo.patient_relative_contact}}" required>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <h5 class="mb-2">&nbsp;Gender</h5>
                                 <select name="gender" id="ender" class="form-control" value= "{{patientinfo.gender}}">
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                     <option value="Others">Others</option>
                                     <option value="Prefer not to say!">Prefer not to say!</option>
                                 </select>
-                                <span class="text-danger font-weight-bold" id="pat_gender"></span>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+
+                        <div class="col-lg-6">
                             <div class="form-group">
-                                <input name="phone" id="phone" type="number" class="form-control"
-                                    placeholder="Patient Phone Number" value= "{{patientinfo.phone_num}}" required>
-                                <span class="text-danger font-weight-bold" id="phone_num"></span>
+                                <h5 class="mb-2">&nbsp;Date of Birth</h5>
+                                <input name="pat_dob" id="patient_dob" type="date" class="form-control" value="{{patientinfo.dob}}" required>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <div class="form-group">
-                                <input name="relative_phone" id="rel_phone" type="number" class="form-control"
-                                    placeholder="Patient Relative Phone Number" value= "{{patientinfo.patient_relative_contact}}" required>
-                                <span class="text-danger font-weight-bold" id="rel_phone_num"></span>
+                                <h5 class="mb-2">&nbsp;Address</h5>
+                                <input name="patient_address" id="patient_address" type="text" class="form-control" value="{{patientinfo.resd_address}}" required>
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-6">
                             <div class="form-group">
-                                <input name="pat_dob" id="patient_dob" type="date" class="form-control"
-                                    placeholder="Patient DOB" value= "{{patientinfo.dob}}" required>
-                                <span class="text-danger font-weight-bold" id="pat_dob"></span>
+                                <h5 class="mb-2">&nbsp;Prior Ailments</h5>
+                                <input name="patient_prior_ailments" id="patient_prior_ailments" type="text" class="form-control" value="{{patientinfo.prior_ailments}}" required>
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <input name="patient_address" id="patient_address" type="text" class="form-control"
-                                    placeholder="Patient Address" value= "{{patientinfo.resd_address}}" required>
-                                <span class="text-danger font-weight-bold" id="pat_address"></span>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <input name="patient_prior_ailments" id="patient_prior_ailments" type="text"
-                                    class="form-control" placeholder="Patient Prior Ailments" value= "{{patientinfo.prior_ailments}}" required>
-                                <span class="text-danger font-weight-bold" id="pat_prior_ailment"></span>
-                            </div>
-                        </div>
+
                     </div>
-                    <div class="text-center">
-                        <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Update details"
-                            onclick="return validation()">
+                    <div class="text-center my-4">
+                        <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Update profile" onclick="return validation()">
                     </div>
                 </form>
             </div>
