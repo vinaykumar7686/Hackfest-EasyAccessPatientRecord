@@ -255,50 +255,16 @@ def view_prescription(request, id):
 
     
 def view_all_doctors(request):
+
+    search = None
+    if request.method == 'POST':
+        search = request.POST.get('search')
     
+    if search is not None:
+        doctors = DoctorProfile.objects.filter(email__contains = search)
+    else:
+        doctors = DoctorProfile.objects.all()
 
-    # dept = Department.objects.all()[0userprofile = get_userprofile_by_email(request)]
-    # doctors = DoctorProfile.objects.filter(department = dept.department_id)
-    # doctor_detail = {
-    #     'dept':dept,
-    #     'doctors':[]
-    # }
-    # print(doctors)
-    # print('-----------------------')
-    # for doc in doctors:
-    #     docProfile = DoctorProfile.objects.filter(department=doc.department_id)[0]
-    #     doctors={
-    #         'docProfile':docProfile
-    #     }       
-    #     doctor_detail['doctors'].append(doctors)
-    # return render(request, 'doc_info.html',{'doctors':doctors})
-    # return HttpResponse("Done")
-    object = {'departments' : {}}
-    allDepartments = Department.objects.all()
-
-    for department in allDepartments:
-        docs = DoctorProfile.objects.filter(department = department)
-        object['departments'][department.department_name] = [docs]
-
-    print(object)
-     
-    '''{
-        'departments': 
-        {
-        'neuro': [<QuerySet [<DoctorProfile: RajBalhara>]>],
-        'psyco': [<QuerySet []>]
-        }
-    }'''
-
-
-
-
-
-
-
-
-
-    doctors = DoctorProfile.objects.all()
     # For Navbar
     userprofile = get_userprofile_by_email(request)
     if userprofile and request.user.is_authenticated:
@@ -308,12 +274,20 @@ def view_all_doctors(request):
         else:
             return render(request, 'all_doc.html', {'doctors':doctors, 'username': userprofile.patient_name, 'usertype': 'patient'})
     else:
-        return render(request, 'all_doc.html', {'doctors':doctors, 'object': object})
+        return render(request, 'all_doc.html', {'doctors':doctors})
 
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
 def view_all_meds(request):
-    meds = Medicines.objects.all()
+
+    search = None
+    if request.method == 'POST':
+        search = request.POST.get('search')
+    
+    if search is not None:
+        meds = Medicines.objects.filter(name__contains = search)
+    else:
+        meds = Medicines.objects.all()
     userprofile = get_userprofile_by_email(request)
     return render(request, 'all_meds.html', {'medicines':meds, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
 
@@ -330,7 +304,15 @@ def view_one_med(request, id):
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
 def view_all_patients(request):
-    patients = PatientProfile.objects.all()
+    search = None
+    if request.method == 'POST':
+        search = request.POST.get('search')
+    
+    if search is not None:
+        patients = PatientProfile.objects.filter(email__contains = search)
+    else:
+        patients = PatientProfile.objects.all()
+    
     userprofile = get_userprofile_by_email(request)
     return render(request, 'all_pat.html', {'patients':patients, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
 
