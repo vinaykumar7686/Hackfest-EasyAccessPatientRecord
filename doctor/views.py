@@ -292,8 +292,8 @@ def view_all_doctors(request):
 
     doctors = DoctorProfile.objects.all()
     # For Navbar
-    if request.user.is_authenticated:
-        userprofile = get_userprofile_by_email(request)
+    userprofile = get_userprofile_by_email(request)
+    if userprofile and request.user.is_authenticated:
         usertype = 'doctor' if request.user.is_doctor else 'patient'
         if usertype == 'doctor':
             return render(request, 'all_doc.html', {'doctors':doctors, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
@@ -360,10 +360,42 @@ def doc_info(request):
     # return render(request, 'doc_info.html',{'doctor_info':doctor_info})
 
 
+@login_required(login_url='/login/')
+@user_passes_test(doctor_check, login_url='/login/')
+def pat_search(request, keys):
+    patients = PatientProfile.objects.filter(email__contains=keys)
+    userprofile = get_userprofile_by_email(request)
+
+    if userprofile is not None:
+        return render(request, 'all_pat.html', {'patients':patients, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
+    else:
+        return redirect('/login')
 
 
+@login_required(login_url='/login/')
+@user_passes_test(doctor_check, login_url='/login/')
+def med_search(request, keys):
+    meds = Medicines.objects.filter(name__contains=keys)
+    userprofile = get_userprofile_by_email(request)
+    if userprofile is not None:
+        return render(request, 'all_meds.html', {'medicines':meds, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
+    else:
+        return redirect('/login')
 
 
+def doc_search(request,keys):
+
+    doctors = DoctorProfile.objects.filter(email__contains=keys)
+    # For Navbar
+    userprofile = get_userprofile_by_email(request)
+    if userprofile and request.user.is_authenticated:
+        usertype = 'doctor' if request.user.is_doctor else 'patient'
+        if usertype == 'doctor':
+            return render(request, 'all_doc.html', {'doctors':doctors, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
+        else:
+            return render(request, 'all_doc.html', {'doctors':doctors, 'username': userprofile.patient_name, 'usertype': 'patient'})
+    else:
+        return render(request, 'all_doc.html', {'doctors':doctors})
 
 
 

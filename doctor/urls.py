@@ -26,4 +26,8 @@ urlpatterns = [
     path('prescription/add/<int:id>', add_prescription),
     
     path('medicine/<int:id>',view_one_med, name='view_meds'),
+
+    path('search/patient/<str:keys>', pat_search),
+    path('search/doctor/<str:keys>', doc_search),
+    path('search/medicine/<str:keys>', med_search)
 ]
