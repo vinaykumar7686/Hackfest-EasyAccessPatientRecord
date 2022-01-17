@@ -220,11 +220,19 @@ def view_prescription(request, id):
     userprofile = get_userprofile_by_email(request)
     prescription = DoctorPrescription.objects.filter(prescription_id = id)[0]
     medication_orders = Medication_order.objects.filter(prescription_id=prescription.prescription_id)
-    prescription_data = {
+    if userprofile and request.user.is_doctor:
+        prescription_data = {
+            'prescription_details': prescription,
+            'medication_data':[],
+            'username': userprofile.doctor_name, 'usertype': 'doctor'
+            }
+    else:
+        prescription_data = {
         'prescription_details': prescription,
         'medication_data':[],
-        'username': userprofile.doctor_name, 'usertype': 'doctor'
+        'username': userprofile.patient_name, 'usertype': 'patient'
         }
+    
     
     for med_order in medication_orders:
         authorization = Authorisation_details.objects.filter(medication_id=med_order.medication_id)[0]
