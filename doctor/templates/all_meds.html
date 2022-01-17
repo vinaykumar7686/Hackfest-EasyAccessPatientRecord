@@ -30,10 +30,10 @@
             </div>
         </div>
         {% for meds in medicines %}
-        <div class="row">
-            <div class="col-lg-6">
+        <div class="row  justify-content-center">
+            <div class="col-lg-6 text-center">
                 <div class="department-content sidebars-widget schedules-widget mt-5">
-                    <h5 class="text-md">Medicines</h5>
+                    <h5 class="text-md">Medicine</h5>
                     <div class="divider my-4"></div>
                     <ul class="list-unstyled">
                         <li class="d-flex justify-content-between align-items-center">
@@ -61,14 +61,15 @@
                             <span>{{meds.description}}</span>
                         </li>
                     </ul>
-                    <br>
+                </div>
+                <div class="my-2">
+                    <input type="button" class="btn btn-main" value="View Details" id='add_meds'
+                        onclick="location.href='/medicine/{{meds.code}}'">
+                    <br><br>
                 </div>
             </div>
         </div>
-        <div class="my-4">
-            <input type="button" class="btn btn-main" value="View Details" id='add_meds'
-                onclick="location.href='/medicine/{{meds.code}}'">
-        </div>
+        
         {% endfor %}
     </div>
 </section>
