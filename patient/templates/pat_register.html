@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block head %}
-<title> H-EAPR Patient-Register</title>
-{% endblock %}
 
+<title> H-EAPR Patient Sign Up</title>
+
+{% endblock %}
 
 {% block body %}
 <section class="page-title bg-2">
@@ -12,15 +13,13 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="block text-center">
-                    <h1 class="text-capitalize mb-5 text-lg">Sign Up</h1>
-                    <span class="text-white">For Patients only!</span>
+                    <h1 class="text-capitalize mb-5 text-lg">Patient Sign Up</h1>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- contact form start -->
 <section class="contact-form-wrap section">
     <div class="container">
         <div class="row">
@@ -114,9 +113,8 @@
                         
                     </div>
 
-                    <div class="text-center">
-                        <br>
-                        <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Register and go to add Medical Info" onclick="return validation()" >
+                    <div class="text-center my-4">
+                        <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Add Medical Info" onclick="return validation()" >
                     </div>
                     
                 </form>
@@ -125,6 +123,9 @@
     </div>
 </section>
 
+
+
+<!-- Script -->
 
 <script type="text/javascript">
     function validation(){

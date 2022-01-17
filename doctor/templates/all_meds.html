@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block head %}
-<title>Medicines</title>
+
+<title>H-EAPR All Medicines</title>
+
 {% endblock %}
 
 {% block body %}
@@ -11,7 +13,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="block text-center">
-                    <h1 class="text-capitalize mb-5 text-lg">All Medicinal Information</h1>
+                    <h1 class="text-capitalize mb-5 text-lg">All Medicines</h1>
                 </div>
             </div>
         </div>
@@ -19,6 +21,7 @@
 </section>
 <section class="section department-single">
     <div class="container">
+        
         <div class="row justify-content-center">
             <div class="col-lg-6 text-center">
                 <div class="section-title subscribe-form text-lg-right mt-5 mt-lg-0">
@@ -29,21 +32,17 @@
                 </div>
             </div>
         </div>
+
         {% for meds in medicines %}
         <div class="row  justify-content-center">
             <div class="col-lg-6 text-center">
                 <div class="department-content sidebars-widget schedules-widget mt-5">
-                    <h5 class="text-md">Medicine</h5>
-                    <div class="divider my-4"></div>
+                    <h5 class="text-md">{{meds.name}}</h5>
+                    <div class="divider mx-auto my-4"></div>
                     <ul class="list-unstyled">
                         <li class="d-flex justify-content-between align-items-center">
-                            <a>Medicine Name&nbsp;:&nbsp;&nbsp;</a>
-                            <span>{{meds.name}}</span>
-                        </li>
-                        <br>
-                        <li class="d-flex justify-content-between align-items-center">
                             <a>Medicine Price&nbsp;:&nbsp;&nbsp;</a>
-                            <span>{{meds.price}}</span>
+                            <span>Rs {{meds.price}}</span>
                         </li>
                         <br>
                         <li class="d-flex justify-content-between align-items-center">
@@ -62,9 +61,8 @@
                         </li>
                     </ul>
                 </div>
-                <div class="my-2">
-                    <input type="button" class="btn btn-main" value="View Details" id='add_meds'
-                        onclick="location.href='/medicine/{{meds.code}}'">
+                <div class="my-4">
+                    <input type="button" class="btn btn-main" value="View Details" id='add_meds' onclick="location.href='/medicine/{{meds.code}}'">
                     <br><br>
                 </div>
             </div>

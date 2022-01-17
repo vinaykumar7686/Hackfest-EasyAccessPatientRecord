@@ -2,139 +2,138 @@
 
 {% block head %}
 
-<title>H-EAPR Patient Medical Form</title>
+<title>H-EAPR Patient Medical Information</title>
 
 {% endblock %}
 
 {% block body %}
-<!--<form action="" method="post">-->
     
-    <section class="page-title bg-2">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="block text-center">
-                        <h1 class="text-capitalize mb-5 text-lg">Medical Information</h1>
-                    </div>
+<section class="page-title bg-2">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block text-center">
+                    <h1 class="text-capitalize mb-5 text-lg">Medical Information</h1>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    {% csrf_token %}
-    <!-- {{ form.as_p }} -->
-    <section class="contact-form-wrap section">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <form id="contact-form" class="contact__form " method="post" action="/patient/medicalForm/">
-                        {% csrf_token %}
-                        
-                        <div class="row">
+{% csrf_token %}
 
-                            <div class="col-lg-12">
-                                <div class="section-title text-center">
-                                    <h3 class="mb-2">Enter Your Medical Information</h3>
-                                    <div class="divider mx-auto my-4"></div>
-                                </div>
-                            </div>
-                
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <h5 class="mb-2">&nbsp;Patient Name</h5>
-                                    <input name="patientId" id="patientId" type="text" class="form-control" value={{patient_name}} readonly>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <h5 class="mb-2">&nbsp;Height</h5>
-                                    <input name="height" id="height" type="number" class="form-control" placeholder="Enter Your Height">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <h5 class="mb-2">&nbsp;Weight</h5>
-                                    <input name="weight" id="weight" type="number" class="form-control" placeholder="Enter Your Weight">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <h5 class="mb-2">Choose a Blood Group</h5>
-                                    <select name="bloodType" id="bloodType" width=100px class="form-control">
-                                        <option value="A+">A+</option>
-                                        <option value="A-">A-</option>
-                                        <option value="B+">B+</option>
-                                        <option value="B-">B-</option>
-                                        <option value="AB+">AB+</option>
-                                        <option value="AB-">AB-</option>
-                                        <option value="O+">O+</option>
-                                        <option value="O-">O-</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <h5 class="mb-2">Allergy</h5>
-                                    <input name="allergy" id="allergy" type="text" class="form-control" placeholder="Enter Your Allergic Conditions">
-                                </div>
-                            </div>
+<section class="contact-form-wrap section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <form id="contact-form" class="contact__form " method="post" action="/patient/medicalForm/">
+                    {% csrf_token %}
                     
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <h5 class="mb-2">Pre-medic Conditions</h5>
-                                </div>
-                            </div>
+                    <div class="row">
 
-                            <div class="col-lg-3 text-center">
-                                <div class="form-group">
-                                    <label class="mb-2" for="alzheimer">Alzheimer :&nbsp;&nbsp;</label>
-                                    <input type="checkbox" id="alzheimer" name="alzheimer">
-                                </div>
+                        <div class="col-lg-12">
+                            <div class="section-title text-center">
+                                <h3 class="mb-2">Enter Your Medical Information</h3>
+                                <div class="divider mx-auto my-4"></div>
                             </div>
-
-                            <div class="col-lg-3 text-center">
-                                <div class="form-group">
-                                    <label class="mb-2" for="asthma">Asthma :&nbsp;&nbsp;</label>
-                                    <input type="checkbox" id="asthma" name="asthma">
-                                </div>
+                        </div>
+            
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <h5 class="mb-2">&nbsp;Patient Name</h5>
+                                <input name="patientId" id="patientId" type="text" class="form-control" value={{patient_name}} readonly>
                             </div>
-
-                            <div class="col-lg-3 text-center">
-                                <div class="form-group">
-                                    <label class="mb-2" for="diabetes">Diabetes :&nbsp;&nbsp;</label>
-                                    <input type="checkbox" id="diabetes" name="diabetes">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-3 text-center">
-                                <div class="form-group">
-                                    <label class="mb-2" for="stroke">Stroke :&nbsp;&nbsp;</label>
-                                    <input type="checkbox" id="stroke" name="stroke">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12 my-4">
-                                <div class="form-group">
-                                    <h5 class="mb-2">Medical History</h5>
-                                    <!--<input name="medicalHistory" id="medicalHistory" type="" class="form-control" placeholder="Enter Your Medical History">-->
-                                    <textarea name="medicalHistory" id="medicalHistory" class="form-control" placeholder="Enter Your Medical History" ></textarea>
-                                </div>
-                            </div>
-
                         </div>
 
-                        <div class="text-center my-4">
-                            <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Submit and go to Dashboard"></input>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <h5 class="mb-2">&nbsp;Height [Foot]</h5>
+                                <input name="height" id="height" type="number" class="form-control" placeholder="Enter Your Height">
+                            </div>
                         </div>
 
-                    </form>
-                </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <h5 class="mb-2">&nbsp;Weight [Kg]</h5>
+                                <input name="weight" id="weight" type="number" class="form-control" placeholder="Enter Your Weight">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <h5 class="mb-2">Choose a Blood Group</h5>
+                                <select name="bloodType" id="bloodType" width=100px class="form-control">
+                                    <option value="A+">A+</option>
+                                    <option value="A-">A-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="B-">B-</option>
+                                    <option value="AB+">AB+</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="O-">O-</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <h5 class="mb-2">Allergy</h5>
+                                <input name="allergy" id="allergy" type="text" class="form-control" placeholder="Enter Your Allergic Conditions">
+                            </div>
+                        </div>
+                
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <h5 class="mb-2">Pre-medic Conditions</h5>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 text-center">
+                            <div class="form-group">
+                                <label class="mb-2" for="alzheimer">Alzheimer :&nbsp;&nbsp;</label>
+                                <input type="checkbox" id="alzheimer" name="alzheimer">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 text-center">
+                            <div class="form-group">
+                                <label class="mb-2" for="asthma">Asthma :&nbsp;&nbsp;</label>
+                                <input type="checkbox" id="asthma" name="asthma">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 text-center">
+                            <div class="form-group">
+                                <label class="mb-2" for="diabetes">Diabetes :&nbsp;&nbsp;</label>
+                                <input type="checkbox" id="diabetes" name="diabetes">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 text-center">
+                            <div class="form-group">
+                                <label class="mb-2" for="stroke">Stroke :&nbsp;&nbsp;</label>
+                                <input type="checkbox" id="stroke" name="stroke">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 my-4">
+                            <div class="form-group">
+                                <h5 class="mb-2">Medical History</h5>
+                                <!--<input name="medicalHistory" id="medicalHistory" type="" class="form-control" placeholder="Enter Your Medical History">-->
+                                <textarea name="medicalHistory" id="medicalHistory" class="form-control" placeholder="Enter Your Medical History" ></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="text-center my-4">
+                        <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Submit"></input>
+                    </div>
+
+                </form>
             </div>
         </div>
-    </section>
-    {% endblock %}
+    </div>
+</section>
+{% endblock %}

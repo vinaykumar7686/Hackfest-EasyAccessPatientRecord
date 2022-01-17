@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
 {% block head %}
-<title>Patient-Medical-Form</title>
+
+<title>H-EAPR Patient Update Medical Information</title>
+
 {% endblock %}
+
 {% block body %}
-<!-- <form action="" method="post"> -->
 
 <section class="page-title bg-2">
     <div class="overlay"></div>
@@ -12,7 +14,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="block text-center">
-                    <h1 class="text-capitalize mb-5 text-lg">Update Medical Information</h1>
+                    <h1 class="text-capitalize mb-5 text-lg">Patient</h1>
                 </div>
             </div>
         </div>
@@ -22,6 +24,16 @@
 {% csrf_token %}
 <section class="contact-form-wrap section">
     <div class="container">
+
+        <div class="row justify-content-center">
+			<div class="col-lg-6 text-center">
+				<div class="section-title">
+					<h5 class="text-md">Update Your Medical Information</h5>
+					<div class="divider mx-auto my-4"></div>
+				</div>
+			</div>
+		</div>
+
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <form id="contact-form" class="contact__form " method="post" action="/patient/update/medicalinfo/">
@@ -37,13 +49,13 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <h5 class="mb-2">&nbsp;Height</h5>
+                                    <h5 class="mb-2">&nbsp;Height [Foot]</h5>
                                     <input name="height" id="height" type="number" class="form-control" value="{{medicalinfo.height}}">
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="form-group">
-                                    <h5 class="mb-2">&nbsp;Weight</h5>
+                                    <h5 class="mb-2">&nbsp;Weight [Kg]</h5>
                                     <input name="weight" id="weight" type="number" class="form-control" value="{{medicalinfo.weight}}">
                                 </div>
                             </div>
