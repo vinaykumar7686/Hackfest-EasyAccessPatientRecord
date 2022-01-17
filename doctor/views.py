@@ -14,9 +14,17 @@ def get_userprofile_by_email(request):
         try:
             email = request.user.email
             if request.user.is_doctor:
-                return DoctorProfile.objects.filter(email = email)[0]
+                docs = DoctorProfile.objects.filter(email = email)
+                if docs is not None:
+                    return docs[0]
+                else:
+                    None
             else:
-                return PatientProfile.objects.filter(email = email)[0]
+                pats = PatientProfile.objects.filter(email = email)
+                if pats is not None:
+                    return pats[0]
+                else:
+                    None
         except:
             return None
     else:
@@ -41,11 +49,11 @@ def common_login(request):
             is_doctor = obj.is_doctor
 
             if is_doctor:
-                messages.success(request, " You are logged in successfully")
+                # messages.success(request, " You are logged in successfully")
                 return redirect('/doctor')
 
             else:
-                messages.success(request, " You are logged in successfully")
+                # messages.success(request, " You are logged in successfully")
                 return redirect('/patient')
          
         else:
@@ -73,7 +81,11 @@ def homepage(request):
 @user_passes_test(doctor_check, login_url='/login/')
 def doc_homepage(request):
     userprofile = get_userprofile_by_email(request)
-    return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor'})
+    if userprofile is not None:
+        return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor'})
+    else:
+        messages.error(request, " Invalid Credentials, Try Again!")
+        return redirect('/login')
 
 def doc_register(request):
     if request.method == 'POST':

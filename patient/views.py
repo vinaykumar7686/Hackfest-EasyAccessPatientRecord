@@ -15,9 +15,17 @@ def get_userprofile_by_email(request):
         try:
             email = request.user.email
             if request.user.is_doctor:
-                return DoctorProfile.objects.filter(email = email)[0]
+                docs = DoctorProfile.objects.filter(email = email)
+                if docs is not None:
+                    return docs[0]
+                else:
+                    None
             else:
-                return PatientProfile.objects.filter(email = email)[0]
+                pats = PatientProfile.objects.filter(email = email)
+                if pats is not None:
+                    return pats[0]
+                else:
+                    None
         except:
             return None
     else:

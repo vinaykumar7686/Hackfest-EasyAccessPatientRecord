@@ -81,13 +81,13 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, is_doctor , password):
+    def create_superuser(self, email , password):
         """
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
         u = self.create_user(email,
-                        is_doctor = is_doctor,
+                        is_doctor = True,
                         password=password
                     )
         u.is_admin = True
