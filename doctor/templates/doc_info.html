@@ -51,54 +51,57 @@
 								<span>{{doctor_info.email}}</span>
 							</li>
 						</ul>
-						<br>
-						<h5 class="text-md">My Prescription History</h5>
-						<div class="divider my-4"></div>
-						<div>
-							{% for prescription in data.prescriptions %}
-							<br>
-							<h5>Prescription </h5>
-							<table class="center" border="">
-								<thead>
-									<tr>
-										<td colspan="2">Prescription ID : </td>
-										<td colspan="2">{{prescription.prescription_id}}</td>
-
-									</tr>
-									<tr>
-										<td>Patient Name : </td>
-										<td>{{prescription.patient_id}}</td>
-										<td>Doctor Name : </td>
-										<td>{{prescription.doctor_id}}</td>
-									</tr>
-									<tr>
-										<td>Date : </td>
-										<td>{{prescription.date}}</td>
-										<td>Next Visit : </td>
-										<td>{{prescription.nextVisit }}</td>
-									</tr>
-									<tr>
-										<td colspan="1">Reason : </td>
-										<td colspan="5">{{prescription.reason}}</td>
-									</tr>
-									<tr>
-										<td colspan="1">Doctor Notes : </td>
-										<td colspan="5">{{prescription.doctors_notes }}</td>
-									</tr>
-								</thead>
-							</table>
-							<!-- <input type="text" name="clickedpres" id="clickedpres", value = ""> -->
-							<!-- <a href="/doctor/prescription/{{prescription.prescription_id}}" value = 'View' method = "POST">View</a> -->
-							<form action="/prescription/{{prescription.prescription_id}}" method="post"> {% csrf_token %}
-								<button type="submit" name="prescription{{prescription_id}}" value="prescription{{prescription_id}}" class="btn-link">View</button>
-							</form>
-							{% endfor %}
-						</div>
 					</div>
 				</div>
-				<div class="col-lg-2">
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="department-content sidebars-widget schedules-widget mt-5">
+						<h5 class="text-md">My Prescription History</h5>
+						<div class="divider my-4"></div>
+					</div>
+					{% for prescription in data.prescriptions %}
+					<br>
+					<h5 class="text-md">Prescription</h5>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<td colspan="2">Prescription ID : </td>
+								<td colspan="2">{{prescription.prescription_id}}</td>
+
+							</tr>
+							<tr>
+								<td>Patient Name : </td>
+								<td>{{prescription.patient_id}}</td>
+								<td>Doctor Name : </td>
+								<td>{{prescription.doctor_id}}</td>
+							</tr>
+							<tr>
+								<td>Date : </td>
+								<td>{{prescription.date}}</td>
+								<td>Next Visit : </td>
+								<td>{{prescription.nextVisit }}</td>
+							</tr>
+							<tr>
+								<td colspan="1">Reason : </td>
+								<td colspan="5">{{prescription.reason}}</td>
+							</tr>
+							<tr>
+								<td colspan="1">Doctor Notes : </td>
+								<td colspan="5">{{prescription.doctors_notes }}</td>
+							</tr>
+						</thead>
+					</table>
+					<!-- <input type="text" name="clickedpres" id="clickedpres", value = ""> -->
+					<!-- <a href="/doctor/prescription/{{prescription.prescription_id}}" value = 'View' method = "POST">View</a> -->
+					<form action="/prescription/{{prescription.prescription_id}}" method="post"> {% csrf_token %}
+						<button type="submit" name="prescription{{prescription_id}}" value="prescription{{prescription_id}}" class="btn-link">View</button>
+					</form>
+					{% endfor %}		
 				</div>
 			</div>
+
 		</div>
 	</section>
 </div>
