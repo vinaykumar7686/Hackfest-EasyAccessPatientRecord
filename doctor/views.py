@@ -69,13 +69,33 @@ def common_logout(request):
 # Website Hompage
 def homepage(request):
     userprofile = get_userprofile_by_email(request)
+    doc_count = DoctorProfile.objects.all().count()
+    pat_count = PatientProfile.objects.all().count()
+    pres_count = DoctorPrescription.objects.all().count()
+    med_count = Medicines.objects.all().count()
     if userprofile is not None:
         if request.user.is_doctor:
-            return render(request,'homepage.html', {'username': userprofile.doctor_name, 'usertype': 'doctor'})
+            return render(request,'homepage.html', {
+                'username': userprofile.doctor_name, 
+                'usertype': 'doctor', 
+                'doc_count': doc_count,
+                'pat_count': pat_count,
+                'pres_count': pres_count,
+                'med_count': med_count})
         else:
-            return render(request,'homepage.html', {'username': userprofile.patient_name, 'usertype': 'patient'})
+            return render(request,'homepage.html', {
+                'username': userprofile.patient_name, 
+                'usertype': 'patient', 
+                'doc_count': doc_count,
+                'pat_count': pat_count,
+                'pres_count': pres_count,
+                'med_count': med_count})
     else:
-        return render(request,'homepage.html')
+        return render(request,'homepage.html', {
+            'doc_count': doc_count,
+            'pat_count': pat_count,
+            'pres_count': pres_count,
+            'med_count': med_count})
     
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
