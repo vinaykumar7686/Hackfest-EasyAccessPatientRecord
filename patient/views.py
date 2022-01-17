@@ -58,19 +58,22 @@ def pat_register(request):
             
         if MyUser.objects.filter(email = patient_email):
             # User with same email already exists
+            messages.error(request, "Email Already in use, Try a different one!")
             print('User with same email already exists')
             return redirect('/doctor/register')
 
         patient = PatientProfile(patient_name=patient_name, patient_relative_name=relative_name, gender=gender, phone_num=phone, 
         patient_relative_contact=relative_phone,dob=patient_dob, email=patient_email, resd_address=patient_address, prior_ailments=patient_prior_ailments)
         patient.save()
-        print('patientinfo saved')
+        # print('patientinfo saved')
 
         MyUser.objects.create_user( email = patient_email, is_doctor = False, password = password1)
-        print('patient account created')
+        # print('patient account created')
+
         user = authenticate(request, email=patient_email, password=password1)
         login(request, user)
-        print('patient logged in')
+        # print('patient logged in')
+
         messages.success(request, "Registered Successfully!")
         return redirect('/patient/medicalForm')
         # add message here and redirect it to login page route

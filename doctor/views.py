@@ -7,9 +7,15 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 
 def doctor_check(user):
+    '''
+    Function to check weather a user is doctor or not
+    '''
     return user.is_doctor
 
-def get_userprofile_by_email(request):
+def get_userprofile_by_request(request):
+    '''
+        Function to fetch user profile  by request
+    '''
     if request.user.is_authenticated:
         try:
             email = request.user.email
@@ -31,8 +37,10 @@ def get_userprofile_by_email(request):
         return None
 
 
-# Create your views here.
 def common_login(request):
+    '''
+    View to login doctor as well as patient
+    '''
     if request.method == 'GET':
         return render(request, 'login.html')
     else:
@@ -63,12 +71,18 @@ def common_login(request):
             # return render(request, 'login.html', {'error_message': error_message})
 
 def common_logout(request):
+    '''
+    View to logout current user.
+    '''
     logout(request)
     return redirect('/')
 
 # Website Hompage
 def homepage(request):
-    userprofile = get_userprofile_by_email(request)
+    '''
+    View to render Main Homepage
+    '''
+    userprofile = get_userprofile_by_request(request)
     doc_count = DoctorProfile.objects.all().count()
     pat_count = PatientProfile.objects.all().count()
     pres_count = DoctorPrescription.objects.all().count()
@@ -100,7 +114,10 @@ def homepage(request):
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
 def doc_homepage(request):
-    userprofile = get_userprofile_by_email(request)
+    '''
+    View for Doctor's Homepage
+    '''
+    userprofile = get_userprofile_by_request(request)
     if userprofile is not None:
         return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor'})
     else:
@@ -108,6 +125,9 @@ def doc_homepage(request):
         return redirect('/login')
 
 def doc_register(request):
+    '''
+    View to register doctor
+    '''
     if request.method == 'POST':
         doctor_name = request.POST.get('name')
         email = request.POST.get('email')
@@ -133,6 +153,7 @@ def doc_register(request):
         # Logging into newly created account
         user = authenticate(request, email=email, password=password1)
         login(request, user)
+
         messages.success(request, "Account created successfully!")
         return redirect('/doctor')
         
@@ -145,7 +166,9 @@ def doc_register(request):
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
 def add_prescription(request, *args, **kwargs):
-
+    '''
+    View to add prescription
+    '''
     if request.method == 'POST':
         
         form_data =  request.POST
@@ -154,6 +177,7 @@ def add_prescription(request, *args, **kwargs):
         patient = PatientProfile.objects.filter(patient_id = form_data.get('patient'))[0]
         doctor = DoctorProfile.objects.filter(doctor_id = form_data.get('doctor'))[0]
 
+        # Adding prescription info to DoctorPrescription Model
         new_prescription = DoctorPrescription(
             date = form_data.get('date'),
             nextVisit = form_data.get('nextVisit'),
@@ -163,16 +187,16 @@ def add_prescription(request, *args, **kwargs):
             doctor_id = doctor)
         new_prescription.save()
 
-        #-----> Issues: multiple medication order and all below
-
-        # +++++++++Adding Medication Order
-        # medicines = Medicines.objects.all()[:2] #filter(code = 1)[0:2]
+        # For counting the number of medicines added into the prescription
         no_of_medicines =  0 if form_data.get('medcounter') == '' else int(form_data.get('medcounter'))
         
         for i in range(1,no_of_medicines+1):
-            print(i,form_data.get(f'medicine{i}'))
+            # print(i,form_data.get(f'medicine{i}'))
+
+            # Fetching info of the particular medicine
             medicine = Medicines.objects.filter(name = form_data.get(f'medicine{i}'))[0]
 
+            # Adding medication order
             medication_order = Medication_order(
             medication_unit = 10,
             prescription_id  = new_prescription,
@@ -180,7 +204,7 @@ def add_prescription(request, *args, **kwargs):
             )
             medication_order.save()
 
-            # ++++++++++ Adding Authorisation_details
+            # Adding Authorisation_details
             authorization_details = Authorisation_details(
                 number_of_repeats_allowed = form_data.get(f'repeats_allowed{i}'),
                 validity_period = form_data.get(f'validity_period{i}'),
@@ -188,7 +212,7 @@ def add_prescription(request, *args, **kwargs):
             )
             authorization_details.save()
 
-            # ++++++++++ Adding Medication_timing
+            #  Adding Medication_timing
             medication_timing = Medication_timing(
                 morning = True if form_data.get(f'morning{i}') == 'on' else False,
                 afternoon = True if form_data.get(f'afternoon{i}') == 'on' else False,
@@ -198,7 +222,7 @@ def add_prescription(request, *args, **kwargs):
             )
             medication_timing.save()
 
-            # +++++++++++ Adding Repetations
+            #  Adding Repetations
             repetation = Repetation(
                 start_date = form_data.get(f'start_date{i}'),
                 end_date = form_data.get(f'end_date{i}'),
@@ -207,7 +231,7 @@ def add_prescription(request, *args, **kwargs):
             )
             repetation.save()
 
-            # +++++++++++ Adding Medication_safety
+            #  Adding Medication_safety
             medication_safety = Medication_safety(
                 max_dose_per_period = form_data.get(f'max_dose_per_period{i}'),
                 override_reason = form_data.get(f'override_reason{i}'),
@@ -223,7 +247,9 @@ def add_prescription(request, *args, **kwargs):
     else:
         print(request.user.email)
         docprofile = DoctorProfile.objects.filter(email = request.user.email)[0]
-        userprofile = get_userprofile_by_email(request)
+        userprofile = get_userprofile_by_request(request)
+
+        # For differenciating the functionality by the ways in which this page is opened
         if not args and not kwargs:
             doctors = DoctorProfile.objects.filter(doctor_id = docprofile.doctor_id)
             patients = PatientProfile.objects.all()
@@ -237,7 +263,10 @@ def add_prescription(request, *args, **kwargs):
 
 @login_required(login_url='/login/')
 def view_prescription(request, id):
-    userprofile = get_userprofile_by_email(request)
+    '''
+    View to fetch prescription info from database
+    '''
+    userprofile = get_userprofile_by_request(request)
     prescription = DoctorPrescription.objects.filter(prescription_id = id)[0]
     medication_orders = Medication_order.objects.filter(prescription_id=prescription.prescription_id)
     if userprofile and request.user.is_doctor:
@@ -286,7 +315,7 @@ def view_all_doctors(request):
         doctors = DoctorProfile.objects.all()
 
     # For Navbar
-    userprofile = get_userprofile_by_email(request)
+    userprofile = get_userprofile_by_request(request)
     if userprofile and request.user.is_authenticated:
         usertype = 'doctor' if request.user.is_doctor else 'patient'
         if usertype == 'doctor':
@@ -308,7 +337,8 @@ def view_all_meds(request):
         meds = Medicines.objects.filter(name__contains = search)
     else:
         meds = Medicines.objects.all()
-    userprofile = get_userprofile_by_email(request)
+
+    userprofile = get_userprofile_by_request(request)
     return render(request, 'all_meds.html', {'medicines':meds, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
 
 
@@ -317,7 +347,7 @@ def view_all_meds(request):
 def view_one_med(request, id):
     meds = Medicines.objects.filter(code=id)[0]
     preparation = Preparation.objects.filter(medicine_id=id)[0]
-    userprofile = get_userprofile_by_email(request)
+    userprofile = get_userprofile_by_request(request)
     context={'meds':meds, 'prep':preparation, 'username': userprofile.doctor_name, 'usertype': 'doctor'}
     return render(request, 'view_one_med.html',context)
 
@@ -333,33 +363,28 @@ def view_all_patients(request):
     else:
         patients = PatientProfile.objects.all()
     
-    userprofile = get_userprofile_by_email(request)
+    userprofile = get_userprofile_by_request(request)
     return render(request, 'all_pat.html', {'patients':patients, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
 
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
 def doc_info(request):
-    userprofile = get_userprofile_by_email(request)
+    userprofile = get_userprofile_by_request(request)
 
     doctor_info = DoctorProfile.objects.filter(doctor_id = userprofile.doctor_id)[0]
 
     prescriptions_info = DoctorPrescription.objects.filter(doctor_id = userprofile.doctor_id)
     # print(prescriptions_info)
-    data = {'prescriptions': [], 'medications' : {}}
+    data = {
+        'prescriptions': [], 
+        'medications' : {}
+        }
     i = 1
     for prescription_info in prescriptions_info:
 
         data['prescriptions'].append(prescription_info)
 
         medications = Medication_order.objects.filter(prescription_id = prescription_info)
-        # print(medications)
-
-        # data1 = {'medicines':[]}
-        # for medication in medications:
-        #     # medicines = Medicines.objects.filter(code = )
-        #     # print(medication.medicine_code)
-
-        #     data1['medicines'].append(medication)
         
         data['medications'][f'prescription{i}'] = medications
 
@@ -367,45 +392,8 @@ def doc_info(request):
     print(data)
 
     return render(request, 'doc_info.html', {'doctor_info': doctor_info,  'data': data, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
-    # return render(request, 'doc_info.html',{'doctor_info':doctor_info})
 
 
-@login_required(login_url='/login/')
-@user_passes_test(doctor_check, login_url='/login/')
-def pat_search(request, keys):
-    patients = PatientProfile.objects.filter(email__contains=keys)
-    userprofile = get_userprofile_by_email(request)
-
-    if userprofile is not None:
-        return render(request, 'all_pat.html', {'patients':patients, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
-    else:
-        return redirect('/login')
-
-
-@login_required(login_url='/login/')
-@user_passes_test(doctor_check, login_url='/login/')
-def med_search(request, keys):
-    meds = Medicines.objects.filter(name__contains=keys)
-    userprofile = get_userprofile_by_email(request)
-    if userprofile is not None:
-        return render(request, 'all_meds.html', {'medicines':meds, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
-    else:
-        return redirect('/login')
-
-
-def doc_search(request,keys):
-
-    doctors = DoctorProfile.objects.filter(email__contains=keys)
-    # For Navbar
-    userprofile = get_userprofile_by_email(request)
-    if userprofile and request.user.is_authenticated:
-        usertype = 'doctor' if request.user.is_doctor else 'patient'
-        if usertype == 'doctor':
-            return render(request, 'all_doc.html', {'doctors':doctors, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
-        else:
-            return render(request, 'all_doc.html', {'doctors':doctors, 'username': userprofile.patient_name, 'usertype': 'patient'})
-    else:
-        return render(request, 'all_doc.html', {'doctors':doctors})
 
 
 

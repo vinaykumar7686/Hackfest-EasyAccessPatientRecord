@@ -147,7 +147,7 @@ class Medication_safety(models.Model):
     '''
     medication_safety_id = models.AutoField(primary_key=True)
     max_dose_per_period = models.IntegerField()
-    override_reason = models.CharField(max_length=500)
+    override_reason = models.CharField(max_length=500) # Reason for represcribing
     # ---------------Foreign Keys-------------------
     medication_id = models.ForeignKey(Medication_order, on_delete=models.CASCADE)
 

@@ -10,8 +10,6 @@ from doctor.models import *
 class PatientProfile(models.Model):
     patient_id = models.AutoField(primary_key=True)
     email = models.EmailField(unique=True)
-    # password = models.TextField(max_length=50)
-
     patient_name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
     phone_num = models.CharField(max_length=15)
@@ -66,8 +64,7 @@ class MedicalInfo(models.Model):
 class MyUserManager(BaseUserManager):
     def create_user(self, email, is_doctor, password=None):
         """
-        Creates and saves a User with the given email, date of
-        birth and password.
+        Creates and saves a User with the given email and password.
         """
         if not email:
             raise ValueError('Users must have an email address')
