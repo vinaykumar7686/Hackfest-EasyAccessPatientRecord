@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
 {% load static %}
+
 {% block head %}
-<title>Register-Doctor</title>
-<!-- Favicon -->
-<link rel="shortcut icon" type="favicon" href="{% static 'images/logo.png' %}" />
+
+<title>H-EAPR Doctor-Register</title>
+
 {% endblock %}
+
 {% block body %}
 <section class="page-title bg-1">
     <div class="overlay"></div>
@@ -20,60 +22,73 @@
         </div>
     </div>
 </section>
+<!-- contact form start -->
+
 <section class="contact-form-wrap section">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12">
-                <form id="contact-form" class="contact__form " method="post" action="/doctor/register/">
+                <form id="contact-form" class="contact__form " method="post" action= "/doctor/register/" >
                     {% csrf_token %}
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <input name="name" id="name" type="text" class="form-control"
-                                    placeholder="Your Full Name" required>
-                                <span class="text-danger font-weight-bold" id="user_name"></span>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <input name="email" id="email" type="email" class="form-control"
-                                    placeholder="Your Email Address" required>
-                                <span class="text-danger font-weight-bold" id="email_id"></span>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <input name="phone" id="phone" type="number" class="form-control"
-                                    placeholder="Your Phone Number" required>
-                                <span class="text-danger font-weight-bold" id="phone_num"></span>
-                            </div>
-                        </div>
-                        <div>
-                            <label for="department">Choose a department: </label>
+                    <!-- form message -->
 
-                            <select name="department" id="department" width=100px>
-                                {% for department in departments %}
-                                <option value="{{ department.department_id }}">{{ department.department_name }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-6">
                             <div class="form-group">
-                                <input name="password1" id="password1" type="password" class="form-control"
-                                    placeholder="Your Password" required>
-                                <span class="text-danger font-weight-bold" id="pass1"></span>
+                                <h5 class="mb-2">&nbsp;Name</h5>
+                                <input name="name" id="name" type="text" class="form-control" placeholder="Enter Your Name" required >
                             </div>
+                            
+                        </div>
+
+                        <div class="col-lg-6">
                             <div class="form-group">
-                                <input name="password2" id="password2" type="password" class="form-control"
-                                    placeholder="Confirm Password" required>
-                                <span class="text-danger font-weight-bold" id="pass2"></span>
+                                <h5 class="mb-2">&nbsp;Email</h5>
+                                <input name="email" id="email" type="email" class="form-control" placeholder="Enter Your Email" required>
                             </div>
                         </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <h5 class="mb-2">&nbsp;Phone</h5>
+                                <input name="phone" id="phone" type="number" class="form-control" placeholder="Enter Your Phone Number" required>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <h5 class="mb-2">&nbsp;Department</h5>
+                                <select class="form-control" name="department" id="department">
+                                    {% for department in departments %}
+                                        <option value="{{ department.department_id }}">{{ department.department_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <h5 class="mb-2">&nbsp;Password</h5>
+                                <input name="password1" id="password1" type="password" class="form-control" placeholder="Enter Your Password" required>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <h5 class="mb-2">&nbsp;Confirm Password</h5>
+                                <input name="password2" id="password2" type="password" class="form-control" placeholder="Confirm Your Password" required>
+                            </div>
+                        </div>
+                        
                     </div>
+
                     <div class="text-center">
-                        <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Sign Up"
-                            onclick="return validation()">
+                        <br>
+                        <input class="btn btn-main btn-round-full" name="submit" type="submit" value="Sign Up" onclick="return validation()" >
                     </div>
+                    
                 </form>
             </div>
         </div>
@@ -81,7 +96,8 @@
 </section>
 
 <script type="text/javascript">
-    function validation() {
+
+    function validation(){
         var name = document.getElementById('name').value;
         var email = document.getElementById('email').value;
         var phone = document.getElementById('phone').value;
@@ -97,38 +113,39 @@
         //       return false;
         //   }
 
-        if (name.length < 5 || name.length > 20) {
+        if(name.length < 5 || name.length > 20){
             var user_name = document.getElementById('user_name');
             user_name.innerHTML = 'Name should be between 5-20 character long!!';
 
             return false;
         }
 
-        if (email.indexOf('@') <= 0) {
+        if(email.indexOf('@') <= 0){
             document.getElementById('email_id').innerHTML = 'Invalid Email Id!!';
             return false;
         }
 
-        if ((email.charAt(email.length - 4) != '.') && (email.charAt(email.length - 3) != '.')) {
+        if((email.charAt(email.length-4)!='.') && (email.charAt(email.length-3)!='.')){
             document.getElementById('email_id').innerHTML = 'Invalid Email Id!!';
             return false;
         }
 
-        if (phone.length != 10) {
+        if(phone.length != 10){
             var phone_num = document.getElementById('phone_num');
             phone_num.innerHTML = 'Phone Number must be 10 character long!!';
 
             return false;
         }
 
-        if (password1.length < 5 || password1.length > 20) {
+
+        if(password1.length < 5 || password1.length > 20){
             var pass1 = document.getElementById('pass1');
             pass1.innerHTML = 'Password must be 5-20 character long!!';
 
             return false;
         }
 
-        if (password2 != password1) {
+        if(password2 != password1){
             var pass2 = document.getElementById('pass2');
             pass2.innerHTML = 'Password is not matching!!';
 
@@ -138,4 +155,4 @@
 
 </script>
 
-{% endblock %}
+{% endblock %} 
