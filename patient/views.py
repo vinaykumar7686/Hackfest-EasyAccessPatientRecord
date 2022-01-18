@@ -8,9 +8,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 def patient_check(user):
+    '''
+    Function to check if a user is patient or not.
+    '''
     return not user.is_doctor
 
-def get_userprofile_by_email(request):
+def get_userprofile_by_request(request):
+    '''
+    This function th=akes in the request, and returns the profile of the user signed in.
+    '''
     if request.user.is_authenticated:
         try:
             email = request.user.email
@@ -35,11 +41,17 @@ def get_userprofile_by_email(request):
 @login_required(login_url='/login/')
 @user_passes_test(patient_check, login_url='/login/')
 def pat_homepage(request):
-    userprofile = get_userprofile_by_email(request)
+    '''
+    View for patients homepage.
+    '''
+    userprofile = get_userprofile_by_request(request)
     return render(request, 'pat_home.html', {'username': userprofile.patient_name, 'usertype': 'patient'})
 
 
 def pat_register(request):
+    '''
+    View to register patients homepage.
+    '''
     if request.method == 'POST':
         patient_name = request.POST.get('name')
         relative_name = request.POST.get('relative_name')
@@ -76,7 +88,6 @@ def pat_register(request):
 
         messages.success(request, "Registered Successfully!")
         return redirect('/patient/medicalForm')
-        # add message here and redirect it to login page route
     else:
         patient = PatientProfile.objects.all()
         print(patient)
@@ -85,6 +96,9 @@ def pat_register(request):
 @login_required(login_url='/login/')
 @user_passes_test(patient_check, login_url='/login/')
 def pat_medicalForm(request):
+    '''
+    View to render and save patient's medical info
+    '''
     useremail = request.user.email
     patient = get_userprofile_by_email(request)
     print(useremail, patient.patient_id, patient.patient_name)
@@ -113,6 +127,9 @@ def pat_medicalForm(request):
 
 @login_required(login_url='/login/')
 def pat_info(request, *args, **kwargs):
+    '''
+    View to render patient's personal, medical and prescriptions info.
+    '''
     usertype = None
     username = None
     # To check whether to fetch patient id from urls or session
@@ -136,18 +153,12 @@ def pat_info(request, *args, **kwargs):
     patient_info = PatientProfile.objects.filter(patient_id = patient.patient_id)[0]
     pat_med_info = MedicalInfo.objects.filter(patient_id = patient.patient_id)[0]
     prescriptions_info = DoctorPrescription.objects.filter(patient_id = patient.patient_id)
-    print(prescriptions_info)
+    # print(prescriptions_info)
     data = {'prescriptions': [], 'medications' : {}}
     i = 1
     for prescription_info in prescriptions_info:
         data['prescriptions'].append(prescription_info)
         medications = Medication_order.objects.filter(prescription_id = prescription_info)
-        # print(medications)
-        # data1 = {'medicines':[]}
-        # for medication in medications:
-        #     # medicines = Medicines.objects.filter(code = )
-        #     # print(medication.medicine_code)
-        #     data1['medicines'].append(medication)
         data['medications'][f'prescription{i}'] = medications
         i+=1
     print(data)
@@ -157,6 +168,9 @@ def pat_info(request, *args, **kwargs):
 @login_required
 @user_passes_test(patient_check, login_url='/login/')
 def update_patient(request):
+    '''
+    View to update patient's basic info.
+    '''
     userprofile = get_userprofile_by_email(request)
 
     if request.method == 'POST':
@@ -190,6 +204,9 @@ def update_patient(request):
 @login_required
 @user_passes_test(patient_check, login_url='/login/')
 def update_medicalinfo(request):
+    '''
+    View to update patient's medical info
+    '''
     userprofile = get_userprofile_by_email(request)
     
     if request.method == 'POST':
