@@ -13,7 +13,7 @@ def patient_check(user):
     '''
     return not user.is_doctor
 
-def get_userprofile_by_email(request):
+def get_userprofile_by_request(request):
     '''
     This function th=akes in the request, and returns the profile of the user signed in.
     '''
@@ -100,7 +100,7 @@ def pat_medicalForm(request):
     View to render and save patient's medical info
     '''
     useremail = request.user.email
-    patient = get_userprofile_by_email(request)
+    patient = get_userprofile_by_request(request)
     print(useremail, patient.patient_id, patient.patient_name)
 
     if request.method == 'POST':
@@ -137,16 +137,16 @@ def pat_info(request, *args, **kwargs):
         if request.user.is_doctor:
             patient = PatientProfile.objects.filter(patient_id = kwargs.get('id'))[0]
             usertype = 'doctor'
-            userprofile = get_userprofile_by_email(request)
+            userprofile = get_userprofile_by_request(request)
             username = userprofile.doctor_name
         else:
             # Not a doctor, trying to access patient info
             usertype = 'patient'
-            userprofile = get_userprofile_by_email(request)
+            userprofile = get_userprofile_by_request(request)
             username = userprofile.patient_name
             return redirect('/login')
     else:
-        patient = get_userprofile_by_email(request)
+        patient = get_userprofile_by_request(request)
         username = patient.patient_name
         usertype = 'patient'
     
@@ -171,7 +171,7 @@ def update_patient(request):
     '''
     View to update patient's basic info.
     '''
-    userprofile = get_userprofile_by_email(request)
+    userprofile = get_userprofile_by_request(request)
 
     if request.method == 'POST':
         formdata = request.POST
@@ -207,7 +207,7 @@ def update_medicalinfo(request):
     '''
     View to update patient's medical info
     '''
-    userprofile = get_userprofile_by_email(request)
+    userprofile = get_userprofile_by_request(request)
     
     if request.method == 'POST':
         form_data =request.POST 
