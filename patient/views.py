@@ -13,7 +13,7 @@ def patient_check(user):
     '''
     return not user.is_doctor
 
-def get_userprofile_by_request(request):
+def get_userprofile_by_email(request):
     '''
     This function th=akes in the request, and returns the profile of the user signed in.
     '''
