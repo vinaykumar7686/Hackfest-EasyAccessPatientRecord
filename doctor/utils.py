@@ -16,14 +16,14 @@ def get_graph():
     return graph
 
 
-def get_plot(x, y):
+def get_plot(x, y, xaxis, yaxis, title):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(12,4))
-    plt.title('User Engagement Analytics')
+    plt.figure(figsize=(4,3))
+    plt.title(title)
     plt.plot(x, y)
     plt.xticks(rotation = 45)
-    plt.xlabel('time')
-    plt.ylabel('prescriptions')
+    plt.xlabel(xaxis)
+    plt.ylabel(yaxis)
     plt.tight_layout()
     graph = get_graph()
     return graph

@@ -78,6 +78,41 @@ def common_logout(request):
     logout(request)
     return redirect('/')
 
+def doctorvstime():
+    doctors = DoctorProfile.objects.all()
+    dates = []
+    count = [0] 
+    res = {}
+    for doctor in doctors:
+        dates.append(doctor.created_date)
+        count.append((count[-1])+1)
+
+    return (dates, count[1:])
+
+def patientvstime():
+    patients = PatientProfile.objects.all()
+    dates = []
+    count = [0] 
+    res = {}
+    for patient in patients:
+        dates.append(patient.created_date)
+        count.append((count[-1])+1)
+
+    return (dates, count[1:])
+
+def prescriptionvstime():
+    prescriptions = DoctorPrescription.objects.all()
+    dates = []
+    count = [0] 
+    res = {}
+    for prescription in prescriptions:
+        dates.append(prescription.date)
+        count.append((count[-1])+1)
+
+    return (dates, count[1:])
+
+
+
 # Website Hompage
 def homepage(request):
     '''
@@ -89,7 +124,14 @@ def homepage(request):
     pres_count = DoctorPrescription.objects.all().count()
     med_count = Medicines.objects.all().count()
 
-    chart = get_plot([1,2,3,4,5,6,7,8], [3,4,5,9,5,2,5,7])
+    x, y = doctorvstime()
+    docchart = get_plot(x,y, "Time", "Doctor Count", "Doctor")
+
+    x, y = patientvstime()
+    patchart = get_plot(x,y, "Time", "Patient Count", "Patient")
+
+    x, y = prescriptionvstime()
+    preschart = get_plot(x,y, "Time", "Prescription Count", "Prescription")
 
     if userprofile is not None:
         if request.user.is_doctor:
@@ -99,7 +141,10 @@ def homepage(request):
                 'doc_count': doc_count,
                 'pat_count': pat_count,
                 'pres_count': pres_count,
-                'med_count': med_count})
+                'med_count': med_count,
+                'docchart': docchart,
+                'patchart': patchart,
+                'preschart': preschart,})
         else:
             return render(request,'homepage.html', {
                 'username': userprofile.patient_name, 
@@ -107,14 +152,19 @@ def homepage(request):
                 'doc_count': doc_count,
                 'pat_count': pat_count,
                 'pres_count': pres_count,
-                'med_count': med_count})
+                'med_count': med_count,
+                'docchart': docchart,
+                'patchart': patchart,
+                'preschart': preschart,})
     else:
         return render(request,'homepage.html', {
             'doc_count': doc_count,
             'pat_count': pat_count,
             'pres_count': pres_count,
             'med_count': med_count,
-            'chart': chart})
+            'docchart': docchart,
+            'patchart': patchart,
+            'preschart': preschart,})
     
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
