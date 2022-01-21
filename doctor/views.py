@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
+from .utils import get_plot
 
 def doctor_check(user):
     '''
@@ -87,6 +88,9 @@ def homepage(request):
     pat_count = PatientProfile.objects.all().count()
     pres_count = DoctorPrescription.objects.all().count()
     med_count = Medicines.objects.all().count()
+
+    chart = get_plot([1,2,3,4,5,6,7,8], [3,4,5,9,5,2,5,7])
+
     if userprofile is not None:
         if request.user.is_doctor:
             return render(request,'homepage.html', {
@@ -109,7 +113,8 @@ def homepage(request):
             'doc_count': doc_count,
             'pat_count': pat_count,
             'pres_count': pres_count,
-            'med_count': med_count})
+            'med_count': med_count,
+            'chart': chart})
     
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
