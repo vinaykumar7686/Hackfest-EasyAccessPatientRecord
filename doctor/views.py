@@ -193,53 +193,61 @@ def add_prescription(request, *args, **kwargs):
         for i in range(1,no_of_medicines+1):
             # print(i,form_data.get(f'medicine{i}'))
 
-            # Fetching info of the particular medicine
-            medicine = Medicines.objects.filter(name = form_data.get(f'medicine{i}'))[0]
+            try:
 
-            # Adding medication order
-            medication_order = Medication_order(
-            medication_unit = 10,
-            prescription_id  = new_prescription,
-            medicine_code = medicine
-            )
-            medication_order.save()
+                # Fetching info of the particular medicine
+                medicine = Medicines.objects.filter(name = form_data.get(f'medicine{i}'))[0]
 
-            # Adding Authorisation_details
-            authorization_details = Authorisation_details(
-                number_of_repeats_allowed = form_data.get(f'repeats_allowed{i}'),
-                validity_period = form_data.get(f'validity_period{i}'),
-                medication_id = medication_order
-            )
-            authorization_details.save()
+                # Adding medication order
+                medication_order = Medication_order(
+                medication_unit = 10,
+                prescription_id  = new_prescription,
+                medicine_code = medicine
+                )
+                medication_order.save()
+                print('Medication Order Record saved')
 
-            #  Adding Medication_timing
-            medication_timing = Medication_timing(
-                morning = True if form_data.get(f'morning{i}') == 'on' else False,
-                afternoon = True if form_data.get(f'afternoon{i}') == 'on' else False,
-                evening = True if form_data.get(f'evening{i}') == 'on' else False,
-                night = True if form_data.get(f'night{i}') == 'on' else False,
-                medication_id = medication_order
-            )
-            medication_timing.save()
+                # Adding Authorisation_details
+                authorization_details = Authorisation_details(
+                    number_of_repeats_allowed = form_data.get(f'repeats_allowed{i}'),
+                    validity_period = form_data.get(f'validity_period{i}'),
+                    medication_id = medication_order
+                )
 
-            #  Adding Repetations
-            repetation = Repetation(
-                start_date = form_data.get(f'start_date{i}'),
-                end_date = form_data.get(f'end_date{i}'),
-                repetation_interval = form_data.get(f'repetation_interval{i}'),
-                medication_id = medication_order
-            )
-            repetation.save()
+                #  Adding Medication_timing
+                medication_timing = Medication_timing(
+                    morning = True if form_data.get(f'morning{i}') == 'on' else False,
+                    afternoon = True if form_data.get(f'afternoon{i}') == 'on' else False,
+                    evening = True if form_data.get(f'evening{i}') == 'on' else False,
+                    night = True if form_data.get(f'night{i}') == 'on' else False,
+                    medication_id = medication_order
+                )
 
-            #  Adding Medication_safety
-            medication_safety = Medication_safety(
-                max_dose_per_period = form_data.get(f'max_dose_per_period{i}'),
-                override_reason = form_data.get(f'override_reason{i}'),
-                medication_id = medication_order
-            )
-            medication_safety.save()
+                #  Adding Repetations
+                repetation = Repetation(
+                    start_date = form_data.get(f'start_date{i}'),
+                    end_date = form_data.get(f'end_date{i}'),
+                    repetation_interval = form_data.get(f'repetation_interval{i}'),
+                    medication_id = medication_order
+                )
 
-            print((f'{medicine.name} added Successfully!'))
+                #  Adding Medication_safety
+                medication_safety = Medication_safety(
+                    max_dose_per_period = form_data.get(f'max_dose_per_period{i}'),
+                    override_reason = form_data.get(f'override_reason{i}'),
+                    medication_id = medication_order
+                )
+                authorization_details.save()
+                medication_timing.save()
+                repetation.save()
+                medication_safety.save()
+
+                print((f'{medicine.name} added Successfully!'))
+            
+            except:
+                medication_order.delete()
+                print('Medication Order Record deleted')
+                print(f"Insufficient details added for '{medicine.name}'")
 
         messages.success(request, "Prescription added successfully!")
         print(('Data Posted Successfully!'))
