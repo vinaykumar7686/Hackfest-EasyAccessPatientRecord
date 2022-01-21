@@ -150,8 +150,17 @@ def pat_info(request, *args, **kwargs):
         username = patient.patient_name
         usertype = 'patient'
     
-    patient_info = PatientProfile.objects.filter(patient_id = patient.patient_id)[0]
-    pat_med_info = MedicalInfo.objects.filter(patient_id = patient.patient_id)[0]
+    try:
+        patient_info = PatientProfile.objects.filter(patient_id = patient.patient_id)[0]
+    except:
+        patient_info = []
+    
+    try:
+        pat_med_info = MedicalInfo.objects.filter(patient_id = patient.patient_id)[0]
+    except:
+        pat_med_info = []
+    
+
     prescriptions_info = DoctorPrescription.objects.filter(patient_id = patient.patient_id)
     # print(prescriptions_info)
     data = {'prescriptions': [], 'medications' : {}}
