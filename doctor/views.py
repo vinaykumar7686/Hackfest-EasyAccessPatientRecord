@@ -82,7 +82,6 @@ def doctorvstime():
     doctors = DoctorProfile.objects.all()
     dates = []
     count = [0] 
-    res = {}
     for doctor in doctors:
         dates.append(doctor.created_date)
         count.append((count[-1])+1)
@@ -93,7 +92,6 @@ def patientvstime():
     patients = PatientProfile.objects.all()
     dates = []
     count = [0] 
-    res = {}
     for patient in patients:
         dates.append(patient.created_date)
         count.append((count[-1])+1)
@@ -104,12 +102,23 @@ def prescriptionvstime():
     prescriptions = DoctorPrescription.objects.all()
     dates = []
     count = [0] 
-    res = {}
     for prescription in prescriptions:
         dates.append(prescription.date)
         count.append((count[-1])+1)
 
     return (dates, count[1:])
+
+def doctor_demand(email):
+    doctorprofile = DoctorProfile.objects.get(email = email)
+    prescriptions = DoctorPrescription.objects.filter(doctor_id = doctorprofile)
+    dates = []
+    count = [0] 
+    for prescription in prescriptions:
+        dates.append(prescription.date)
+        count.append((count[-1])+1)
+
+    return (dates, count[1:])
+
 
 
 
@@ -174,7 +183,12 @@ def doc_homepage(request):
     '''
     userprofile = get_userprofile_by_request(request)
     if userprofile is not None:
-        return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor'})
+
+        # For graph
+        x, y = doctor_demand(userprofile.email)
+        preschart = get_plot(x,y, "Time", "Prescription Count", "Patient Engagement")
+        
+        return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor', 'preschart': preschart})
     else:
         messages.error(request, " Invalid Credentials, Try Again!")
         return redirect('/login')
