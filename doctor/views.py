@@ -108,7 +108,7 @@ def prescriptionvstime():
 
     return (dates, count[1:])
 
-def doctor_demand(email):
+def doctorvspres(email):
     doctorprofile = DoctorProfile.objects.get(email = email)
     prescriptions = DoctorPrescription.objects.filter(doctor_id = doctorprofile).order_by('date')
     dates = []
@@ -116,6 +116,34 @@ def doctor_demand(email):
     for prescription in prescriptions:
         dates.append(prescription.date)
         count.append((count[-1])+1)
+
+    return (dates, count[1:])
+
+def doctorvspatient(email):
+    doctorprofile = DoctorProfile.objects.get(email = email)
+    prescriptions = DoctorPrescription.objects.filter(doctor_id = doctorprofile).order_by('date')
+    dates = []
+    count = [0] 
+    res = {}
+    for prescription in prescriptions:
+        patient = prescription.patient_id
+        if patient not in res:
+            # no else required as results are already ordered by date
+            res[patient] = prescription.date
+
+    newres = {}
+    for value in res.values():
+        if value in newres:
+            newres[value]+=1
+        else:
+            newres[value] = 1
+
+    dates = []
+    count = [0]
+    for date, i in newres.items():
+        dates.append(date)
+        count.append(i+count[-1])
+
 
     return (dates, count[1:])
 
@@ -178,8 +206,10 @@ def doc_homepage(request):
     if userprofile is not None:
 
         # For graph
-        x, y = doctor_demand(userprofile.email)
-        preschart = get_plot(x,y, "Time", "Prescription Count", "Patient Engagement", 11, 4)
+        x0, y0 = doctorvspres(userprofile.email)
+        x1, y1 = doctorvspatient(userprofile.email)
+
+        preschart = get_plot([x0, x1],[y0, y1], "Time", "Prescription/Parient Attended Count", "Patient Engagement", 11, 4)
         
         return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor', 'preschart': preschart})
     else:
@@ -441,27 +471,31 @@ def view_all_patients(request):
 def doc_info(request):
     userprofile = get_userprofile_by_request(request)
 
-    doctor_info = DoctorProfile.objects.filter(doctor_id = userprofile.doctor_id)[0]
+    if userprofile is not None:
+        doctor_info = DoctorProfile.objects.filter(doctor_id = userprofile.doctor_id)[0]
 
-    prescriptions_info = DoctorPrescription.objects.filter(doctor_id = userprofile.doctor_id)
-    # print(prescriptions_info)
-    data = {
-        'prescriptions': [], 
-        'medications' : {}
-        }
-    i = 1
-    for prescription_info in prescriptions_info:
+        prescriptions_info = DoctorPrescription.objects.filter(doctor_id = userprofile.doctor_id)
+        # print(prescriptions_info)
+        data = {
+            'prescriptions': [], 
+            'medications' : {}
+            }
+        i = 1
+        for prescription_info in prescriptions_info:
 
-        data['prescriptions'].append(prescription_info)
+            data['prescriptions'].append(prescription_info)
 
-        medications = Medication_order.objects.filter(prescription_id = prescription_info)
-        
-        data['medications'][f'prescription{i}'] = medications
+            medications = Medication_order.objects.filter(prescription_id = prescription_info)
+            
+            data['medications'][f'prescription{i}'] = medications
 
-        i+=1
-    print(data)
+            i+=1
+        print(data)
 
-    return render(request, 'doc_info.html', {'doctor_info': doctor_info,  'data': data, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
+        return render(request, 'doc_info.html', {'doctor_info': doctor_info,  'data': data, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
+    
+    else:
+        return redirect('/login')
 
 
 
