@@ -133,14 +133,13 @@ def homepage(request):
     pres_count = DoctorPrescription.objects.all().count()
     med_count = Medicines.objects.all().count()
 
-    x, y = doctorvstime()
-    docchart = get_plot(x,y, "Time", "Doctor Count", "Doctor")
+    x0, y0 = doctorvstime()
 
-    x, y = patientvstime()
-    patchart = get_plot(x,y, "Time", "Patient Count", "Patient")
+    x1, y1 = patientvstime()
 
-    x, y = prescriptionvstime()
-    preschart = get_plot(x,y, "Time", "Prescription Count", "Prescription")
+    x2, y2 = prescriptionvstime()
+
+    chart = get_plot([x0,x1,x2],[y0,y1,y2], "Time", "Count", "User Engagement", 10,4)
 
     if userprofile is not None:
         if request.user.is_doctor:
@@ -151,9 +150,7 @@ def homepage(request):
                 'pat_count': pat_count,
                 'pres_count': pres_count,
                 'med_count': med_count,
-                'docchart': docchart,
-                'patchart': patchart,
-                'preschart': preschart,})
+                'chart': chart,})
         else:
             return render(request,'homepage.html', {
                 'username': userprofile.patient_name, 
@@ -162,18 +159,14 @@ def homepage(request):
                 'pat_count': pat_count,
                 'pres_count': pres_count,
                 'med_count': med_count,
-                'docchart': docchart,
-                'patchart': patchart,
-                'preschart': preschart,})
+                'chart': chart,})
     else:
         return render(request,'homepage.html', {
             'doc_count': doc_count,
             'pat_count': pat_count,
             'pres_count': pres_count,
             'med_count': med_count,
-            'docchart': docchart,
-            'patchart': patchart,
-            'preschart': preschart,})
+            'chart': chart,})
     
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')

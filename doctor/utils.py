@@ -9,7 +9,6 @@ def get_graph():
 
     image_png = buffer.getvalue()
     graph = base64.b64encode(image_png)
-    print(graph)
     graph = graph.decode('utf-8')
 
     buffer.close()
@@ -20,8 +19,9 @@ def get_plot(x, y, xaxis, yaxis, title, sizex = 4, sizey = 3):
     plt.switch_backend('AGG')
     plt.figure(figsize=(sizex, sizey))
     plt.title(title)
-    plt.plot(x, y)
-    plt.xticks(rotation = 45)
+    for i in range(min(len(x),len(y))):
+        plt.plot(x[i], y[i])
+    plt.xticks(rotation = 0)
     plt.xlabel(xaxis)
     plt.ylabel(yaxis)
     plt.tight_layout()
