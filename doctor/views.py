@@ -79,7 +79,7 @@ def common_logout(request):
     return redirect('/')
 
 def doctorvstime():
-    doctors = DoctorProfile.objects.all()
+    doctors = DoctorProfile.objects.order_by('created_date')
     dates = []
     count = [0] 
     for doctor in doctors:
@@ -89,7 +89,7 @@ def doctorvstime():
     return (dates, count[1:])
 
 def patientvstime():
-    patients = PatientProfile.objects.all()
+    patients = PatientProfile.objects.order_by('created_date')
     dates = []
     count = [0] 
     for patient in patients:
@@ -99,7 +99,7 @@ def patientvstime():
     return (dates, count[1:])
 
 def prescriptionvstime():
-    prescriptions = DoctorPrescription.objects.all()
+    prescriptions = DoctorPrescription.objects.order_by('date')
     dates = []
     count = [0] 
     for prescription in prescriptions:
@@ -110,7 +110,7 @@ def prescriptionvstime():
 
 def doctor_demand(email):
     doctorprofile = DoctorProfile.objects.get(email = email)
-    prescriptions = DoctorPrescription.objects.filter(doctor_id = doctorprofile)
+    prescriptions = DoctorPrescription.objects.filter(doctor_id = doctorprofile).order_by('date')
     dates = []
     count = [0] 
     for prescription in prescriptions:
@@ -186,7 +186,7 @@ def doc_homepage(request):
 
         # For graph
         x, y = doctor_demand(userprofile.email)
-        preschart = get_plot(x,y, "Time", "Prescription Count", "Patient Engagement")
+        preschart = get_plot(x,y, "Time", "Prescription Count", "Patient Engagement", 11, 4)
         
         return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor', 'preschart': preschart})
     else:

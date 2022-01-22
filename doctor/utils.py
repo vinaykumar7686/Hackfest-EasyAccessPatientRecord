@@ -16,9 +16,9 @@ def get_graph():
     return graph
 
 
-def get_plot(x, y, xaxis, yaxis, title):
+def get_plot(x, y, xaxis, yaxis, title, sizex = 4, sizey = 3):
     plt.switch_backend('AGG')
-    plt.figure(figsize=(4,3))
+    plt.figure(figsize=(sizex, sizey))
     plt.title(title)
     plt.plot(x, y)
     plt.xticks(rotation = 45)
