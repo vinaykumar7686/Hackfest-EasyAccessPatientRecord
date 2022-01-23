@@ -13,7 +13,7 @@ Installation: <code> pip3 install -r requirements.txt </code>
 <code>git clone https://github.com/vinaykumar7686/Hackfest-EasyAccessPatientRecord.git</code><br><br>
 
 <h4>or simply download using the url below</h4>
-<code>https://github.com/vinaykumar7686/Hackfest-EasyAccessPatientRecord.git/code><br>
+<code>https://github.com/vinaykumar7686/Hackfest-EasyAccessPatientRecord.git</code><br>
 
 <h2>To migrate the database open terminal in project directory and type</h2>
 <code>python manage.py makemigrations</code><br>
