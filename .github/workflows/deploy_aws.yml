@@ -44,6 +44,6 @@ jobs:
         application_name: H-EAPR
         environment_name: Heapr-env
         version_label: "Heapr-app-${{ steps.format-time.outputs.replaced }}"
-        region: us-east-1
+        region: ap-south-1
         deployment_package: deploy.zip
         
