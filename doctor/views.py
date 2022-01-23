@@ -167,6 +167,17 @@ def homepage(request):
 
     x2, y2 = prescriptionvstime()
 
+    try:
+        maxdate = max(x0[-1], x1[-1], x2[-1])
+        x0.append(maxdate)
+        x1.append(maxdate)
+        x2.append(maxdate)
+        y0.append(y0[-1])
+        y1.append(y1[-1])
+        y2.append(y2[-1])
+    except:
+        pass
+
     chart = get_plot([x0,x1,x2],[y0,y1,y2], "Time", "Count", "", 10,4)
 
     if userprofile is not None:
@@ -208,6 +219,14 @@ def doc_homepage(request):
         # For graph
         x0, y0 = doctorvspres(userprofile.email)
         x1, y1 = doctorvspatient(userprofile.email)
+        try:
+            maxdate = max(x0[-1], x1[-1])
+            x0.append(maxdate)
+            x1.append(maxdate)
+            y0.append(y0[-1])
+            y1.append(y1[-1])
+        except:
+            pass
 
         preschart = get_plot([x0, x1],[y0, y1], "Time", "Total Patient / Prescription Count", "", 11, 4)
         
@@ -501,30 +520,30 @@ def doc_info(request):
 
 
 
-
-#========> Form Response
-# {'csrfmiddlewaretoken': ['9UGllsw3J0T8pw2UUXrRMFOci3VHsYtoBA2fbn0wZIVcYql6jlNWcZtS0iUGC2fi'
-#     ], 'date': ['2022-01-29'
-#     ], 'nextVisit': ['2022-01-20'
-#     ], 'reason': ['Reason'
-#     ], 'doc_notes': [' Doctor Notes'
-#     ], 'patient': ['1'
-#     ], 'doctor': ['1'
-#     ], 'medicine1': ['Paracetamol'
-#     ], 'morning1': ['on'
-#     ], 'afternoon1': ['on'
-#     ], 'evening1': ['on'
-#     ], 'night1': ['on'
-#     ], 'start_date1': ['2022-01-27'
-#     ], 'end_date1': ['2022-01-29'
-#     ], 'repetation_interval1': [' Repitition Interval'
-#     ], 'repeats_allowed1': ['8'
-#     ], 'validity_period1': ['2022-01-28'
-#     ], 'max_dose_per_period1': ['5'
-#     ], 'override_reason1': ['Override Reason'
-#     ], 'submit': ['Submit'
-#     ]
-# }
+'''
+========> Form Response
+{'csrfmiddlewaretoken': ['9UGllsw3J0T8pw2UUXrRMFOci3VHsYtoBA2fbn0wZIVcYql6jlNWcZtS0iUGC2fi'
+    ], 'date': ['2022-01-29'
+    ], 'nextVisit': ['2022-01-20'
+    ], 'reason': ['Reason'
+    ], 'doc_notes': [' Doctor Notes'
+    ], 'patient': ['1'
+    ], 'doctor': ['1'
+    ], 'medicine1': ['Paracetamol'
+    ], 'morning1': ['on'
+    ], 'afternoon1': ['on'
+    ], 'evening1': ['on'
+    ], 'night1': ['on'
+    ], 'start_date1': ['2022-01-27'
+    ], 'end_date1': ['2022-01-29'
+    ], 'repetation_interval1': [' Repitition Interval'
+    ], 'repeats_allowed1': ['8'
+    ], 'validity_period1': ['2022-01-28'
+    ], 'max_dose_per_period1': ['5'
+    ], 'override_reason1': ['Override Reason'
+    ], 'submit': ['Submit'
+    ]
+}'''
 
 '''
     # This is the JSON response that the front end will recieve
