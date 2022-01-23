@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
+from .utils import get_plot
 
 def doctor_check(user):
     '''
@@ -77,6 +78,78 @@ def common_logout(request):
     logout(request)
     return redirect('/')
 
+def doctorvstime():
+    doctors = DoctorProfile.objects.order_by('created_date')
+    dates = []
+    count = [0] 
+    for doctor in doctors:
+        dates.append(doctor.created_date)
+        count.append((count[-1])+1)
+
+    return (dates, count[1:])
+
+def patientvstime():
+    patients = PatientProfile.objects.order_by('created_date')
+    dates = []
+    count = [0] 
+    for patient in patients:
+        dates.append(patient.created_date)
+        count.append((count[-1])+1)
+
+    return (dates, count[1:])
+
+def prescriptionvstime():
+    prescriptions = DoctorPrescription.objects.order_by('date')
+    dates = []
+    count = [0] 
+    for prescription in prescriptions:
+        dates.append(prescription.date)
+        count.append((count[-1])+1)
+
+    return (dates, count[1:])
+
+def doctorvspres(email):
+    doctorprofile = DoctorProfile.objects.get(email = email)
+    prescriptions = DoctorPrescription.objects.filter(doctor_id = doctorprofile).order_by('date')
+    dates = []
+    count = [0] 
+    for prescription in prescriptions:
+        dates.append(prescription.date)
+        count.append((count[-1])+1)
+
+    return (dates, count[1:])
+
+def doctorvspatient(email):
+    doctorprofile = DoctorProfile.objects.get(email = email)
+    prescriptions = DoctorPrescription.objects.filter(doctor_id = doctorprofile).order_by('date')
+    dates = []
+    count = [0] 
+    res = {}
+    for prescription in prescriptions:
+        patient = prescription.patient_id
+        if patient not in res:
+            # no else required as results are already ordered by date
+            res[patient] = prescription.date
+
+    newres = {}
+    for value in res.values():
+        if value in newres:
+            newres[value]+=1
+        else:
+            newres[value] = 1
+
+    dates = []
+    count = [0]
+    for date, i in newres.items():
+        dates.append(date)
+        count.append(i+count[-1])
+
+
+    return (dates, count[1:])
+
+
+
+
 # Website Hompage
 def homepage(request):
     '''
@@ -87,6 +160,26 @@ def homepage(request):
     pat_count = PatientProfile.objects.all().count()
     pres_count = DoctorPrescription.objects.all().count()
     med_count = Medicines.objects.all().count()
+
+    x0, y0 = doctorvstime()
+
+    x1, y1 = patientvstime()
+
+    x2, y2 = prescriptionvstime()
+
+    try:
+        maxdate = max(x0[-1], x1[-1], x2[-1])
+        x0.append(maxdate)
+        x1.append(maxdate)
+        x2.append(maxdate)
+        y0.append(y0[-1])
+        y1.append(y1[-1])
+        y2.append(y2[-1])
+    except:
+        pass
+
+    chart = get_plot([x0,x1,x2],[y0,y1,y2], "Time", "Count", "", 10,4)
+
     if userprofile is not None:
         if request.user.is_doctor:
             return render(request,'homepage.html', {
@@ -95,7 +188,8 @@ def homepage(request):
                 'doc_count': doc_count,
                 'pat_count': pat_count,
                 'pres_count': pres_count,
-                'med_count': med_count})
+                'med_count': med_count,
+                'chart': chart,})
         else:
             return render(request,'homepage.html', {
                 'username': userprofile.patient_name, 
@@ -103,13 +197,15 @@ def homepage(request):
                 'doc_count': doc_count,
                 'pat_count': pat_count,
                 'pres_count': pres_count,
-                'med_count': med_count})
+                'med_count': med_count,
+                'chart': chart,})
     else:
         return render(request,'homepage.html', {
             'doc_count': doc_count,
             'pat_count': pat_count,
             'pres_count': pres_count,
-            'med_count': med_count})
+            'med_count': med_count,
+            'chart': chart,})
     
 @login_required(login_url='/login/')
 @user_passes_test(doctor_check, login_url='/login/')
@@ -119,7 +215,22 @@ def doc_homepage(request):
     '''
     userprofile = get_userprofile_by_request(request)
     if userprofile is not None:
-        return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor'})
+
+        # For graph
+        x0, y0 = doctorvspres(userprofile.email)
+        x1, y1 = doctorvspatient(userprofile.email)
+        try:
+            maxdate = max(x0[-1], x1[-1])
+            x0.append(maxdate)
+            x1.append(maxdate)
+            y0.append(y0[-1])
+            y1.append(y1[-1])
+        except:
+            pass
+
+        preschart = get_plot([x0, x1],[y0, y1], "Time", "Total Patient / Prescription Count", "", 11, 4)
+        
+        return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor', 'preschart': preschart})
     else:
         messages.error(request, " Invalid Credentials, Try Again!")
         return redirect('/login')
@@ -379,56 +490,60 @@ def view_all_patients(request):
 def doc_info(request):
     userprofile = get_userprofile_by_request(request)
 
-    doctor_info = DoctorProfile.objects.filter(doctor_id = userprofile.doctor_id)[0]
+    if userprofile is not None:
+        doctor_info = DoctorProfile.objects.filter(doctor_id = userprofile.doctor_id)[0]
 
-    prescriptions_info = DoctorPrescription.objects.filter(doctor_id = userprofile.doctor_id)
-    # print(prescriptions_info)
-    data = {
-        'prescriptions': [], 
-        'medications' : {}
-        }
-    i = 1
-    for prescription_info in prescriptions_info:
+        prescriptions_info = DoctorPrescription.objects.filter(doctor_id = userprofile.doctor_id)
+        # print(prescriptions_info)
+        data = {
+            'prescriptions': [], 
+            'medications' : {}
+            }
+        i = 1
+        for prescription_info in prescriptions_info:
 
-        data['prescriptions'].append(prescription_info)
+            data['prescriptions'].append(prescription_info)
 
-        medications = Medication_order.objects.filter(prescription_id = prescription_info)
-        
-        data['medications'][f'prescription{i}'] = medications
+            medications = Medication_order.objects.filter(prescription_id = prescription_info)
+            
+            data['medications'][f'prescription{i}'] = medications
 
-        i+=1
-    print(data)
+            i+=1
+        print(data)
 
-    return render(request, 'doc_info.html', {'doctor_info': doctor_info,  'data': data, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
+        return render(request, 'doc_info.html', {'doctor_info': doctor_info,  'data': data, 'username': userprofile.doctor_name, 'usertype': 'doctor'})
+    
+    else:
+        return redirect('/login')
 
 
 
 
 
-
-#========> Form Response
-# {'csrfmiddlewaretoken': ['9UGllsw3J0T8pw2UUXrRMFOci3VHsYtoBA2fbn0wZIVcYql6jlNWcZtS0iUGC2fi'
-#     ], 'date': ['2022-01-29'
-#     ], 'nextVisit': ['2022-01-20'
-#     ], 'reason': ['Reason'
-#     ], 'doc_notes': [' Doctor Notes'
-#     ], 'patient': ['1'
-#     ], 'doctor': ['1'
-#     ], 'medicine1': ['Paracetamol'
-#     ], 'morning1': ['on'
-#     ], 'afternoon1': ['on'
-#     ], 'evening1': ['on'
-#     ], 'night1': ['on'
-#     ], 'start_date1': ['2022-01-27'
-#     ], 'end_date1': ['2022-01-29'
-#     ], 'repetation_interval1': [' Repitition Interval'
-#     ], 'repeats_allowed1': ['8'
-#     ], 'validity_period1': ['2022-01-28'
-#     ], 'max_dose_per_period1': ['5'
-#     ], 'override_reason1': ['Override Reason'
-#     ], 'submit': ['Submit'
-#     ]
-# }
+'''
+========> Form Response
+{'csrfmiddlewaretoken': ['9UGllsw3J0T8pw2UUXrRMFOci3VHsYtoBA2fbn0wZIVcYql6jlNWcZtS0iUGC2fi'
+    ], 'date': ['2022-01-29'
+    ], 'nextVisit': ['2022-01-20'
+    ], 'reason': ['Reason'
+    ], 'doc_notes': [' Doctor Notes'
+    ], 'patient': ['1'
+    ], 'doctor': ['1'
+    ], 'medicine1': ['Paracetamol'
+    ], 'morning1': ['on'
+    ], 'afternoon1': ['on'
+    ], 'evening1': ['on'
+    ], 'night1': ['on'
+    ], 'start_date1': ['2022-01-27'
+    ], 'end_date1': ['2022-01-29'
+    ], 'repetation_interval1': [' Repitition Interval'
+    ], 'repeats_allowed1': ['8'
+    ], 'validity_period1': ['2022-01-28'
+    ], 'max_dose_per_period1': ['5'
+    ], 'override_reason1': ['Override Reason'
+    ], 'submit': ['Submit'
+    ]
+}'''
 
 '''
     # This is the JSON response that the front end will recieve

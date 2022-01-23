@@ -1,5 +1,7 @@
 from django.db import models
 from patient.models import PatientProfile
+from datetime import datetime
+from django.utils.timezone import now
 
 # Create your models here.
 
@@ -23,6 +25,7 @@ class DoctorProfile(models.Model):
     doctor_name = models.CharField(max_length=100)
     phone_num = models.CharField(max_length=15)
     email = models.EmailField(unique = True)
+    created_date = models.DateField(default=now)
     # ---------------Foreign Keys-------------------
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 

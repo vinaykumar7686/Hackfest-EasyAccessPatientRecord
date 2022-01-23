@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )
+from datetime import datetime
+from django.utils.timezone import now
 
 from doctor.models import *
 # Create your models here.
@@ -18,6 +20,7 @@ class PatientProfile(models.Model):
     resd_address = models.TextField()
     prior_ailments = models.TextField()
     dob = models.DateField(null=True)
+    created_date = models.DateField(default=now)
 
            # critical/serious
     # ---------------Foreign Keys-------------------
