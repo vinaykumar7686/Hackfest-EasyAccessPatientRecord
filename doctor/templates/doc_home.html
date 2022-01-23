@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block body %}
+{% load static %}
 
 <section class="page-title bg-1">
 	<div class="overlay"></div>
@@ -57,7 +58,9 @@
 
 			</div>
 		</div>
-		<img src="data:image/png;base64, {{preschart|safe}}" alt="Image not loaded">
+		<h3 class="text-center">Patient Engagement</h3>
+		<img src="{% static 'images/dochome_graph_label.png' %}" alt="" class="mx-auto d-block img-fluid" height="50px" width="100px">
+		<img src="data:image/png;base64, {{preschart|safe}}" alt="Image not loaded" class="mx-auto d-block img-fluid">
 	</div>
 </section>
 

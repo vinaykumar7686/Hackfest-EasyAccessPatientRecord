@@ -167,7 +167,7 @@ def homepage(request):
 
     x2, y2 = prescriptionvstime()
 
-    chart = get_plot([x0,x1,x2],[y0,y1,y2], "Time", "Count", "User Engagement", 10,4)
+    chart = get_plot([x0,x1,x2],[y0,y1,y2], "Time", "Count", "", 10,4)
 
     if userprofile is not None:
         if request.user.is_doctor:
@@ -209,7 +209,7 @@ def doc_homepage(request):
         x0, y0 = doctorvspres(userprofile.email)
         x1, y1 = doctorvspatient(userprofile.email)
 
-        preschart = get_plot([x0, x1],[y0, y1], "Time", "Prescription/Parient Attended Count", "Patient Engagement", 11, 4)
+        preschart = get_plot([x0, x1],[y0, y1], "Time", "Total Patient / Prescription Count", "", 11, 4)
         
         return render(request, 'doc_home.html', {'username': userprofile.doctor_name, 'usertype': 'doctor', 'preschart': preschart})
     else:
