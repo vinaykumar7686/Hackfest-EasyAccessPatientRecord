@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: AWS EB Deployment
 
 on:
   push:
@@ -39,8 +39,8 @@ jobs:
     - name: Deploy to EB
       uses: einaregilsson/beanstalk-deploy@v14
       with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID_VK }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY_VK }}
         application_name: H-EAPR
         environment_name: Heapr-env
         version_label: "Heapr-app-${{ steps.format-time.outputs.replaced }}"
